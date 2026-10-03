@@ -1,0 +1,51 @@
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 暗金渐变 -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37"/>
+      <stop offset="50%" style="stop-color:#f4d03f"/>
+      <stop offset="100%" style="stop-color:#c9a227"/>
+    </linearGradient>
+    
+    <!-- 金属光泽 -->
+    <linearGradient id="metallicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#b8941f"/>
+      <stop offset="30%" style="stop-color:#f4d03f"/>
+      <stop offset="50%" style="stop-color:#d4af37"/>
+      <stop offset="70%" style="stop-color:#f4d03f"/>
+      <stop offset="100%" style="stop-color:#b8941f"/>
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 外环 -->
+  <circle cx="20" cy="20" r="18" fill="none" stroke="url(#goldGradient)" stroke-width="1" opacity="0.4"/>
+  
+  <!-- R 字母主体 -->
+  <g filter="url(#goldGlow)">
+    <!-- 左侧竖线 -->
+    <rect x="10" y="10" width="3.5" height="20" rx="1.75" fill="url(#metallicGradient)"/>
+    
+    <!-- 顶部弧线 -->
+    <path d="M 13.5 11.5 L 26 11.5 A 7.5 7.5 0 0 1 26 26 L 13.5 26" stroke="url(#metallicGradient)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    
+    <!-- 中间连接 -->
+    <rect x="13.5" y="17" width="12.5" height="3.5" rx="1.75" fill="url(#metallicGradient)"/>
+    
+    <!-- 右下斜腿 -->
+    <rect x="20" y="19" width="3.5" height="11" rx="1.75" fill="url(#metallicGradient)" transform="rotate(35 21.75 24.5)"/>
+  </g>
+  
+  <!-- 装饰光点 -->
+  <circle cx="30" cy="10" r="1.5" fill="url(#goldGradient)" opacity="0.8">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>

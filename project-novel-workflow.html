@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>AI 小说创作工作流系统 | Remi</title>
+    <meta name="title" content="AI 小说创作工作流系统 | Remi">
+    <meta name="description" content="专为小说创作者设计的智能辅助系统，DNA 档案 + 情绪节拍 + 分层写作三大核心方法论">
+    <meta name="keywords" content="AI 小说创作，DNA 档案，情绪节拍，分层写作，Claude AI, 创意写作">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-novel-workflow.html">
+    <meta property="og:title" content="AI 小说创作工作流系统">
+    <meta property="og:description" content="DNA 档案 + 情绪节拍 + 分层写作三大核心方法论，系统化专业化完成高质量小说作品">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI 小说创作工作流系统">
+    <meta name="twitter:description" content="DNA 档案 + 情绪节拍 + 分层写作，系统化完成高质量小说">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="AI 小说创作工作流系统">
+    <meta name="wechat:description" content="DNA 档案 + 情绪节拍 + 分层写作，系统化完成高质量小说">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    /*
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'AI 小说创作工作流系统',
+        desc: 'DNA 档案 + 情绪节拍 + 分层写作，系统化完成高质量小说',
+        link: 'https://www.remifei.cn/project-novel-workflow.html',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">Demo</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">AI 小说创作工作流系统</h1>
+            <p class="project-subtitle">专为小说创作者设计的智能辅助系统，DNA 档案 + 情绪节拍 + 分层写作三大核心方法论</p>
+            <div class="project-tech">
+                <span>Flask</span>
+                <span>Claude AI</span>
+                <span>工作流系统</span>
+                <span>创意写作</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tribute Section -->
+    <section class="project-section">
+        <div class="container">
+            <div class="tribute-section">
+                <div class="tribute-content">
+                    <span class="tribute-icon">🙏</span>
+                    <div class="tribute-text">
+                        <h4>灵感致敬</h4>
+                        <p>本项目的<strong>写作技术技巧</strong>来源于 <a href="https://x.com/xionghuanwei" target="_blank" rel="noopener">熊叔的茅草屋@xionghuanwei</a> 的创作方法论，感谢作者在 AI 写作领域的探索与分享，为本项目提供了宝贵的理论基础。<strong>本项目仅用于个人研究</strong>。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">不是一个简单的写作工具，而是一个系统化创作平台</h2>
+                    <p class="lead-text">
+                        AI 小说创作工作流系统通过 DNA 档案 + 情绪节拍 + 分层写作三大核心方法论，
+                        结合 Claude AI 的强大能力，帮助创作者系统化、专业化地完成高质量小说作品。
+                        轻量级本地部署，数据完全本地掌控，支持自定义创作流程和技能模块。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h3>DNA 档案系统</h3>
+                        <p>为小说构建完整的"基因档案"，确保世界观、角色、风格的统一性，避免前后矛盾</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>情绪节拍规划</h3>
+                        <p>为整部小说和每个章节规划情绪曲线，精准控制读者的情绪体验，张弛有度</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>五层分层写作</h3>
+                        <p>骨架层→情绪层→DNA 激活层→技巧优化层→风格统一层，分步打磨章节质量</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>智能体技能系统</h3>
+                        <p>8 大专业技能覆盖创作全流程，世界观构建师、角色设计师、情绪节拍规划师等</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>Web 管理界面</h3>
+                        <p>可视化项目管理界面，无需命令行操作，响应式设计，移动端友好</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3>质量检查系统</h3>
+                        <p>6 个维度自动检查章节质量，角色一致性、世界观一致、伏笔完整性等</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Gallery -->
+    <section class="project-section section-light">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目展示</span>
+                    <h2 class="section-heading">界面预览</h2>
+                </div>
+
+                <div class="gallery-grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px;">
+                    <div class="gallery-main" style="grid-column: span 2;">
+                        <img src="assets/novel-workflow-4.jpg" alt="AI 小说创作工作流系统主界面" class="gallery-image" style="width: 100%; height: auto; display: block;" loading="lazy" decoding="async">
+                    </div>
+                    <div class="thumb-item">
+                        <img src="assets/novel-workflow-5.jpg" alt="DNA 档案系统界面" class="thumb-image" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" decoding="async">
+                    </div>
+                    <div class="thumb-item">
+                        <img src="assets/novel-workflow-6.jpg" alt="分层写作界面" class="thumb-image" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">核心方法论</span>
+                    <h2 class="section-heading">三大核心支柱</h2>
+                </div>
+
+                <div class="methodology-grid">
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <span class="methodology-icon">🧬</span>
+                            <h3>DNA 档案系统</h3>
+                        </div>
+                        <div class="methodology-body">
+                            <h4>DNA 类型</h4>
+                            <div class="dna-types">
+                                <div class="dna-item">
+                                    <strong>世界观 DNA</strong>
+                                    <p>物理法则、社会潜规则、语言 DNA、环境 DNA、经济 DNA</p>
+                                </div>
+                                <div class="dna-item">
+                                    <strong>角色 DNA</strong>
+                                    <p>外貌特征、性格特质、行为模式、说话方式、背景故事</p>
+                                </div>
+                                <div class="dna-item">
+                                    <strong>关系 DNA</strong>
+                                    <p>关系类型、互动规则、冲突点、发展轨迹</p>
+                                </div>
+                                <div class="dna-item">
+                                    <strong>风格 DNA</strong>
+                                    <p>禁止清单、描写规则、对话规则、节奏规则</p>
+                                </div>
+                            </div>
+                            <h4>核心价值</h4>
+                            <ul class="value-list">
+                                <li>确保角色行为前后一致</li>
+                                <li>维护世界观逻辑自洽</li>
+                                <li>统一语言风格和叙事声音</li>
+                                <li>避免创作过程中的矛盾</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <span class="methodology-icon">📊</span>
+                            <h3>情绪节拍规划</h3>
+                        </div>
+                        <div class="methodology-body">
+                            <h4>规划内容</h4>
+                            <ul class="planning-list">
+                                <li><strong>整体情绪曲线：</strong>100 章级别的情绪起伏规划</li>
+                                <li><strong>章节情绪节拍：</strong>每章的具体情绪目标（情绪类型 + 强度 1-10）</li>
+                                <li><strong>伏笔 - 回收地图：</strong>记录所有伏笔的布置和回收时机</li>
+                                <li><strong>三幕结构标记：</strong>明确划分故事的开端、发展、高潮、结局</li>
+                            </ul>
+                            <h4>情绪类型示例</h4>
+                            <div class="emotion-tags">
+                                <span>好奇</span>
+                                <span>不安</span>
+                                <span>警惕</span>
+                                <span>困惑</span>
+                                <span>温暖</span>
+                                <span>兴奋</span>
+                                <span>紧张</span>
+                                <span>感动</span>
+                                <span>震撼</span>
+                            </div>
+                            <h4>核心价值</h4>
+                            <ul class="value-list">
+                                <li>精准控制读者的情绪体验</li>
+                                <li>避免情绪疲劳或平淡</li>
+                                <li>确保故事节奏张弛有度</li>
+                                <li>系统化管理长篇连载</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="methodology-card">
+                        <div class="methodology-header">
+                            <span class="methodology-icon">📝</span>
+                            <h3>五层分层写作法</h3>
+                        </div>
+                        <div class="methodology-body">
+                            <div class="layers-list">
+                                <div class="layer-item">
+                                    <span class="layer-badge">Layer 1</span>
+                                    <strong>骨架层</strong>
+                                    <p>搭建场景基本框架，只写基本动作，像分镜脚本一样简洁</p>
+                                </div>
+                                <div class="layer-item">
+                                    <span class="layer-badge">Layer 2</span>
+                                    <strong>情绪层</strong>
+                                    <p>基于骨架叠加情绪，通过描写传达目标情绪，只做加法</p>
+                                </div>
+                                <div class="layer-item">
+                                    <span class="layer-badge">Layer 3</span>
+                                    <strong>DNA 激活层</strong>
+                                    <p>让角色行为符合 DNA 设定，激活说话方式、行为习惯、性格特质</p>
+                                </div>
+                                <div class="layer-item">
+                                    <span class="layer-badge">Layer 4</span>
+                                    <strong>技巧优化层</strong>
+                                    <p>运用写作技巧提升质量，优化对话、环境描写、心理活动、节奏控制</p>
+                                </div>
+                                <div class="layer-item">
+                                    <span class="layer-badge">Layer 5</span>
+                                    <strong>风格统一层</strong>
+                                    <p>输出最终版本，检查禁止词汇、视角一致、叙述声音，publish-ready</p>
+                                </div>
+                            </div>
+                            <h4>核心价值</h4>
+                            <ul class="value-list">
+                                <li>降低创作难度，分步完成</li>
+                                <li>每层都有明确的操作指南</li>
+                                <li>质量可控，可重复使用</li>
+                                <li>避免"写砸了重来"的困境</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills System -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">智能体技能</span>
+                    <h2 class="section-heading">8 大专业技能</h2>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon">🌍</div>
+                        <h4>world-builder</h4>
+                        <p>世界观构建师，创建世界设定、物理法则、社会规则</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">👤</div>
+                        <h4>character-designer</h4>
+                        <p>角色设计师，设计角色档案、性格特质、背景故事</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">📐</div>
+                        <h4>plot-planner</h4>
+                        <p>情节规划师，设计故事结构、章节大纲、情节转折</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">💓</div>
+                        <h4>emotion-beats-planner</h4>
+                        <p>情绪节拍规划师，规划情绪曲线、章节情绪目标</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">🧬</div>
+                        <h4>dna-builder</h4>
+                        <p>DNA 构建器，生成完整的 DNA 档案系统</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">✍️</div>
+                        <h4>layered-writer</h4>
+                        <p>分层作家，执行 5 层分层写作流程</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">✅</div>
+                        <h4>story-consistency-checker</h4>
+                        <p>一致性检查器，检查角色一致、世界观一致、伏笔完整</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">📖</div>
+                        <h4>novel-writer</h4>
+                        <p>小说作家，综合技能，完成完整小说创作</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Structure -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目结构</span>
+                    <h2 class="section-heading">标准目录结构</h2>
+                </div>
+
+                <div class="test-structure">
+                    <div class="structure-tree">
+                        <div class="tree-item folder">
+                            <i class="fas fa-folder"></i>
+                            <span>projects/</span>
+                            <div class="tree-children">
+                                <div class="tree-item folder">
+                                    <i class="fas fa-folder"></i>
+                                    <span>小说名称/</span>
+                                    <div class="tree-children">
+                                        <div class="tree-item file"><i class="fas fa-file-code"></i><span>project.json</span></div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>dna/</span>
+                                            <div class="tree-children">
+                                                <div class="tree-item file"><i class="fas fa-file-alt"></i><span>worldview-dna.md</span></div>
+                                                <div class="tree-item file"><i class="fas fa-file-alt"></i><span>style-dna.md</span></div>
+                                                <div class="tree-item folder"><i class="fas fa-folder"></i><span>characters/</span></div>
+                                                <div class="tree-item folder"><i class="fas fa-folder"></i><span>relationships/</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>emotion-beats/</span>
+                                            <div class="tree-children">
+                                                <div class="tree-item file"><i class="fas fa-file-alt"></i><span>story-emotion-curve.md</span></div>
+                                                <div class="tree-item folder"><i class="fas fa-folder"></i><span>chapter-beats/</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>chapters/</span>
+                                            <div class="tree-children">
+                                                <div class="tree-item folder">
+                                                    <i class="fas fa-folder"></i>
+                                                    <span>chapter-01/</span>
+                                                    <div class="tree-children">
+                                                        <div class="tree-item file"><i class="fas fa-file-alt"></i><span>layer1-skeleton.md</span></div>
+                                                        <div class="tree-item file"><i class="fas fa-file-alt"></i><span>layer2-emotion.md</span></div>
+                                                        <div class="tree-item file"><i class="fas fa-file-alt"></i><span>layer3-dna.md</span></div>
+                                                        <div class="tree-item file"><i class="fas fa-file-alt"></i><span>layer4-technique.md</span></div>
+                                                        <div class="tree-item file"><i class="fas fa-file-alt"></i><span>layer5-final.md</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>reviews/</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-diagram">
+                    <h4>工作流程</h4>
+                    <div class="flow-diagram">
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <h4>1. 项目创建</h4>
+                            <p>填写项目信息</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-dna"></i>
+                            </div>
+                            <h4>2. DNA 构建</h4>
+                            <p>生成 DNA 档案</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>3. 情绪节拍</h4>
+                            <p>规划情绪曲线</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-pen-fancy"></i>
+                            </div>
+                            <h4>4. 章节写作</h4>
+                            <p>5 层分层法</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h4>5. 一致性检查</h4>
+                            <p>质量检查</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4>6. 最终成品</h4>
+                            <p>publish-ready</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">产品优势</span>
+                    <h2 class="section-heading">与传统写作方式对比</h2>
+                </div>
+
+                <div class="comparison-table">
+                    <div class="comparison-row header">
+                        <div class="comparison-cell">维度</div>
+                        <div class="comparison-cell">传统写作</div>
+                        <div class="comparison-cell highlight">AI 工作流系统</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell label">一致性</div>
+                        <div class="comparison-cell">容易前后矛盾</div>
+                        <div class="comparison-cell highlight">DNA 档案确保一致</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell label">节奏控制</div>
+                        <div class="comparison-cell">凭感觉</div>
+                        <div class="comparison-cell highlight">情绪节拍精确控制</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell label">修改成本</div>
+                        <div class="comparison-cell">一处改处处改</div>
+                        <div class="comparison-cell highlight">分层修改，精准定位</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell label">灵感管理</div>
+                        <div class="comparison-cell">散乱各处</div>
+                        <div class="comparison-cell highlight">系统化归档</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell label">质量保证</div>
+                        <div class="comparison-cell">靠经验</div>
+                        <div class="comparison-cell highlight">自动化检查</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Stats -->
+    <section class="project-section section-light">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目数据</span>
+                    <h2 class="section-heading">代码统计</h2>
+                </div>
+
+                <div class="premium-stats-grid">
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>7 个</h4>
+                        <p>Python 核心模块</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>8 个</h4>
+                        <p>SKILL 技能文件</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h4>4 个</h4>
+                        <p>HTML 模板</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4>10+ 个</h4>
+                        <p>Markdown 文档</p>
+                    </div>
+                </div>
+
+                <div class="coverage-section">
+                    <h4>功能覆盖</h4>
+                    <div class="coverage-grid">
+                        <div class="coverage-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>项目管理：创建、查看、状态跟踪</span>
+                        </div>
+                        <div class="coverage-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>DNA 构建：8 种 DNA 类型</span>
+                        </div>
+                        <div class="coverage-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>情绪规划：曲线 + 节拍</span>
+                        </div>
+                        <div class="coverage-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>分层写作：5 层完整流程</span>
+                        </div>
+                        <div class="coverage-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>质量检查：6 个检查维度</span>
+                        </div>
+                        <div class="coverage-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Web 界面：可视化管理</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Requirements -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">系统要求</span>
+                    <h2 class="section-heading">运行环境</h2>
+                </div>
+
+                <div class="system-requirements">
+                    <div class="requirements-grid">
+                        <div class="requirement-item">
+                            <i class="fas fa-desktop"></i>
+                            <span>Windows / macOS / Linux</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python 3.7+</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fas fa-globe"></i>
+                            <span>Chrome / Firefox / Edge</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fas fa-robot"></i>
+                            <span>Claude Code 或 Claude API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">对项目感兴趣？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/project.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 背景渐变 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e1a"/>
+      <stop offset="50%" style="stop-color:#111827"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    
+    <!-- 雷达扫描渐变 -->
+    <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#00a8cc;stop-opacity:0.3"/>
+    </linearGradient>
+    
+    <!-- 信号波渐变 -->
+    <linearGradient id="signalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#00ff88;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#00ff88;stop-opacity:0"/>
+    </linearGradient>
+    
+    <!-- 科技感蓝色渐变 -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff"/>
+      <stop offset="100%" style="stop-color:#7b2ff7"/>
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 网格图案 -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,255,136,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="800" fill="url(#bgGradient)"/>
+  
+  <!-- 科技网格 -->
+  <rect width="1200" height="800" fill="url(#grid)"/>
+  
+  <!-- 装饰性光晕 -->
+  <circle cx="600" cy="400" r="350" fill="url(#radarGradient)" opacity="0.1" filter="url(#glow)"/>
+  <circle cx="600" cy="400" r="250" fill="url(#radarGradient)" opacity="0.15" filter="url(#glow)"/>
+  
+  <!-- 雷达扫描圆环 -->
+  <circle cx="600" cy="400" r="200" fill="none" stroke="url(#blueGradient)" stroke-width="2" opacity="0.4"/>
+  <circle cx="600" cy="400" r="150" fill="none" stroke="url(#blueGradient)" stroke-width="2" opacity="0.6"/>
+  <circle cx="600" cy="400" r="100" fill="none" stroke="url(#blueGradient)" stroke-width="2" opacity="0.8"/>
+  
+  <!-- 雷达扫描线 -->
+  <path d="M 600 400 L 750 250" stroke="url(#radarGradient)" stroke-width="3" filter="url(#glow)" opacity="0.8">
+    <animateTransform attributeName="transform" type="rotate" from="0 600 400" to="360 600 400" dur="3s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 信号波纹 -->
+  <ellipse cx="600" cy="400" rx="180" ry="60" fill="none" stroke="url(#signalGradient)" stroke-width="2" opacity="0.5">
+    <animate attributeName="rx" values="100;200;100" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="ry" values="30;80;30" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 数据点 -->
+  <g filter="url(#glow)">
+    <circle cx="450" cy="300" r="4" fill="#00ff88" opacity="0.9"/>
+    <circle cx="750" cy="350" r="3" fill="#00d4ff" opacity="0.8"/>
+    <circle cx="550" cy="500" r="5" fill="#7b2ff7" opacity="0.9"/>
+    <circle cx="700" cy="480" r="3" fill="#00ff88" opacity="0.7"/>
+    <circle cx="400" cy="450" r="4" fill="#00d4ff" opacity="0.8"/>
+    <circle cx="800" cy="400" r="3" fill="#00ff88" opacity="0.9"/>
+  </g>
+  
+  <!-- 连接线 -->
+  <g stroke="rgba(0,255,136,0.2)" stroke-width="1">
+    <line x1="450" y1="300" x2="550" y2="500"/>
+    <line x1="550" y1="500" x2="700" y2="480"/>
+    <line x1="700" y1="480" x2="750" y2="350"/>
+    <line x1="750" y1="350" x2="800" y2="400"/>
+    <line x1="400" y1="450" x2="550" y2="500"/>
+  </g>
+  
+  <!-- 雷达底座 -->
+  <ellipse cx="600" cy="550" rx="120" ry="30" fill="none" stroke="url(#blueGradient)" stroke-width="2" opacity="0.5"/>
+  
+  <!-- 中心雷达图标 -->
+  <g transform="translate(600, 400)">
+    <!-- 外环 -->
+    <circle r="60" fill="none" stroke="url(#blueGradient)" stroke-width="3" filter="url(#glow)"/>
+    <!-- 内圆 -->
+    <circle r="35" fill="rgba(0,212,255,0.1)" stroke="url(#blueGradient)" stroke-width="2"/>
+    <!-- 雷达波 -->
+    <path d="M -25 -25 L 25 25 M 25 -25 L -25 25" stroke="url(#blueGradient)" stroke-width="2" opacity="0.5"/>
+    <circle r="15" fill="url(#blueGradient)" filter="url(#glow)"/>
+  </g>
+  
+  <!-- 装饰性数据流线条 -->
+  <g stroke="url(#blueGradient)" stroke-width="1.5" opacity="0.4" filter="url(#glow)">
+    <path d="M 200 200 L 300 200 L 320 220">
+      <animate attributeName="opacity" values="0.2;0.6;0.2" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 900 250 L 800 250 L 780 270">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 250 600 L 350 550 L 370 530">
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 950 580 L 850 530 L 830 510">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- 标题文字 -->
+  <text x="600" y="120" text-anchor="middle" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="42" font-weight="700" fill="url(#blueGradient)" filter="url(#glow)" letter-spacing="2">REMI RADAR</text>
+  
+  <!-- 副标题 -->
+  <text x="600" y="155" text-anchor="middle" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="400" fill="rgba(255,255,255,0.6)" letter-spacing="4">INTELLIGENT INFORMATION RADAR</text>
+  
+  <!-- 底部装饰条 -->
+  <rect x="0" y="750" width="1200" height="2" fill="url(#blueGradient)" opacity="0.3"/>
+  
+  <!-- 角落装饰 -->
+  <g stroke="url(#blueGradient)" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M 30 30 L 60 30 L 60 50 M 30 30 L 30 60 L 50 60"/>
+    <path d="M 1170 30 L 1140 30 L 1140 50 M 1170 30 L 1170 60 L 1150 60"/>
+    <path d="M 30 770 L 60 770 L 60 750 M 30 770 L 30 740 L 50 740"/>
+    <path d="M 1170 770 L 1140 770 L 1140 750 M 1170 770 L 1170 740 L 1150 740"/>
+  </g>
+</svg>

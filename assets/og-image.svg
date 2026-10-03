@@ -1,0 +1,133 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 背景渐变 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="50%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </linearGradient>
+    
+    <!-- 主标题渐变 -->
+    <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="50%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#7b2ff7"/>
+    </linearGradient>
+    
+    <!-- 强调色渐变 -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8C42"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </linearGradient>
+    
+    <!-- 文字渐变 -->
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e0e0"/>
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- 装饰网格 -->
+  <g stroke="url(#accentGradient)" stroke-width="0.5" opacity="0.15">
+    <path d="M100 0 L100 630"/>
+    <path d="M300 0 L300 630"/>
+    <path d="M500 0 L500 630"/>
+    <path d="M700 0 L700 630"/>
+    <path d="M900 0 L900 630"/>
+    <path d="M1100 0 L1100 630"/>
+    <path d="M0 100 L1200 100"/>
+    <path d="M0 200 L1200 200"/>
+    <path d="M0 300 L1200 300"/>
+    <path d="M0 400 L1200 400"/>
+    <path d="M0 500 L1200 500"/>
+    <path d="M0 600 L1200 600"/>
+  </g>
+  
+  <!-- 装饰圆圈 -->
+  <circle cx="100" cy="550" r="200" fill="url(#accentGradient)" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="1100" cy="80" r="250" fill="url(#accentGradient)" opacity="0.06" filter="url(#glow)"/>
+  
+  <!-- 左上角装饰 -->
+  <g transform="translate(50, 50)" opacity="0.3">
+    <circle cx="0" cy="0" r="40" stroke="url(#titleGradient)" stroke-width="2" fill="none"/>
+    <circle cx="0" cy="0" r="25" stroke="url(#titleGradient)" stroke-width="2" fill="none"/>
+    <circle cx="0" cy="0" r="10" stroke="url(#titleGradient)" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- 主要内容区域 -->
+  <g transform="translate(80, 140)">
+    <!-- Logo/名称 -->
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="36" font-weight="800" fill="url(#accentGradient)" filter="url(#glow)" letter-spacing="6">
+      REMI
+    </text>
+    
+    <!-- 主标题 -->
+    <text x="0" y="90" font-family="Microsoft YaHei, sans-serif" font-size="72" font-weight="900" fill="url(#titleGradient)" filter="url(#glow)">
+      AI 应用开发者
+    </text>
+    
+    <!-- 副标题/描述 -->
+    <text x="0" y="155" font-family="Microsoft YaHei, sans-serif" font-size="30" font-weight="400" fill="#b0b0b0">
+      专注 AI 应用落地与智能自动化系统开发
+    </text>
+    
+    <!-- 分隔线 -->
+    <line x1="0" y1="195" x2="850" y2="195" stroke="url(#titleGradient)" stroke-width="3" opacity="0.6"/>
+    
+    <!-- 作品列表 -->
+    <g transform="translate(0, 250)">
+      <!-- 作品 1 -->
+      <rect x="0" y="0" width="14" height="14" rx="3" fill="#00ff88" filter="url(#glow)"/>
+      <text x="32" y="12" font-family="Microsoft YaHei, sans-serif" font-size="26" font-weight="500" fill="#ffffff">
+        Remi Radar — 智能信息雷达
+      </text>
+      
+      <!-- 作品 2 -->
+      <rect x="0" y="55" width="14" height="14" rx="3" fill="#00d4ff" filter="url(#glow)"/>
+      <text x="32" y="67" font-family="Microsoft YaHei, sans-serif" font-size="26" font-weight="500" fill="#ffffff">
+        AI 小说创作工作流系统
+      </text>
+      
+      <!-- 作品 3 -->
+      <rect x="0" y="110" width="14" height="14" rx="3" fill="#7b2ff7" filter="url(#glow)"/>
+      <text x="32" y="122" font-family="Microsoft YaHei, sans-serif" font-size="26" font-weight="500" fill="#ffffff">
+        定制工作自动化系统
+      </text>
+      
+      <!-- 作品 4 -->
+      <rect x="0" y="165" width="14" height="14" rx="3" fill="#FF8C42" filter="url(#glow)"/>
+      <text x="32" y="177" font-family="Microsoft YaHei, sans-serif" font-size="26" font-weight="500" fill="#ffffff">
+        Agentic Growth Coach
+      </text>
+    </g>
+    
+    <!-- 底部标语 -->
+    <text x="0" y="480" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="url(#accentGradient)" letter-spacing="4" opacity="0.8">
+      EXPLORE AI POSSIBILITIES
+    </text>
+  </g>
+  
+  <!-- 右下角装饰 -->
+  <g transform="translate(950, 480)" opacity="0.4">
+    <circle cx="0" cy="0" r="80" stroke="url(#accentGradient)" stroke-width="2" fill="none"/>
+    <circle cx="0" cy="0" r="55" stroke="url(#accentGradient)" stroke-width="2" fill="none"/>
+    <circle cx="0" cy="0" r="30" stroke="url(#accentGradient)" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- 底部 URL -->
+  <text x="600" y="590" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#666666" text-anchor="middle" letter-spacing="1">
+    www.remifei.cn
+  </text>
+</svg>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 基础 Meta -->
+    <title>爻胜 YiSheng — 易学 × 统计双引擎 | Remi</title>
+    <meta name="title" content="爻胜 YiSheng — 易学 × 统计双引擎 | Remi">
+    <meta name="description" content="Elo + Dixon-Coles 统计模型与六爻 / 梅花易数 / 大六壬融合的竞彩预测系统，Rust + Node.js + Web + Electron 全栈实现。">
+    <meta name="keywords" content="爻胜, YiSheng, 易学, 六爻, 梅花易数, 大六壬, Elo, Dixon-Coles, Rust, 竞彩预测">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-yisheng.html">
+    <meta property="og:title" content="爻胜 YiSheng — 易学 × 统计双引擎">
+    <meta property="og:description" content="Elo + Dixon-Coles 统计与六爻 / 梅花易数 / 大六壬融合的竞彩预测系统。">
+    <meta property="og:image" content="https://www.remifei.cn/assets/yisheng-thumb.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="爻胜 YiSheng — 易学 × 统计双引擎">
+    <meta name="twitter:description" content="Elo + Dixon-Coles 统计与六爻 / 梅花易数 / 大六壬融合的竞彩预测系统。">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/yisheng-thumb.svg">
+
+    <!-- 微信分享 -->
+    <meta name="wechat:title" content="爻胜 YiSheng — 易学 × 统计双引擎">
+    <meta name="wechat:description" content="Elo + Dixon-Coles 统计与六爻 / 梅花易数 / 大六壬融合的竞彩预测系统。">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/yisheng-thumb.svg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">完整作品</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">爻胜 YiSheng — 易学 × 统计双引擎</h1>
+            <p class="project-subtitle">Elo + Dixon-Coles 统计模型 与 六爻 / 梅花易数 / 大六壬 融合的竞彩预测系统</p>
+            <div class="project-tech">
+                <span>Rust</span>
+                <span>Node.js</span>
+                <span>六爻</span>
+                <span>梅花易数</span>
+                <span>大六壬</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">把欧洲统计模型与中国古典决策智慧融合</h2>
+                    <p class="lead-text">
+                        爻胜 YiSheng 是一个<strong>双引擎竞彩预测系统</strong>。统计层用 Elo 评分 + Dixon-Coles 双变量 Poisson 模型，给出 1X2 概率与期望进球；
+                        易学层则是原创的六爻 / 梅花易数 / 大六壬实现，覆盖时间起卦、纳甲、八宫、用神旺衰、体用分析。
+                        最终通过 <strong>统计 70% + 易学 30%</strong> 加权融合，反向冲突时切观望，可选 EV/Kelly 决策建议。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>统计引擎 Elo + DC</h3>
+                        <p>913 场国际赛校准的 Elo 评分体系 + Dixon-Coles 双变量 Poisson 模型，给出 1X2 概率与期望进球</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-yin-yang"></i>
+                        </div>
+                        <h3>六爻时间起卦</h3>
+                        <p>支持时间起卦与赔率起卦，纳甲、八宫、世应、用神旺衰，遵循 liuyao-zengshanbuyi-v1 流派规则</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                        <h3>梅花易数</h3>
+                        <p>meihua-tiyong-v1 流派，体用分析、时间起卦、动静判断，与统计层结果做交叉验证</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <h3>大六壬</h3>
+                        <p>四课三传、十二天将、课体判断，独立模块实现，100% 测试覆盖</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>融合决策</h3>
+                        <p>统计 70% + 易学 30% 加权，反向冲突切观望；可选 EV / Kelly 凯利公式仓位建议</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>回测验证</h3>
+                        <p>walk-forward backtest 输出 RPS / Brier / ECE 三大校准指标，P4-P8 改造前后对比可量化</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术架构</span>
+                    <h2 class="section-heading">Rust 引擎 + Node.js 服务 + 多端 UI</h2>
+                </div>
+
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h4>Rust 引擎层 (jingcai-yishu)</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Rust 2021</span>
+                            <span class="tech-item">serde / serde_json</span>
+                            <span class="tech-item">clap 4</span>
+                            <span class="tech-item">anyhow / thiserror</span>
+                            <span class="tech-item">chrono</span>
+                            <span class="tech-item">colored</span>
+                            <span class="tech-item">indicatif</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>Node.js 服务层</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Express / REST</span>
+                            <span class="tech-item">node-cron</span>
+                            <span class="tech-item">cheerio</span>
+                            <span class="tech-item">LLM 适配器</span>
+                            <span class="tech-item">Jest 87/88 套件</span>
+                            <span class="tech-item">coverage 93/80/93/94</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>前端 / 桌面端</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">原生 HTML/CSS/JS</span>
+                            <span class="tech-item">Web Cockpit (3001)</span>
+                            <span class="tech-item">Electron 桌面打包</span>
+                            <span class="tech-item">复盘页面</span>
+                            <span class="tech-item">规则审查</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>知识库与规则</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">六爻规范 v1</span>
+                            <span class="tech-item">梅花易数 v1</span>
+                            <span class="tech-item">大六壬课体</span>
+                            <span class="tech-item">流派规则集</span>
+                            <span class="tech-item">防错 8 条清单</span>
+                            <span class="tech-item">经典原文引用</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-top: 64px;">
+                    <span class="section-tag">ASCII 架构图</span>
+                    <h2 class="section-heading">数据流向</h2>
+                </div>
+
+                <div class="architecture-diagram">
+<pre>
+┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│   比赛数据源      │    │   赔率市场        │    │   时间/手动输入   │
+│ fixtures.json    │    │   Home/Draw/Away │    │   起卦时刻        │
+└────────┬─────────┘    └────────┬─────────┘    └────────┬─────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     Rust 引擎层 (jingcai.exe)                    │
+│  ┌────────────────┐              ┌────────────────────────┐     │
+│  │  统计层         │              │  易学层                  │     │
+│  │ Elo 评分校准   │              │ 时间起卦 / 纳甲 / 八宫   │     │
+│  │ Dixon-Coles DC │              │ 用神旺衰 / 体用分析     │     │
+│  │ 1X2 概率       │              │ 梅花易数 / 大六壬        │     │
+│  └────────┬───────┘              └───────────┬────────────┘     │
+│           │                                  │                  │
+│           └────────────┬─────────────────────┘                  │
+│                        ▼                                        │
+│              ┌──────────────────────┐                           │
+│              │  融合决策 70+30%     │                           │
+│              │  反向冲突切观望       │                           │
+│              │  可选 EV/Kelly       │                           │
+│              └──────────┬───────────┘                           │
+└─────────────────────────┼───────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   Node.js 服务层 (port 3001)                     │
+│  REST API  ·  Web Cockpit  ·  复盘模块  ·  规则审查              │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+            ┌─────────────┼──────────────┐
+            ▼             ▼              ▼
+       ┌────────┐    ┌──────────┐   ┌──────────┐
+       │  Web   │    │ Electron │   │   CLI    │
+       │  UI    │    │  桌面端  │   │  命令行  │
+       └────────┘    └──────────┘   └──────────┘
+</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API & CLI -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">API & CLI</span>
+                    <h2 class="section-heading">快速对接与本地试用</h2>
+                </div>
+
+                <div class="features-grid-premium three-col">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-terminal"></i>
+                        </div>
+                        <h3>CLI 单场预测</h3>
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+                            jingcai wc predict spain germany<br>
+                            <span style="color: #ff8c42;">→ 51.4% / 27.2% / 21.4%</span>
+                        </p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3>融合预测</h3>
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+                            jingcai wc predict spain germany --fusion \<br>
+                            --home-odds 2.5 --draw-odds 3.2 --away-odds 3.5
+                        </p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h3>回测</h3>
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+                            jingcai wc backtest<br>
+                            <span style="color: #ffd700;">→ RPS / Brier / ECE</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-top: 56px;">
+                    <span class="section-tag">REST API</span>
+                </div>
+
+                <div class="comparison-table-wrap">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>方法</th>
+                                <th>路径</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GET</td>
+                                <td><code>/api/wc/teams</code></td>
+                                <td>48 强按 Elo 降序</td>
+                            </tr>
+                            <tr>
+                                <td>POST</td>
+                                <td><code>/api/wc/predict</code></td>
+                                <td>单场预测（含可选 fusion / odds）</td>
+                            </tr>
+                            <tr>
+                                <td>GET</td>
+                                <td><code>/api/wc/health</code></td>
+                                <td>引擎 + 数据新鲜度</td>
+                            </tr>
+                            <tr>
+                                <td>POST</td>
+                                <td><code>/api/hexagram/cast</code></td>
+                                <td>六爻起卦（沿用旧接口）</td>
+                            </tr>
+                            <tr>
+                                <td>POST</td>
+                                <td><code>/api/analyze</code></td>
+                                <td>综合融合分析（沿用旧接口）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-block" style="margin-top: 56px;">
+                    <span class="section-tag">启动方式</span>
+                </div>
+
+                <div class="architecture-diagram">
+<pre>
+# 1. 编译 Rust 引擎（生成 target/release/jingcai.exe）
+cargo build --release
+
+# 2. 校准 Elo 评分（首次运行，读 913 场国际赛 → data/worldcup/elo-calibrated.json）
+target/release/jingcai.exe wc calibrate
+
+# 3. 启动 API + 前端
+cd server
+npm install --include=dev
+node server.js
+
+# 4. 访问 http://localhost:3001 → 顶部导航选 "世界杯"
+</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Data -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目数据</span>
+                    <h2 class="section-heading">当前基线</h2>
+                </div>
+
+                <div class="premium-stats-grid">
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-value">913</div>
+                        <div class="premium-stat-label">场国际赛校准</div>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-value">48</div>
+                        <div class="premium-stat-label">支球队 Elo</div>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-value">93 / 80 / 93 / 94</div>
+                        <div class="premium-stat-label">测试覆盖率</div>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-value">87 / 88</div>
+                        <div class="premium-stat-label">测试套件绿</div>
+                    </div>
+                </div>
+
+                <div class="content-block" style="margin-top: 64px;">
+                    <span class="section-tag">工程方法论</span>
+                    <h2 class="section-heading">P0-P4 五级优化</h2>
+                    <p class="lead-text">
+                        爻胜目前处于 <strong>P0-P4 系统优化</strong> 阶段，每期严格 TDD（红→绿），每期交付可量化指标：
+                        测试失真修复、巨型模块拆分、覆盖率洼地填补、Rust 桥预测路径统一、P4-P8 改造效果量化。
+                    </p>
+                </div>
+
+                <div class="process-grid">
+                    <div class="process-step">
+                        <h4>P0 · 测试失真修复</h4>
+                        <p>1345/1345 全绿 · 修复 6/24 北京日历漏赛回归守护 · fixtures + results 真实端到端断言</p>
+                    </div>
+                    <div class="process-step">
+                        <h4>P1 · 巨型模块拆分</h4>
+                        <p>factorCollision.js 619 行 → ≤300 行子模块 · 核心引擎 br ≥ 80%</p>
+                    </div>
+                    <div class="process-step">
+                        <h4>P2 · Rust 桥统一</h4>
+                        <p>predictEngine 改调 Rust CLI · 与 README byte-equal 一致 · 降级开关保留 JS 路径</p>
+                    </div>
+                    <div class="process-step">
+                        <h4>P3 · 改造效果量化</h4>
+                        <p>walk-forward backtest 重跑 · market_weight 网格搜索 · 新 RPS / Brier / ECE 基线</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">想了解更多实现细节？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

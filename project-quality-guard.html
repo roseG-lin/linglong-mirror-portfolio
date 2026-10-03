@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>QualityGuard L3 — 质量保障系统 | Remi</title>
+    <meta name="title" content="QualityGuard L3 — 质量保障系统 | Remi">
+    <meta name="description" content="融合垂直切片与自适应 TDD 的质量保障系统，一步一个脚印构建真正可用的软件">
+    <meta name="keywords" content="QualityGuard, TDD, 垂直切片，代码质量，AI Skill, Claude Code">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-quality-guard.html">
+    <meta property="og:title" content="QualityGuard L3 — 质量保障系统">
+    <meta property="og:description" content="融合垂直切片与自适应 TDD 的质量保障系统，智能开发伙伴">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QualityGuard L3 — 质量保障系统">
+    <meta name="twitter:description" content="融合垂直切片与自适应 TDD 的质量保障系统">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="QualityGuard L3 — 质量保障系统">
+    <meta name="wechat:description" content="融合垂直切片与自适应 TDD 的质量保障系统">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    /*
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'QualityGuard L3 — 质量保障系统',
+        desc: '融合垂直切片与自适应 TDD 的质量保障系统',
+        link: 'https://www.remifei.cn/project-quality-guard.html',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">Skills</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">QualityGuard L3 — 质量保障系统</h1>
+            <p class="project-subtitle">融合垂直切片与自适应 TDD 的质量保障系统，一步一个脚印构建真正可用的软件</p>
+            <div class="project-tech">
+                <span>Claude Code</span>
+                <span>AI Skill</span>
+                <span>TDD</span>
+                <span>垂直切片</span>
+                <span>代码质量</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">不是一个简单的代码生成器，而是一个智能开发伙伴</h2>
+                    <p class="lead-text">
+                        QualityGuard L3 是一个为 Claude Code 设计的 AI Skill，融合垂直切片开发与自适应 TDD 的质量保障系统。
+                        它懂得自我评估、遵循最佳实践、保证质量、持续改进，
+                        用垂直切片+TDD 的方式，一步一个脚印地构建真正可用的软件。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>垂直切片拆解</h3>
+                        <p>基于 INVEST 原则，每片都是完整功能，独立可部署，用户可感知价值</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>自适应粒度</h3>
+                        <p>根据模型能力动态调整切片大小，Level 1-3 自动适配，连续成功自动升级</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h3>TDD 质量保证</h3>
+                        <p>测试驱动开发，自动生成完整测试套件，单元测试 + 集成测试 +E2E 全覆盖</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>质量门控</h3>
+                        <p>多维度质量评分，测试覆盖率≥80%，圈复杂度≤10，自动识别风险</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>错误模式学习</h3>
+                        <p>记录错误模式，预测并预防问题，同一模式出现 3 次自动生成修复方案</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>智能角色切换</h3>
+                        <p>根据需求自动切换角色：性能工程师、安全专家、教育专家、架构师</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">系统架构</span>
+                    <h2 class="section-heading">三层递进系统</h2>
+                </div>
+
+                <div class="architecture-flow">
+                    <div class="flow-diagram">
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <h4>第 1 层</h4>
+                            <p>模型能力评估</p>
+                            <span class="stage-desc">决定切片粒度</span>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-cut"></i>
+                            </div>
+                            <h4>第 2 层</h4>
+                            <p>垂直切片拆解</p>
+                            <span class="stage-desc">每片都是完整功能</span>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <h4>第 3 层</h4>
+                            <p>TDD 质量保证</p>
+                            <span class="stage-desc">测试驱动 + 规范管理</span>
+                        </div>
+                    </div>
+                    <div class="flow-feedback">
+                        <div class="feedback-loop">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>反馈优化闭环</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="capability-matrix">
+                    <h4>粒度决策矩阵</h4>
+                    <div class="matrix-table">
+                        <div class="matrix-row header">
+                            <div class="matrix-cell">模型能力</div>
+                            <div class="matrix-cell">切片大小</div>
+                            <div class="matrix-cell">代码行数</div>
+                            <div class="matrix-cell">测试复杂度</div>
+                            <div class="matrix-cell">集成频率</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Level 1</div>
+                            <div class="matrix-cell">超细粒度</div>
+                            <div class="matrix-cell">5-10 行</div>
+                            <div class="matrix-cell">单一断言</div>
+                            <div class="matrix-cell">每片即集成</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Level 2</div>
+                            <div class="matrix-cell">标准粒度</div>
+                            <div class="matrix-cell">15-25 行</div>
+                            <div class="matrix-cell">多个断言</div>
+                            <div class="matrix-cell">2-3 片集成</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Level 3</div>
+                            <div class="matrix-cell">粗粒度</div>
+                            <div class="matrix-cell">30-50 行</div>
+                            <div class="matrix-cell">完整场景</div>
+                            <div class="matrix-cell">5 片集成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">工作流程</span>
+                    <h2 class="section-heading">5 步开发流程</h2>
+                </div>
+
+                <div class="workflow-steps">
+                    <div class="workflow-card">
+                        <span class="workflow-number">01</span>
+                        <div class="workflow-content">
+                            <h4>需求理解与预演</h4>
+                            <p>心理预演：核心功能、使用场景、错误情况、验证方式</p>
+                            <div class="workflow-detail">
+                                <span class="detail-tag">INVEST 原则</span>
+                                <span class="detail-tag">用户故事</span>
+                                <span class="detail-tag">验收标准</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-card">
+                        <span class="workflow-number">02</span>
+                        <div class="workflow-content">
+                            <h4>模型能力评估</h4>
+                            <p>能力自测决定粒度级别，自适应调整策略</p>
+                            <div class="workflow-detail">
+                                <span class="detail-tag">Level 1-3</span>
+                                <span class="detail-tag">动态调整</span>
+                                <span class="detail-tag">连续成功升级</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-card">
+                        <span class="workflow-number">03</span>
+                        <div class="workflow-content">
+                            <h4>代码生成与质检</h4>
+                            <p>编写代码→模拟运行→边界测试→质量评分</p>
+                            <div class="workflow-detail">
+                                <span class="detail-tag">6 维评分</span>
+                                <span class="detail-tag">错误预防</span>
+                                <span class="detail-tag">智能审查</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-card">
+                        <span class="workflow-number">04</span>
+                        <div class="workflow-content">
+                            <h4>测试驱动开发</h4>
+                            <p>自动生成完整测试套件，按切片组织管理</p>
+                            <div class="workflow-detail">
+                                <span class="detail-tag">单元测试</span>
+                                <span class="detail-tag">集成测试</span>
+                                <span class="detail-tag">E2E 测试</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-card">
+                        <span class="workflow-number">05</span>
+                        <div class="workflow-content">
+                            <h4>智能反馈与优化</h4>
+                            <p>错误模式学习，预测性维护，自动生成修复方案</p>
+                            <div class="workflow-detail">
+                                <span class="detail-tag">模式识别</span>
+                                <span class="detail-tag">自动修复</span>
+                                <span class="detail-tag">预测预防</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quality Dashboard -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">质量评估</span>
+                    <h2 class="section-heading">质量仪表盘</h2>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>功能性</h4>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 90%"></div>
+                        </div>
+                        <span class="progress-value">90%</span>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h4>性能</h4>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%"></div>
+                        </div>
+                        <span class="progress-value">85%</span>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>健壮性</h4>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 95%"></div>
+                        </div>
+                        <span class="progress-value">95%</span>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4>可读性</h4>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 88%"></div>
+                        </div>
+                        <span class="progress-value">88%</span>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h4>安全性</h4>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 100%"></div>
+                        </div>
+                        <span class="progress-value">100%</span>
+                    </div>
+                    <div class="dashboard-item">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h4>测试覆盖</h4>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 92%"></div>
+                        </div>
+                        <span class="progress-value">92%</span>
+                    </div>
+                </div>
+
+                <div class="quality-gates">
+                    <h4>质量门控标准</h4>
+                    <div class="gates-grid">
+                        <div class="gate-card">
+                            <h5>切片级</h5>
+                            <ul>
+                                <li>测试覆盖率 ≥ 80%</li>
+                                <li>圈复杂度 ≤ 10</li>
+                                <li>重复率 ≤ 5%</li>
+                                <li>通过单元测试</li>
+                                <li>通过验收测试</li>
+                                <li>无回归问题</li>
+                            </ul>
+                        </div>
+                        <div class="gate-card">
+                            <h5>集成级</h5>
+                            <ul>
+                                <li>测试覆盖率 ≥ 70%</li>
+                                <li>性能阈值 ≤ 200ms</li>
+                                <li>内存限制 ≤ 50MB</li>
+                                <li>所有切片兼容</li>
+                                <li>无破坏性变更</li>
+                                <li>性能可接受</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Structure -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">测试体系</span>
+                    <h2 class="section-heading">测试目录结构</h2>
+                </div>
+
+                <div class="test-structure">
+                    <div class="structure-tree">
+                        <div class="tree-item folder">
+                            <i class="fas fa-folder"></i>
+                            <span>project/</span>
+                            <div class="tree-children">
+                                <div class="tree-item folder">
+                                    <i class="fas fa-folder"></i>
+                                    <span>tests/</span>
+                                    <div class="tree-children">
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>unit/</span>
+                                            <div class="tree-children">
+                                                <div class="tree-item folder">
+                                                    <i class="fas fa-folder"></i>
+                                                    <span>VS001/</span>
+                                                    <div class="tree-children">
+                                                        <div class="tree-item file"><i class="fas fa-file-code"></i><span>test.spec.js</span></div>
+                                                        <div class="tree-item file"><i class="fas fa-file-alt"></i><span>test.html</span></div>
+                                                        <div class="tree-item folder"><i class="fas fa-folder"></i><span>fixtures/</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>integration/</span>
+                                        </div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>e2e/</span>
+                                        </div>
+                                        <div class="tree-item folder">
+                                            <i class="fas fa-folder"></i>
+                                            <span>reports/</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tree-item folder">
+                                    <i class="fas fa-folder"></i>
+                                    <span>src/</span>
+                                </div>
+                                <div class="tree-item folder">
+                                    <i class="fas fa-folder"></i>
+                                    <span>docs/</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-naming">
+                    <h4>测试命名规范</h4>
+                    <div class="naming-examples">
+                        <div class="naming-card">
+                            <h5>文件命名</h5>
+                            <code>VS001_welcome_display_unit.spec.js</code>
+                            <code>VS002_email_input_integration.spec.js</code>
+                            <code>VS003_login_flow_e2e.spec.js</code>
+                        </div>
+                        <div class="naming-card">
+                            <h5>测试函数</h5>
+                            <code>test_VS001_pageLoad_shouldDisplayWelcome()</code>
+                            <code>test_VS002_emptyInput_shouldShowError()</code>
+                            <code>test_VS003_validLogin_shouldRedirectToDashboard()</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Stats -->
+    <section class="project-section section-light">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">核心保证</span>
+                    <h2 class="section-heading">6 大保证</h2>
+                </div>
+
+                <div class="premium-stats-grid">
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h4>自适应</h4>
+                        <p>根据实际能力调整粒度</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4>可验证</h4>
+                        <p>每步都有测试验证</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-ruler-combined"></i>
+                        </div>
+                        <h4>规范化</h4>
+                        <p>测试脚本组织有序</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h4>可追踪</h4>
+                        <p>完整的进度可视化</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>智能化</h4>
+                        <p>从错误中学习改进</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h4>真实性</h4>
+                        <p>不虚报进度</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">对项目感兴趣？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

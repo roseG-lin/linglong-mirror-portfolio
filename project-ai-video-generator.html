@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>AI 视频生成工具 | Remi</title>
+    <meta name="title" content="AI 视频生成工具 | Remi">
+    <meta name="description" content="基于人工智能的视频内容创作平台，零门槛创作专业级别视频">
+    <meta name="keywords" content="AI 视频生成，AIGC, Edge TTS, Pollinations AI, MoviePy, 文生视频">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-ai-video-generator.html">
+    <meta property="og:title" content="AI 视频生成工具">
+    <meta property="og:description" content="AIGC 视频生成的学习探索 Demo，整合文字转语音、AI 生图与视频合成">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI 视频生成工具">
+    <meta name="twitter:description" content="AIGC 视频生成的学习探索 Demo，整合文字转语音、AI 生图与视频合成">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="AI 视频生成工具">
+    <meta name="wechat:description" content="AIGC 视频生成的学习探索 Demo">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    /*
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'AI 视频生成工具',
+        desc: 'AIGC 视频生成的学习探索 Demo',
+        link: 'https://www.remifei.cn/project-ai-video-generator.html',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">Demo</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">AI 视频生成工具</h1>
+            <p class="project-subtitle">AIGC 视频生成的学习探索 Demo，整合文字转语音、AI 生图与视频合成</p>
+            <div class="project-tech">
+                <span>Flask</span>
+                <span>Edge TTS</span>
+                <span>Pollinations AI</span>
+                <span>MoviePy</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">一个学习探索性质的 Demo</h2>
+                    <p class="lead-text">
+                        这是我在 2026 年 1 月刚接触 AIGC 领域时做的尝试性 Demo。
+                        当时对 AI 视频生成很好奇，想了解一下整个流程是如何运作的，
+                        于是整合了 Edge TTS（文字转语音）、Pollinations AI（AI 生图）和 MoviePy（视频处理），
+                        做了一个能跑通基本流程的原型。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>文生视频</h3>
+                        <p>输入文字描述，生成带配音的简单视频，支持基础参数配置</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h3>AI 生图</h3>
+                        <p>使用 Pollinations AI 生成图片，支持多种艺术风格</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>智能配音</h3>
+                        <p>基于微软 Edge TTS，免费自然的中文发音</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3>图生视频</h3>
+                        <p>上传图片添加动态效果，支持常见图片格式</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>历史记录</h3>
+                        <p>保存生成记录，方便查看和重新下载</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>多平台适配</h3>
+                        <p>支持抖音 9:16、B 站 16:9、Instagram 1:1 等比例</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Reflection -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目反思</span>
+                    <h2 class="section-heading">为什么这个项目封存了</h2>
+                </div>
+
+                <div class="reflection-content">
+                    <div class="reflection-card">
+                        <div class="reflection-icon">🔍</div>
+                        <h3>学习探索的产物</h3>
+                        <p>这是我在 AIGC 领域初期的尝试，主要目的是了解 AI 视频生成的基本流程和技术整合方式。</p>
+                    </div>
+                    <div class="reflection-card">
+                        <div class="reflection-icon">⚠️</div>
+                        <h3>实际效果有限</h3>
+                        <p>Demo 虽然能跑通流程，但生成的视频质量一般，与市面上成熟的 AIGC 产品相比差距明显。</p>
+                    </div>
+                    <div class="reflection-card">
+                        <div class="reflection-icon">💡</div>
+                        <h3>更好的选择</h3>
+                        <p>国内各大厂提供了更优秀的 AIGC 视频生成服务，如可灵、即梦、智谱等，效果更好且成本低。</p>
+                    </div>
+                    <div class="reflection-card">
+                        <div class="reflection-icon">📦</div>
+                        <h3>评估后封存</h3>
+                        <p>在尝试和评估后，认为这个 Demo 没有继续开发的意义，因此作为学习记录封存。</p>
+                    </div>
+                </div>
+
+                <div class="recommendation-box">
+                    <h4>🌟 推荐使用的 AIGC 视频工具</h4>
+                    <div class="recommendation-list">
+                        <div class="recommendation-item">
+                            <span class="rec-name">可灵 AI</span>
+                            <span class="rec-desc">快手出品，文生视频效果出色</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <span class="rec-name">即梦 AI</span>
+                            <span class="rec-desc">字节旗下，创意视频生成平台</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <span class="rec-name">智谱清言</span>
+                            <span class="rec-desc">智谱 AI，多模态生成能力</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <span class="rec-name">通义万相</span>
+                            <span class="rec-desc">阿里达摩院，AI 绘画与视频</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">核心功能</span>
+                    <h2 class="section-heading">六大核心功能模块</h2>
+                </div>
+
+                <div class="feature-detail-grid">
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-number">01</div>
+                        <h3>文生视频 🎬</h3>
+                        <p>输入文字描述，自动生成带配音的视频</p>
+                        <ul class="feature-list">
+                            <li>支持多种视频比例（16:9 / 9:16 / 1:1）</li>
+                            <li>三种配音声音可选（晓晓/云希/云扬）</li>
+                            <li>灵活视频时长（3 秒 / 5 秒 / 10 秒）</li>
+                            <li>添加 Ken Burns 缩放效果</li>
+                        </ul>
+                    </div>
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-number">02</div>
+                        <h3>AI 生图 🎨</h3>
+                        <p>使用 AI 生成高质量图片</p>
+                        <ul class="feature-list">
+                            <li>Pollinations AI 完全免费</li>
+                            <li>支持 6 种艺术风格</li>
+                            <li>自定义图片尺寸</li>
+                            <li>正负面提示词支持</li>
+                        </ul>
+                    </div>
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-number">03</div>
+                        <h3>智能配音 🎙️</h3>
+                        <p>使用微软 Edge TTS 进行文字转语音</p>
+                        <ul class="feature-list">
+                            <li>完全免费，无使用限制</li>
+                            <li>自然流畅的中文发音</li>
+                            <li>多种声音可选</li>
+                            <li>可调节语速和音调</li>
+                        </ul>
+                    </div>
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-number">04</div>
+                        <h3>图生视频 📸→🎬</h3>
+                        <p>上传图片，生成动态视频效果</p>
+                        <ul class="feature-list">
+                            <li>支持 JPG、PNG、WEBP 格式</li>
+                            <li>添加运动提示词</li>
+                            <li>自动生成动态效果</li>
+                            <li>保持图片质量</li>
+                        </ul>
+                    </div>
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-number">05</div>
+                        <h3>历史记录 📋</h3>
+                        <p>自动保存所有生成记录</p>
+                        <ul class="feature-list">
+                            <li>自动保存每次生成</li>
+                            <li>快速查看历史</li>
+                            <li>一键重新下载</li>
+                            <li>本地永久存储</li>
+                        </ul>
+                    </div>
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-number">06</div>
+                        <h3>多平台适配 📱</h3>
+                        <p>支持主流社交平台的视频尺寸</p>
+                        <ul class="feature-list">
+                            <li>抖音/快手 9:16 竖屏</li>
+                            <li>YouTube/B 站 16:9 横屏</li>
+                            <li>Instagram/小红书 1:1 方形</li>
+                            <li>一键切换比例</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Scenarios -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">应用场景</span>
+                    <h2 class="section-heading">四大应用场景</h2>
+                </div>
+
+                <div class="scenario-columns">
+                    <div class="scenario-column">
+                        <div class="scenario-icon">📱</div>
+                        <h3>社交媒体内容创作</h3>
+                        <p><strong>适用人群：</strong>自媒体创作者、短视频博主</p>
+                        <p><strong>使用场景：</strong>抖音/快手短视频、小红书图文内容、Instagram Reels、YouTube Shorts</p>
+                    </div>
+                    <div class="scenario-column">
+                        <div class="scenario-icon">📚</div>
+                        <h3>教育培训视频</h3>
+                        <p><strong>适用人群：</strong>教师、培训机构、知识博主</p>
+                        <p><strong>使用场景：</strong>在线课程制作、知识科普视频、教学演示内容</p>
+                    </div>
+                    <div class="scenario-column">
+                        <div class="scenario-icon">🛍️</div>
+                        <h3>产品营销视频</h3>
+                        <p><strong>适用人群：</strong>电商卖家、品牌营销人员</p>
+                        <p><strong>使用场景：</strong>产品介绍视频、促销广告、品牌宣传</p>
+                    </div>
+                    <div class="scenario-column">
+                        <div class="scenario-icon">🎨</div>
+                        <h3>个人创作</h3>
+                        <p><strong>适用人群：</strong>视频爱好者、艺术创作者</p>
+                        <p><strong>使用场景：</strong>艺术创作、实验性视频、个人表达</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术实现</span>
+                    <h2 class="section-heading">Demo 技术栈</h2>
+                </div>
+
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h4>前端</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">HTML + CSS + JavaScript</span>
+                            <span class="tech-item">赛博朋克风格 UI</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>后端</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Python Flask</span>
+                            <span class="tech-item">RESTful API</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>TTS</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Edge TTS</span>
+                            <span class="tech-item">微软免费文字转语音</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>AI 生图</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Pollinations AI</span>
+                            <span class="tech-item">免费图片生成 API</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>视频处理</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">MoviePy</span>
+                            <span class="tech-item">Python 视频编辑库</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">学习收获</span>
+                    <h2 class="section-heading">从这个 Demo 学到了什么</h2>
+                </div>
+
+                <div class="learnings-grid">
+                    <div class="learning-item">
+                        <span class="learning-badge">01</span>
+                        <h3>技术整合能力</h3>
+                        <p>学会了如何将多个 AI 服务（TTS、生图、视频处理）整合到一个应用中。</p>
+                    </div>
+                    <div class="learning-item">
+                        <span class="learning-badge">02</span>
+                        <h3>API 调用经验</h3>
+                        <p>积累了调用第三方 API、处理异步任务、管理文件存储的实战经验。</p>
+                    </div>
+                    <div class="learning-item">
+                        <span class="learning-badge">03</span>
+                        <h3>产品评估意识</h3>
+                        <p>学会了评估一个项目的价值，知道什么时候应该继续投入，什么时候应该放手。</p>
+                    </div>
+                    <div class="learning-item">
+                        <span class="learning-badge">04</span>
+                        <h3>对 AIGC 的理解</h3>
+                        <p>通过亲手实践，对 AI 生成内容的技术原理和局限性有了更深入的理解。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <p class="project-footer-text">© 2026 AI 视频生成工具 - 学习探索 Demo（已封存）</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

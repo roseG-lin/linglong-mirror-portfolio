@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>定制工作自动化系统 | Remi</title>
+    <meta name="title" content="定制工作自动化系统 | Remi">
+    <meta name="description" content="本地化 LLM 驱动的企业智能自动化平台，邮件处理、单证解析、RPA 流程自动化">
+    <meta name="keywords" content="企业自动化，LLM, RPA, 邮件处理，单证解析，FastAPI, Vue3">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-custom-automation.html">
+    <meta property="og:title" content="定制工作自动化系统">
+    <meta property="og:description" content="本地化 LLM 驱动的企业智能自动化平台，数据不出域，完全离线可用">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="定制工作自动化系统">
+    <meta name="twitter:description" content="本地化 LLM 驱动的企业智能自动化平台">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="定制工作自动化系统">
+    <meta name="wechat:description" content="本地化 LLM 驱动的企业智能自动化平台">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    /*
+    wx.ready(() => {
+      const shareConfig = {
+        title: '定制工作自动化系统',
+        desc: '本地化 LLM 驱动的企业智能自动化平台',
+        link: 'https://www.remifei.cn/project-custom-automation.html',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">Demo</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">定制工作自动化系统</h1>
+            <p class="project-subtitle">本地化 LLM 驱动的企业智能自动化平台，完全离线可用，数据不出域</p>
+            <div class="project-tech">
+                <span>FastAPI</span>
+                <span>Vue 3</span>
+                <span>TypeScript</span>
+                <span>本地 LLM</span>
+                <span>RPA</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">不是一个简单的 Web 应用，而是一套企业级智能自动化平台</h2>
+                    <p class="lead-text">
+                        想象这样一个场景：清晨，业务员打开系统，昨晚收到的几十封国外邮件已经被 AI 阅读完毕。
+                        订单号、发货人、货物信息…全部提取整齐，自动填入数据库；需要回复的邮件，AI 已草拟好回复内容，等待一键确认；
+                        仓库系统的建单操作，RPA 机器人在后台默默完成。所有这一切，没有一条数据流出公司网络。
+                    </p>
+                </div>
+
+                <!-- System Screenshot -->
+                <div class="project-screenshot">
+                    <img src="assets/custom-automation-9.jpg" alt="定制工作自动化系统界面" class="screenshot-main" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术架构</span>
+                    <h2 class="section-heading">三明治架构设计</h2>
+                </div>
+
+                <div class="architecture-diagram">
+                    <div class="diagram-content">
+                        <div class="arch-layers">
+                            <div class="arch-layer">
+                                <div class="layer-badge">上层</div>
+                                <h4>前端展现层</h4>
+                                <p>Vue 3 + TypeScript + 组件库，流畅的用户体验</p>
+                                <div class="layer-tech">
+                                    <span>Vue 3</span>
+                                    <span>TypeScript</span>
+                                    <span>TailwindCSS</span>
+                                </div>
+                            </div>
+                            <div class="arch-arrow">↓</div>
+                            <div class="arch-layer highlight">
+                                <div class="layer-badge">中层</div>
+                                <h4>后端服务层</h4>
+                                <p>FastAPI + Python 异步服务，业务逻辑与 AI 调度</p>
+                                <div class="layer-tech">
+                                    <span>FastAPI</span>
+                                    <span>Python 3.10+</span>
+                                    <span>SQLAlchemy</span>
+                                    <span>AI/RPA 引擎</span>
+                                </div>
+                            </div>
+                            <div class="arch-arrow">↓</div>
+                            <div class="arch-layer">
+                                <div class="layer-badge">底层</div>
+                                <h4>基础设施层</h4>
+                                <p>本地 LLM 推理 + 数据持久化 + 外部系统集成</p>
+                                <div class="layer-tech">
+                                    <span>Ollama</span>
+                                    <span>Qwen2.5 7B</span>
+                                    <span>SQLite/PostgreSQL</span>
+                                    <span>RPA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-comparison">
+                    <h4>为什么选择本地 LLM</h4>
+                    <div class="comparison-table">
+                        <div class="comparison-row header">
+                            <div class="comparison-cell">对比项</div>
+                            <div class="comparison-cell">云端 API</div>
+                            <div class="comparison-cell highlight">本地 LLM</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell label">数据安全</div>
+                            <div class="comparison-cell">数据需上传第三方</div>
+                            <div class="comparison-cell highlight">✓ 完全不出域</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell label">网络依赖</div>
+                            <div class="comparison-cell">依赖外网稳定</div>
+                            <div class="comparison-cell highlight">✓ 断网也能用</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell label">使用成本</div>
+                            <div class="comparison-cell">按 Token 持续计费</div>
+                            <div class="comparison-cell highlight">✓ 一次性投入</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell label">响应速度</div>
+                            <div class="comparison-cell">网络往返延迟</div>
+                            <div class="comparison-cell highlight">✓ 本地毫秒级</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Capabilities -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">核心能力</span>
+                    <h2 class="section-heading">五大核心能力</h2>
+                </div>
+
+                <div class="capabilities-list">
+                    <div class="capability-item">
+                        <div class="capability-icon-wrapper">
+                            <i class="capability-icon fas fa-envelope-open-text"></i>
+                        </div>
+                        <div class="capability-number">01</div>
+                        <div class="capability-content">
+                            <h3>邮件智能处理</h3>
+                            <p>AI 理解邮件内容，自动提取订单号、发货人、订舱附件等关键信息，将原本需要人工阅读和录入的工作交给系统完成</p>
+                            <div class="capability-tags">
+                                <span>自动接收</span>
+                                <span>智能解析</span>
+                                <span>信息提取</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <div class="capability-icon-wrapper">
+                            <i class="capability-icon fas fa-file-contract"></i>
+                        </div>
+                        <div class="capability-number">02</div>
+                        <div class="capability-content">
+                            <h3>单证智能解析</h3>
+                            <p>支持多种格式单证，自动提取 20+ 字段，包括发货人、收货人、货物描述、数量、重量等，准确率远超传统 OCR 方案</p>
+                            <div class="capability-tags">
+                                <span>多格式支持</span>
+                                <span>20+ 字段</span>
+                                <span>高准确率</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <div class="capability-icon-wrapper">
+                            <i class="capability-icon fas fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div class="capability-number">03</div>
+                        <div class="capability-content">
+                            <h3>RPA 流程自动化</h3>
+                            <p>网页操作录制后自动执行，WPS 在线表格数据同步，仓库系统自动建单，将重复性操作全部自动化</p>
+                            <div class="capability-tags">
+                                <span>操作录制</span>
+                                <span>自动执行</span>
+                                <span>系统集成</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <div class="capability-icon-wrapper">
+                            <i class="capability-icon fas fa-pen-nib"></i>
+                        </div>
+                        <div class="capability-number">04</div>
+                        <div class="capability-content">
+                            <h3>智能邮件生成</h3>
+                            <p>根据业务场景自动草拟回复内容，包括确认函、通知函等，用户只需审阅与把控，大幅提升回复效率</p>
+                            <div class="capability-tags">
+                                <span>场景识别</span>
+                                <span>自动草拟</span>
+                                <span>一键确认</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <div class="capability-icon-wrapper">
+                            <i class="capability-icon fas fa-network-wired"></i>
+                        </div>
+                        <div class="capability-number">05</div>
+                        <div class="capability-content">
+                            <h3>多系统协同</h3>
+                            <p>表格、邮件、网站无缝集成，数据在各系统间自动流转，无需人工重复录入</p>
+                            <div class="capability-tags">
+                                <span>表格集成</span>
+                                <span>邮件集成</span>
+                                <span>网站集成</span>
+                                <span>数据流转</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">工作流程</span>
+                    <h2 class="section-heading">自动化处理流程</h2>
+                    <p style="color: var(--text-secondary); font-size: 1.05rem; max-width: 700px; margin-top: 12px;">
+                        从邮件接收到任务完成，全流程自动化，无需人工干预
+                    </p>
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-step-icon">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <div class="flow-step-number">Step 01</div>
+                        <h4>邮件接收</h4>
+                        <p>Outlook 自动监听新邮件，AI 识别邮件类型和优先级</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="flow-step-number">Step 02</div>
+                        <h4>信息提取</h4>
+                        <p>本地 LLM 智能解析，提取订单、货物、联系人等关键字段</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="flow-step-number">Step 03</div>
+                        <h4>数据库录入</h4>
+                        <p>自动填充数据库，智能校验数据完整性和一致性</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">
+                            <i class="fas fa-hand-sparkles"></i>
+                        </div>
+                        <div class="flow-step-number">Step 04</div>
+                        <h4>RPA 执行</h4>
+                        <p>机器人自动执行仓库系统建单、表格更新等操作</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div class="flow-step-number">Step 05</div>
+                        <h4>结果反馈</h4>
+                        <p>任务完成推送通知，生成执行报告，等待确认</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">效能提升</span>
+                    <h2 class="section-heading">自动化带来的改变</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">90%</div>
+                        <div class="stat-label">邮件处理时间减少</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">99%</div>
+                        <div class="stat-label">数据录入准确率</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">全天候自动运行</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">数据泄露风险</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Highlights -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术亮点</span>
+                    <h2 class="section-heading">四大技术亮点</h2>
+                </div>
+
+                <div class="highlights-grid">
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-cubes-stacked"></i>
+                        </div>
+                        <h3>统一 LLM 抽象层</h3>
+                        <p>屏蔽底层模型差异，支持灵活切换推理引擎，无需修改业务代码</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-hand-holding-medical"></i>
+                        </div>
+                        <h3>"不干扰"写入机制</h3>
+                        <p>向外部系统写入前，智能检测用户活动，避免冲突，确保操作安全</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-bolt-lightning"></i>
+                        </div>
+                        <h3>WebSocket 实时通信</h3>
+                        <p>AI 生成进度、RPA 执行状态，实时推送到前端，用户随时掌握进度</p>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-shuttle-space"></i>
+                        </div>
+                        <h3>便携化部署</h3>
+                        <p>无需复杂安装，一键启动脚本自动初始化所有服务，支持离线环境运行</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术栈</span>
+                    <h2 class="section-heading">完整技术栈</h2>
+                </div>
+
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h4>前端</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Vue 3</span>
+                            <span class="tech-item">TypeScript</span>
+                            <span class="tech-item">TailwindCSS</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>后端</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">FastAPI</span>
+                            <span class="tech-item">Python 3.10+</span>
+                            <span class="tech-item">SQLAlchemy</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>数据库</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">SQLite</span>
+                            <span class="tech-item">PostgreSQL</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>AI/LLM</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Ollama</span>
+                            <span class="tech-item">Qwen2.5 7B</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>RPA</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Selenium</span>
+                            <span class="tech-item">Playwright</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Requirements -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">系统要求</span>
+                    <h2 class="section-heading">运行环境</h2>
+                </div>
+
+                <div class="requirements-grid">
+                    <div class="requirement-card">
+                        <div class="requirement-header">
+                            <span class="requirement-badge">最低配置</span>
+                        </div>
+                        <div class="requirement-content">
+                            <div class="requirement-item">
+                                <i class="fas fa-memory"></i>
+                                <span>8GB 内存</span>
+                            </div>
+                            <div class="requirement-item">
+                                <i class="fas fa-hdd"></i>
+                                <span>20GB SSD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="requirement-card highlight">
+                        <div class="requirement-header">
+                            <span class="requirement-badge">推荐配置</span>
+                        </div>
+                        <div class="requirement-content">
+                            <div class="requirement-item">
+                                <i class="fas fa-memory"></i>
+                                <span>16GB 内存</span>
+                            </div>
+                            <div class="requirement-item">
+                                <i class="fas fa-hdd"></i>
+                                <span>50GB SSD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">对项目感兴趣？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

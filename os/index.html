@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Remi OS v2.5 — 一台装载大脑分区的复古未来电脑：作品、技能、经历、人格。AI 售前 / 解决方案工程师 Remi 的个人宇宙控制台。">
+<title>Remi OS v2.5 · 个人宇宙控制台</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS · 冻结设计系统（源自 style-exploration 定稿）
+   ============================================================ */
+:root {
+  /* 色板 · HSL 三元组 */
+  --background:        210 60% 6%;
+  --surface:           210 40% 10%;
+  --surface-2:         210 38% 13%;
+  --foreground:        210 20% 98%;
+  --muted-foreground:  214 15% 65%;
+  --accent:            199 89% 48%;
+  --border:            215 20% 22%;
+  --danger:            0 72% 51%;
+  --ok:                152 60% 45%;
+  --warn:              40 90% 55%;
+  --term-green:        160 80% 55%;
+
+  /* 玻璃 */
+  --glass-fill:        rgba(255,255,255,0.06);
+  --glass-top-edge:    rgba(255,255,255,0.12);
+  --glass-hover-fill:  rgba(255,255,255,0.12);
+  --scrim:             linear-gradient(180deg, rgba(2,12,26,0.35) 0%, rgba(2,12,26,0) 40%, rgba(2,12,26,0.55) 100%);
+
+  /* 字体 */
+  --font-display: 'Instrument Serif', 'Songti SC', 'SimSun', serif;
+  --font-body:    'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono:    'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', monospace;
+
+  /* 字阶 */
+  --text-h1: clamp(2.2rem, 5vw, 3.4rem);  --lh-h1: 1.05;
+  --text-h2: 1.6rem;                       --lh-h2: 1.15;
+  --text-body: 0.95rem;                    --lh-body: 1.7;
+  --text-sm: 13px;
+  --text-xs: 12px;
+  --text-2xs: 10px;
+  --text-caption: 0.8125rem;               --lh-caption: 1.5;  --tracking-caption: 0.08em;
+
+  /* 间距 */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+
+  /* 圆角 */
+  --radius-lg: 8px; --radius-xl: 12px; --radius-2xl: 16px; --radius-full: 999px;
+
+  /* 动效 · 窗口系统规范 3.4 */
+  --dur-window-in:   180ms;  --ease-window-in:  cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --dur-window-out:  140ms;  --ease-window-out: ease-in;
+  --dur-minimize:    200ms;  --ease-minimize:   ease-in-out;
+  --dur-bounce:      240ms;
+  --dur-hover:       120ms;
+  --dur-enter:       0.8s;
+  --dur-type:        12ms;
+  --dur-reduced:     80ms;
+
+  /* 尺寸 */
+  --titlebar-h: 44px;  --tb-btn: 28px;
+  --dock-h: 60px;
+  --win-min-w: 420px;  --win-min-h: 320px;
+
+  /* 阴影 */
+  --shadow-window: 0 24px 64px rgba(0,0,0,0.5);
+  --shadow-menu:   0 16px 40px rgba(0,0,0,0.45);
+
+  /* 层级 */
+  --z-video: 0; --z-scrim: 1; --z-desktop: 2; --z-windows: 10; --z-dock: 60;
+  --z-menu: 70; --z-toast: 80; --z-dialog: 90; --z-boot: 100; --z-matrix: 95; --z-shutdown: 110;
+}
+
+/* ============ 基础 ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; }
+button, input { font: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+::selection { background: hsl(var(--accent)); color: hsl(var(--background)); }
+:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 2px; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 6px; border: 2px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: var(--z-video); pointer-events: none; }
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: var(--z-scrim); pointer-events: none; }
+
+.mono { font-family: var(--font-mono); }
+.caption { font-size: var(--text-caption); line-height: var(--lh-caption); letter-spacing: var(--tracking-caption); text-transform: uppercase; }
+.muted { color: hsl(var(--muted-foreground)); }
+.accent { color: hsl(var(--accent)); }
+.icon { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+/* 液态玻璃（逐字冻结） */
+.liquid-glass {
+  background: rgba(255,255,255,0.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 8px 32px rgba(0,0,0,0.35);
+  position: relative;
+}
+.liquid-glass::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.4px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.lg-hidden-overflow { overflow: hidden; }
+
+@keyframes fade-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============ 开机序列 ============ */
+#boot {
+  position: fixed; inset: 0; z-index: var(--z-boot);
+  background: hsl(var(--background));
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 600ms ease;
+}
+#boot.gone { opacity: 0; pointer-events: none; }
+.boot-box { width: min(560px, 88vw); font-family: var(--font-mono); font-size: var(--text-sm); }
+.boot-lines { min-height: 10.5em; color: hsl(var(--muted-foreground)); white-space: pre-wrap; line-height: 1.9; }
+.boot-lines .ok { color: hsl(var(--term-green)); }
+.boot-lines .hl { color: hsl(var(--foreground)); }
+.boot-bar { margin-top: var(--space-5); height: 6px; border-radius: var(--radius-full); background: rgba(255,255,255,0.08); overflow: hidden; }
+.boot-bar i { display: block; height: 100%; width: 0%; background: hsl(var(--accent)); border-radius: inherit; transition: width 200ms linear; }
+.boot-skip {
+  position: fixed; right: var(--space-6); bottom: var(--space-6);
+  font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.15em;
+  color: hsl(var(--muted-foreground)); padding: 8px 14px; border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--border));
+}
+.boot-skip:hover { color: hsl(var(--foreground)); background: var(--glass-fill); }
+
+/* CRT 亮起闪光 */
+.crt-flash { position: fixed; inset: 0; z-index: calc(var(--z-boot) - 1); background: #cfe9ff; opacity: 0; pointer-events: none; }
+.crt-flash.on { animation: crt 420ms ease-out; }
+@keyframes crt { 0% { opacity: 0.9; transform: scaleY(0.002); } 40% { opacity: 0.5; transform: scaleY(1); } 100% { opacity: 0; } }
+
+/* ============ 桌面 ============ */
+#desktop { position: fixed; inset: 0; z-index: var(--z-desktop); visibility: hidden; }
+#desktop.ready { visibility: visible; }
+
+.desk-icons {
+  position: absolute; top: var(--space-8); left: var(--space-8);
+  display: grid; grid-template-columns: repeat(2, 96px); gap: var(--space-6) var(--space-4);
+}
+.desk-icon {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) 4px; border-radius: var(--radius-xl);
+  opacity: 0; transform: translateY(14px) scale(0.92);
+}
+#desktop.ready .desk-icon { animation: icon-pop 480ms cubic-bezier(0.2,0.9,0.3,1.2) both; animation-delay: calc(var(--i) * 70ms); }
+@keyframes icon-pop { to { opacity: 1; transform: none; } }
+.desk-icon .tile {
+  width: 60px; height: 60px; border-radius: var(--radius-2xl);
+  display: grid; place-items: center; color: hsl(var(--foreground));
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 6px 20px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.09);
+  transition: transform var(--dur-hover) ease-out, background var(--dur-hover) ease-out;
+}
+.desk-icon:hover .tile { transform: translateY(-4px); background: var(--glass-hover-fill); }
+.desk-icon.selected .tile { outline: 1.5px solid hsl(var(--accent)); outline-offset: 2px; }
+.desk-icon .lbl {
+  font-size: var(--text-xs); color: hsl(var(--foreground)); text-align: center; line-height: 1.35;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8); max-width: 92px;
+}
+/* 桌面身份区 */
+#deskHero {
+  position: absolute; top: 14%; left: 50%; transform: translateX(-50%);
+  text-align: center; pointer-events: none; z-index: 1;
+}
+#deskHero .hero-name {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(3.2rem, 7vw, 5.2rem); line-height: 1; letter-spacing: -1px;
+  text-shadow: 0 4px 40px rgba(2,12,26,0.65);
+}
+#deskHero .hero-slogan {
+  margin-top: var(--space-3); font-size: 1.05rem; color: hsl(var(--foreground) / 0.88);
+  text-shadow: 0 2px 16px rgba(2,12,26,0.8);
+}
+#deskHero .hero-meta {
+  margin-top: var(--space-3); font-family: var(--font-mono); font-size: var(--text-2xs);
+  letter-spacing: 0.22em; text-transform: uppercase; color: hsl(var(--muted-foreground));
+}
+#desktop.ready #deskHero > * { animation: fade-rise var(--dur-enter) ease-out both; }
+#desktop.ready #deskHero .hero-slogan { animation-delay: 150ms; }
+#desktop.ready #deskHero .hero-meta { animation-delay: 300ms; }
+
+/* 图标 hover 钩子 */
+.desk-icon { position: relative; }
+.desk-icon::after {
+  content: attr(data-tip);
+  position: absolute; left: 50%; top: -6px; z-index: 5;
+  white-space: nowrap; padding: 5px 10px; border-radius: var(--radius-lg);
+  background: hsl(var(--surface) / 0.92); border: 1px solid hsl(var(--border));
+  font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--foreground));
+  opacity: 0; transform: translate(-50%, 4px); pointer-events: none;
+  transition: opacity var(--dur-hover) ease-out, transform var(--dur-hover) ease-out;
+}
+.desk-icon:hover::after { opacity: 1; transform: translate(-50%, 0); }
+body.hint-entry .desk-icon.is-entry::after { opacity: 1; transform: translate(-50%, 0); }
+
+/* 简历.exe 霓虹呼吸 */
+.desk-icon.is-entry .tile { outline: 1.5px solid hsl(var(--accent)); outline-offset: 3px; animation: entry-pulse 2.6s ease-in-out infinite; }
+.desk-icon.is-entry .lbl { color: hsl(var(--accent)); }
+@keyframes entry-pulse {
+  50% { outline-color: hsl(var(--accent) / 0.25);
+        box-shadow: 0 0 26px hsl(var(--accent) / 0.3), inset 0 1px 1px rgba(255,255,255,0.1); }
+}
+.qr-badge {
+  position: absolute; top: -6px; right: -10px; padding: 2px 5px; border-radius: 6px;
+  background: hsl(var(--accent)); color: hsl(var(--background));
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; font-weight: 500;
+}
+.desk-icon .tilewrap { position: relative; }
+.desk-icon.hidden-app { display: none; }
+.desk-icon.hidden-app.revealed { display: flex; }
+
+/* 数字仪表盘 */
+#dash {
+  position: absolute; top: var(--space-8); right: var(--space-8);
+  padding: var(--space-4) var(--space-5); border-radius: var(--radius-2xl);
+  display: flex; gap: var(--space-6);
+  opacity: 0; transition: opacity 800ms ease 400ms;
+}
+#desktop.ready #dash { opacity: 1; }
+.dash-item { text-align: center; min-width: 64px; }
+.dash-num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 500; color: hsl(var(--foreground)); }
+.dash-num small { font-size: 0.9rem; color: hsl(var(--accent)); }
+.dash-lbl { font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); letter-spacing: 0.06em; margin-top: 2px; }
+
+/* ============ 窗口系统 ============ */
+#windows { position: fixed; inset: 0; z-index: var(--z-windows); pointer-events: none; }
+.window {
+  position: absolute; pointer-events: auto;
+  border-radius: var(--radius-2xl);
+  display: flex; flex-direction: column;
+  color: hsl(var(--foreground));
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), var(--shadow-window);
+  overflow: hidden;
+}
+.window.blurred .titlebar { opacity: 0.66; filter: saturate(0.4); }
+.window.blurred .win-body { opacity: 0.88; }
+.window.opening { animation: win-in var(--dur-window-in) var(--ease-window-in) both; }
+.window.closing { animation: win-out var(--dur-window-out) var(--ease-window-out) both; }
+.window.minimizing { animation: win-min var(--dur-minimize) var(--ease-minimize) both; }
+.window.restoring { animation: win-restore var(--dur-minimize) var(--ease-minimize) both; }
+.window.bouncing { animation: win-bounce var(--dur-bounce) ease-out; }
+@keyframes win-in  { from { opacity: 0; transform: scale(0.94) translateY(12px); } }
+@keyframes win-out { to   { opacity: 0; transform: scale(0.94) translateY(12px); } }
+@keyframes win-min { to   { opacity: 0; transform: scale(0.6) translateY(40vh); } }
+@keyframes win-restore { from { opacity: 0; transform: scale(0.6) translateY(40vh); } }
+@keyframes win-bounce { 0% { transform: scale(1); } 40% { transform: scale(1.04); } 100% { transform: scale(1); } }
+.window.maximized { border-radius: 0; }
+
+.titlebar {
+  height: var(--titlebar-h); flex: none;
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: 0 var(--space-3);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  cursor: grab; user-select: none; -webkit-user-select: none;
+  touch-action: none;
+}
+.titlebar:active { cursor: grabbing; }
+.tb-icon { width: 18px; height: 18px; display: grid; place-items: center; }
+.tb-title { font-size: var(--text-sm); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tb-controls { margin-left: auto; display: flex; gap: var(--space-2); flex: none; }
+.tb-btn {
+  width: var(--tb-btn); height: var(--tb-btn); border-radius: var(--radius-full);
+  background: var(--glass-fill); display: grid; place-items: center;
+  transition: background var(--dur-hover) ease-out;
+}
+.tb-btn:hover { background: var(--glass-hover-fill); }
+.tb-close:hover { background: hsl(var(--danger)); }
+.tb-min, .tb-max { display: grid; }
+.window.maximized .tb-max svg { transform: scale(0.85); }
+
+.win-body { flex: 1; overflow: auto; position: relative; overscroll-behavior: contain; background: linear-gradient(hsl(210 45% 8% / 0.55), hsl(210 45% 8% / 0.4)); }
+.resize-handle {
+  position: absolute; right: 0; bottom: 0; width: 20px; height: 20px;
+  cursor: nwse-resize; touch-action: none; z-index: 3;
+}
+.resize-handle::after {
+  content: ''; position: absolute; right: 5px; bottom: 5px; width: 10px; height: 10px;
+  border-right: 2px solid rgba(255,255,255,0.35); border-bottom: 2px solid rgba(255,255,255,0.35);
+  border-radius: 0 0 3px 0;
+}
+
+/* ============ Dock（任务栏替代） ============ */
+#dock {
+  position: fixed; left: 50%; bottom: var(--space-5); transform: translateX(-50%);
+  z-index: var(--z-dock);
+  border-radius: var(--radius-2xl); padding: 10px var(--space-3);
+  display: flex; align-items: center; gap: var(--space-2);
+  max-width: calc(100vw - 24px);
+}
+.dock-btn {
+  position: relative; width: 44px; height: 44px; flex: none;
+  border-radius: var(--radius-xl); background: rgba(255,255,255,0.04);
+  display: grid; place-items: center; color: hsl(var(--foreground));
+  transition: transform var(--dur-hover) ease-out, background var(--dur-hover) ease-out;
+}
+.dock-btn:hover { transform: scale(1.12); background: var(--glass-hover-fill); }
+.dock-btn .dock-dot { position: absolute; bottom: 3px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: hsl(var(--accent)); }
+.dock-btn.focused { background: rgba(255,255,255,0.10); }
+.dock-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.12); flex: none; margin: 0 2px; }
+.dock-clock {
+  font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--foreground));
+  padding: 0 var(--space-2); white-space: nowrap; cursor: default; min-width: 74px; text-align: center;
+}
+.dock-clock small { display: block; font-size: 9px; color: hsl(var(--muted-foreground)); letter-spacing: 0.08em; }
+#dockTrophy { display: none; }
+#dockTrophy.show { display: grid; }
+#dockWindows { display: flex; gap: var(--space-2); }
+
+/* 开始菜单 */
+#startMenu {
+  position: fixed; left: 50%; bottom: calc(var(--dock-h) + var(--space-5) + 8px);
+  transform: translateX(-50%) translateY(8px);
+  z-index: var(--z-menu); width: 260px;
+  border-radius: var(--radius-2xl); padding: var(--space-3);
+  opacity: 0; pointer-events: none;
+  transition: opacity 180ms ease-out, transform 180ms ease-out;
+}
+#startMenu.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+.sm-item {
+  display: flex; align-items: center; gap: var(--space-3); width: 100%;
+  padding: 10px var(--space-3); border-radius: var(--radius-lg); font-size: var(--text-sm);
+  transition: background var(--dur-hover) ease-out; text-align: left;
+}
+.sm-item:hover { background: var(--glass-hover-fill); }
+.sm-item .icon { color: hsl(var(--muted-foreground)); }
+.sm-sep { height: 1px; background: hsl(var(--border)); margin: var(--space-2) var(--space-3); }
+.sm-item.danger { color: #ff9a8a; }
+
+/* 成就墙弹窗 */
+#achvWall {
+  position: fixed; right: var(--space-5); bottom: calc(var(--dock-h) + var(--space-5) + 8px);
+  z-index: var(--z-menu); width: 300px;
+  border-radius: var(--radius-2xl); padding: var(--space-4);
+  opacity: 0; pointer-events: none; transform: translateY(8px);
+  transition: opacity 180ms ease-out, transform 180ms ease-out;
+}
+#achvWall.open { opacity: 1; pointer-events: auto; transform: none; }
+.achv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); margin-top: var(--space-3); }
+.achv-cell {
+  aspect-ratio: 1; border-radius: var(--radius-lg); background: rgba(255,255,255,0.05);
+  display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-xs);
+  color: hsl(var(--muted-foreground)); border: 1px solid rgba(255,255,255,0.06);
+}
+.achv-cell.on { color: hsl(var(--accent)); border-color: hsl(var(--accent) / 0.5); background: hsl(var(--accent) / 0.08); }
+
+/* Toast */
+#toast {
+  position: fixed; right: var(--space-5); bottom: calc(var(--dock-h) + var(--space-5) + 16px);
+  z-index: var(--z-toast); max-width: 320px;
+  border-radius: var(--radius-xl); padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm); display: flex; gap: var(--space-2); align-items: center;
+  opacity: 0; transform: translateY(10px); pointer-events: none;
+  transition: opacity 240ms ease-out, transform 240ms ease-out;
+}
+#toast.show { opacity: 1; transform: none; }
+#toast .icon { color: hsl(var(--accent)); flex: none; }
+
+/* 拟物对话框（音效询问 / 错误边界） */
+.modal-mask {
+  position: fixed; inset: 0; z-index: var(--z-dialog);
+  background: rgba(2,12,26,0.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: grid; place-items: center;
+}
+.modal {
+  width: min(380px, calc(100vw - 32px)); border-radius: var(--radius-2xl);
+  padding: var(--space-6); text-align: center;
+}
+.modal h3 { font-size: 1.3rem; margin-bottom: var(--space-2); }
+.modal p { color: hsl(var(--muted-foreground)); font-size: var(--text-sm); margin-bottom: var(--space-5); }
+.modal .row { display: flex; gap: var(--space-3); justify-content: center; }
+.btn {
+  padding: 10px 22px; border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 500;
+  transition: transform var(--dur-hover) ease-out, background var(--dur-hover) ease-out;
+}
+.btn:hover { transform: scale(1.03); }
+.btn-primary { background: hsl(var(--accent)); color: hsl(var(--background)); }
+.btn-ghost { background: var(--glass-fill); }
+
+/* 关机 */
+#shutdown {
+  position: fixed; inset: 0; z-index: var(--z-shutdown); background: #000;
+  display: none; align-items: center; justify-content: center;
+}
+#shutdown.on { display: flex; }
+.shutdown-line { width: 0; height: 2px; background: #dfe9ff; box-shadow: 0 0 24px #9fc8ff; animation: sdline 1s ease-in-out both; }
+@keyframes sdline { 0% { width: 0; height: 100vh; } 45% { width: 60vw; height: 2px; } 100% { width: 0; height: 2px; opacity: 0; } }
+
+/* Matrix 代码雨 */
+#matrixFx { position: fixed; inset: 0; z-index: var(--z-matrix); display: none; }
+#matrixFx.on { display: block; }
+
+/* ============ App 通用 ============ */
+.app-pad { padding: var(--space-5) var(--space-6); }
+.app-h { font-size: 1.25rem; margin-bottom: var(--space-1); }
+.app-sub { color: hsl(var(--muted-foreground)); font-size: var(--text-sm); margin-bottom: var(--space-4); }
+.chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.04em;
+  color: hsl(var(--muted-foreground));
+}
+.chip.acc { color: hsl(var(--accent)); border-color: hsl(var(--accent) / 0.4); background: hsl(var(--accent) / 0.08); }
+.chip.ok  { color: hsl(var(--ok));  border-color: hsl(var(--ok) / 0.4); }
+.chip.warn{ color: hsl(var(--warn));border-color: hsl(var(--warn) / 0.4); }
+
+/* 文件管理器 */
+.fm { display: flex; height: 100%; }
+.fm-tree {
+  width: 168px; flex: none; border-right: 1px solid rgba(255,255,255,0.07);
+  padding: var(--space-4) var(--space-2); overflow: auto;
+}
+.fm-tree .grp { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-caption); text-transform: uppercase; color: hsl(var(--muted-foreground)); padding: var(--space-2) var(--space-3) 4px; }
+.fm-tree button {
+  display: flex; width: 100%; text-align: left; gap: 8px; align-items: center;
+  padding: 7px var(--space-3); border-radius: var(--radius-lg); font-size: var(--text-sm);
+  color: hsl(var(--muted-foreground)); transition: all var(--dur-hover) ease-out;
+}
+.fm-tree button:hover { background: var(--glass-fill); color: hsl(var(--foreground)); }
+.fm-tree button.on { background: hsl(var(--accent) / 0.12); color: hsl(var(--accent)); }
+.fm-main { flex: 1; overflow: auto; padding: var(--space-5); }
+.fm-bar { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); font-size: var(--text-sm); }
+.fm-back { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius-lg); background: var(--glass-fill); font-size: var(--text-sm); transition: background var(--dur-hover) ease-out; }
+.fm-back:hover { background: var(--glass-hover-fill); }
+.fm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: var(--space-3); }
+.fm-item {
+  border-radius: var(--radius-xl); padding: var(--space-4) var(--space-3);
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  text-align: center; cursor: pointer;
+  transition: transform var(--dur-hover) ease-out, border-color var(--dur-hover) ease-out, background var(--dur-hover) ease-out;
+}
+.fm-item:hover { transform: translateY(-3px); border-color: hsl(var(--accent) / 0.5); background: rgba(255,255,255,0.05); }
+.fm-item .icon { color: hsl(var(--accent)); }
+.fm-item .nm { font-size: var(--text-sm); font-weight: 500; line-height: 1.4; }
+.fm-detail { max-width: 560px; margin: 0 auto; }
+.fm-hero {
+  height: 136px; border-radius: var(--radius-xl); margin-bottom: var(--space-4);
+  display: grid; place-items: center; position: relative; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.fm-hero .icon { width: 56px; height: 56px; color: rgba(255,255,255,0.85); }
+.fm-hero .wm { position: absolute; right: 10px; bottom: 6px; font-family: var(--font-mono); font-size: var(--text-2xs); color: rgba(255,255,255,0.5); letter-spacing: 0.1em; }
+.fm-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 var(--space-5); }
+.fm-desc { color: hsl(var(--muted-foreground)); font-size: var(--text-sm); line-height: 1.8; margin-bottom: var(--space-4); }
+.fm-desc b { color: hsl(var(--foreground)); font-weight: 500; }
+.fm-actions { display: flex; gap: var(--space-3); }
+
+/* 任务管理器 */
+.tm { display: flex; flex-direction: column; height: 100%; }
+.tm-chart { flex: none; height: 96px; border-bottom: 1px solid rgba(255,255,255,0.07); position: relative; }
+.tm-chart canvas { width: 100%; height: 100%; display: block; }
+.tm-chart .lbl { position: absolute; top: 8px; left: 14px; font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); letter-spacing: 0.1em; }
+.tm-table { flex: 1; overflow: auto; }
+.tm-row {
+  display: grid; grid-template-columns: minmax(150px,1.6fr) 64px 72px 76px 72px;
+  gap: var(--space-2); align-items: center;
+  padding: 8px var(--space-4); font-size: var(--text-sm); cursor: default;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.tm-row:hover { background: rgba(255,255,255,0.04); }
+.tm-row.head { position: sticky; top: 0; background: hsl(var(--surface) / 0.9); backdrop-filter: blur(8px); font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.1em; color: hsl(var(--muted-foreground)); text-transform: uppercase; cursor: pointer; z-index: 2; }
+.tm-row .cpu { font-family: var(--font-mono); color: hsl(var(--accent)); }
+.tm-row .nm { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.tm-row .nm span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-row.slacking .nm, .tm-row.slacking .cpu { color: hsl(var(--muted-foreground)); }
+.tm-detail { border-top: 1px solid rgba(255,255,255,0.07); padding: var(--space-3) var(--space-4); font-size: var(--text-sm); color: hsl(var(--muted-foreground)); background: rgba(255,255,255,0.02); }
+
+/* 终端 */
+.term { height: 100%; display: flex; flex-direction: column; background: hsl(210 50% 5%); font-family: var(--font-mono); font-size: 13px; }
+.term-out { flex: 1; overflow: auto; padding: var(--space-4); line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
+.term-out .p { color: hsl(var(--accent)); }
+.term-out .g { color: hsl(var(--term-green)); }
+.term-out .m { color: hsl(var(--muted-foreground)); }
+.term-out .w { color: hsl(var(--warn)); }
+.term-in { display: flex; align-items: center; gap: 8px; padding: 10px var(--space-4); border-top: 1px solid rgba(255,255,255,0.08); }
+.term-in .p { color: hsl(var(--accent)); flex: none; }
+.term-in input { flex: 1; background: none; border: none; outline: none; font: inherit; color: hsl(var(--term-green)); caret-color: hsl(var(--accent)); }
+.term-chips { display: none; gap: 6px; padding: 6px var(--space-4); border-top: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
+.term-chips .chip { flex: none; cursor: pointer; }
+
+/* 关于我 */
+.about-tabs { display: flex; gap: 4px; padding: var(--space-3) var(--space-4) 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.about-tabs button {
+  padding: 8px 14px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  font-size: var(--text-sm); color: hsl(var(--muted-foreground));
+  transition: all var(--dur-hover) ease-out;
+}
+.about-tabs button.on { color: hsl(var(--foreground)); background: rgba(255,255,255,0.06); }
+.about-page { padding: var(--space-5) var(--space-6); }
+.about-hero { display: flex; gap: var(--space-5); align-items: center; margin-bottom: var(--space-5); }
+.avatar {
+  width: 84px; height: 84px; border-radius: var(--radius-2xl); flex: none;
+  display: grid; place-items: center; overflow: hidden;
+  background: linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(260 60% 30% / 0.5));
+  border: 1px solid rgba(255,255,255,0.12);
+  font-family: var(--font-display); font-size: 2rem; color: hsl(var(--foreground));
+}
+.tl { position: relative; padding-left: 22px; }
+.tl::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: hsl(var(--border)); }
+.tl-item { position: relative; padding-bottom: var(--space-5); }
+.tl-item::before { content: ''; position: absolute; left: -21px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: hsl(var(--border)); }
+.tl-item.now::before { background: hsl(var(--accent)); box-shadow: 0 0 12px hsl(var(--accent)); }
+.tl-ver { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--accent)); letter-spacing: 0.1em; }
+.tl-title { font-weight: 500; margin: 2px 0; }
+.tl-desc { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); line-height: 1.7; }
+.album { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+.album .ph {
+  aspect-ratio: 1; border-radius: var(--radius-lg); cursor: zoom-in;
+  display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--font-mono); font-size: var(--text-2xs); color: rgba(255,255,255,0.55);
+  transition: transform var(--dur-hover) ease-out;
+}
+.album .ph:hover { transform: scale(1.03); }
+#lightbox { position: fixed; inset: 0; z-index: var(--z-dialog); background: rgba(2,12,26,0.8); display: none; place-items: center; cursor: zoom-out; }
+#lightbox.on { display: grid; }
+#lightbox .ph-big { width: min(70vmin, 420px); aspect-ratio: 1; border-radius: var(--radius-2xl); display: grid; place-items: center; font-family: var(--font-mono); color: rgba(255,255,255,0.6); }
+
+/* 简历 */
+.resume-doc { max-width: 620px; margin: 0 auto; padding: var(--space-6) var(--space-6) var(--space-8); font-size: var(--text-sm); }
+.resume-doc .r-name { font-family: var(--font-display); font-size: 2rem; }
+.resume-doc .r-intent { color: hsl(var(--accent)); font-size: var(--text-sm); margin: 4px 0 2px; }
+.resume-doc .r-meta { color: hsl(var(--muted-foreground)); font-size: var(--text-xs); font-family: var(--font-mono); }
+.resume-doc h4 {
+  font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-caption);
+  text-transform: uppercase; color: hsl(var(--muted-foreground));
+  margin: var(--space-6) 0 var(--space-3); padding-bottom: 6px; border-bottom: 1px solid hsl(var(--border));
+}
+.resume-doc ul { list-style: none; }
+.resume-doc li { padding-left: 16px; position: relative; margin-bottom: 6px; line-height: 1.8; color: hsl(210 18% 88%); }
+.resume-doc li::before { content: '▸'; position: absolute; left: 0; color: hsl(var(--accent)); }
+.resume-doc li b, .resume-doc .hl { color: hsl(var(--foreground)); font-weight: 500; }
+.r-job { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; margin-bottom: var(--space-2); }
+.r-job .co { font-weight: 600; }
+.r-job .pd { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); }
+.resume-foot { margin-top: var(--space-8); padding-top: var(--space-4); border-top: 1px dashed hsl(var(--border)); display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.resume-explore { color: hsl(var(--muted-foreground)); font-size: var(--text-sm); }
+.resume-explore button { color: hsl(var(--accent)); font-size: var(--text-sm); }
+
+/* 联系 */
+.contact-card { max-width: 380px; margin: var(--space-6) auto; text-align: center; padding: var(--space-8) var(--space-6); }
+.contact-card .avatar { margin: 0 auto var(--space-4); }
+.copy-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--space-5); padding: 10px 20px; border-radius: var(--radius-full); background: hsl(var(--accent)); color: hsl(var(--background)); font-weight: 500; font-size: var(--text-sm); transition: transform var(--dur-hover) ease-out; }
+.copy-btn:hover { transform: scale(1.04); }
+.socials { display: flex; justify-content: center; gap: var(--space-3); margin-top: var(--space-5); }
+.socials button { padding: 8px 14px; border-radius: var(--radius-lg); background: var(--glass-fill); font-size: var(--text-xs); font-family: var(--font-mono); color: hsl(var(--muted-foreground)); transition: all var(--dur-hover) ease-out; }
+.socials button:hover { color: hsl(var(--foreground)); background: var(--glass-hover-fill); transform: scale(1.06); }
+
+/* 回收站 */
+.recycle-zone { position: relative; height: 100%; overflow: hidden; padding: var(--space-5); }
+.recycle-head { text-align: center; color: hsl(var(--muted-foreground)); font-size: var(--text-sm); margin-bottom: var(--space-2); }
+.note {
+  position: absolute; width: 148px; padding: var(--space-3); border-radius: 4px 4px 14px 4px;
+  font-size: var(--text-xs); line-height: 1.6; color: hsl(225 30% 12%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35); cursor: grab; user-select: none; -webkit-user-select: none;
+  touch-action: none; transition: box-shadow var(--dur-hover) ease-out;
+}
+.note:active { cursor: grabbing; box-shadow: 0 16px 32px rgba(0,0,0,0.5); }
+.recycle-foot { position: absolute; bottom: var(--space-4); left: 0; right: 0; text-align: center; font-size: var(--text-2xs); font-family: var(--font-mono); color: hsl(var(--muted-foreground)); pointer-events: none; }
+
+/* 证据墙 */
+.ev-list { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+.ev-item { border-radius: var(--radius-xl); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: var(--space-4); cursor: pointer; transition: border-color var(--dur-hover) ease-out; }
+.ev-item:hover { border-color: hsl(var(--accent) / 0.4); }
+.ev-claim { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-sm); font-weight: 500; }
+.ev-src { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px dashed hsl(var(--border)); font-family: var(--font-mono); font-size: var(--text-xs); color: hsl(var(--muted-foreground)); line-height: 1.8; display: none; }
+.ev-item.open .ev-src { display: block; }
+.badge { flex: none; font-family: var(--font-mono); font-size: var(--text-2xs); padding: 2px 8px; border-radius: var(--radius-full); letter-spacing: 0.06em; }
+.badge.a { color: hsl(var(--ok)); border: 1px solid hsl(var(--ok) / 0.5); background: hsl(var(--ok) / 0.08); }
+.badge.b { color: hsl(var(--warn)); border: 1px solid hsl(var(--warn) / 0.5); background: hsl(var(--warn) / 0.08); }
+
+/* 学习进行时 */
+.learn-list { padding: var(--space-5) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+.learn-card { border-radius: var(--radius-xl); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: var(--space-4) var(--space-5); }
+.learn-top { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 2px var(--space-3); margin-bottom: var(--space-2); }
+.learn-name { font-weight: 500; }
+.learn-meta { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); }
+.learn-bar { height: 6px; border-radius: var(--radius-full); background: rgba(255,255,255,0.08); overflow: hidden; margin-top: var(--space-3); }
+.learn-bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: hsl(var(--accent)); }
+.learn-bar.ind i { width: 40%; background: linear-gradient(90deg, transparent, hsl(var(--accent)), transparent); animation: ind 1.6s ease-in-out infinite; }
+@keyframes ind { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }
+
+/* Demo 沙盒 */
+.sandbox { display: flex; flex-direction: column; height: 100%; }
+.sb-bar { flex: none; display: flex; align-items: center; gap: var(--space-3); padding: 10px var(--space-4); border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
+.sb-bar .hint { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); letter-spacing: 0.04em; }
+.sb-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius-lg); background: var(--glass-fill); font-size: var(--text-sm); transition: background var(--dur-hover) ease-out; }
+.sb-btn:hover { background: var(--glass-hover-fill); }
+.sb-stage { flex: 1; overflow: auto; padding: var(--space-6); }
+.rag-pipe { display: flex; flex-direction: column; gap: var(--space-3); max-width: 520px; margin: 0 auto; }
+.rag-q { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+.rag-q input { flex: 1; height: 40px; padding: 0 14px; border-radius: var(--radius-lg); background: var(--glass-fill); border: 1px solid hsl(var(--border)); font-size: var(--text-sm); outline: none; }
+.rag-q input:focus { border-color: hsl(var(--accent)); box-shadow: 0 0 0 2px hsl(var(--accent) / 0.4); }
+.rag-q .btn-primary { border-radius: var(--radius-lg); }
+.rag-node { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-xl); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); opacity: 0.38; transition: all 240ms ease-out; }
+.rag-node.run { opacity: 1; border-color: hsl(var(--accent) / 0.6); box-shadow: 0 0 24px hsl(var(--accent) / 0.15); }
+.rag-node.done { opacity: 1; border-color: hsl(var(--ok) / 0.4); }
+.rag-node .st { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); width: 20px; flex: none; }
+.rag-node.done .st { color: hsl(var(--ok)); }
+.rag-node .bd { flex: 1; }
+.rag-node .t { font-size: var(--text-sm); font-weight: 500; }
+.rag-node .d { font-size: var(--text-xs); color: hsl(var(--muted-foreground)); }
+.rag-node .n { font-family: var(--font-mono); font-size: var(--text-sm); color: hsl(var(--accent)); flex: none; }
+.rag-result { margin-top: var(--space-4); padding: var(--space-4); border-radius: var(--radius-xl); border: 1px solid hsl(var(--ok) / 0.4); background: hsl(var(--ok) / 0.06); font-size: var(--text-sm); display: none; }
+.rag-result.on { display: block; animation: fade-rise 400ms ease-out both; }
+
+/* ============ Demo 通用排版 ============ */
+.sb-stage > * { max-width: 980px; margin-left: auto; margin-right: auto; }
+.demo-head { margin-bottom: var(--space-5); }
+.demo-head h3 { font-size: 1.35rem; }
+.demo-head p { color: hsl(var(--muted-foreground)); font-size: var(--text-sm); margin-top: 6px; max-width: 46em; }
+.demo-grid { display: grid; grid-template-columns: 300px 1fr; gap: var(--space-5); align-items: start; }
+.demo-card { border-radius: var(--radius-xl); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); padding: var(--space-4) var(--space-5); }
+.demo-card > .t { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-caption); text-transform: uppercase; color: hsl(var(--muted-foreground)); margin-bottom: var(--space-4); }
+.demo-row { margin-bottom: var(--space-4); }
+.demo-row:last-child { margin-bottom: 0; }
+.demo-row label { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--text-sm); color: hsl(var(--muted-foreground)); margin-bottom: 8px; }
+.demo-row label b { color: hsl(var(--foreground)); font-family: var(--font-mono); font-weight: 500; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 4px; background: rgba(255,255,255,0.12); outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: hsl(var(--accent)); cursor: pointer; box-shadow: 0 0 10px hsl(var(--accent) / 0.5); }
+input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none; border-radius: 50%; background: hsl(var(--accent)); cursor: pointer; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips .chip { cursor: pointer; transition: all var(--dur-hover) ease-out; }
+.chips .chip.on { color: hsl(var(--accent)); border-color: hsl(var(--accent) / 0.5); background: hsl(var(--accent) / 0.12); }
+.demo-log { font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1.9; color: hsl(var(--muted-foreground)); margin-top: var(--space-3); min-height: 1.9em; }
+.demo-log .ok { color: hsl(var(--ok)); }
+.demo-log .hl { color: hsl(var(--foreground)); }
+.demo-kpis { display: flex; gap: var(--space-4); margin-top: var(--space-5); flex-wrap: wrap; }
+.demo-kpi { flex: 1; min-width: 130px; border-radius: var(--radius-xl); background: hsl(var(--accent) / 0.07); border: 1px solid hsl(var(--accent) / 0.25); padding: var(--space-3) var(--space-4); }
+.demo-kpi .v { font-family: var(--font-mono); font-size: 1.35rem; color: hsl(var(--accent)); }
+.demo-kpi .l { font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); margin-top: 2px; letter-spacing: 0.04em; }
+.demo-note { margin-top: var(--space-5); font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); letter-spacing: 0.04em; }
+.demo-checks { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-3); }
+.demo-checks .ok { color: hsl(var(--ok)); font-size: var(--text-xs); font-family: var(--font-mono); }
+.meal-row { display: grid; grid-template-columns: 44px 1fr auto; gap: var(--space-3); align-items: center; padding: 10px 0; border-bottom: 1px dashed hsl(var(--border) / 0.6); }
+.meal-row:last-child { border-bottom: none; }
+.meal-row .mm { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--accent)); }
+.meal-row .mn { font-size: var(--text-sm); }
+.meal-row .mv { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); text-align: right; line-height: 1.6; }
+/* 镜面价值卡 */
+.val-card { border-radius: var(--radius-xl); padding: var(--space-5); border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); transition: all 300ms ease; }
+.val-card.hot { border-color: hsl(var(--accent) / 0.6); box-shadow: 0 0 32px hsl(var(--accent) / 0.18); background: hsl(var(--accent) / 0.09); }
+.val-card.dim { opacity: 0.45; filter: saturate(0.5); }
+.val-big { font-family: var(--font-mono); font-size: 2.2rem; color: hsl(var(--accent)); line-height: 1; }
+/* 窗口切换器 */
+#switcher { position: fixed; inset: 0; z-index: var(--z-dialog); display: none; place-items: center; background: rgba(2,12,26,0.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+#switcher.on { display: grid; }
+.sw-panel { display: flex; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-2xl); max-width: calc(100vw - 32px); }
+.sw-item { width: 96px; padding: var(--space-3) 6px; border-radius: var(--radius-xl); text-align: center; color: hsl(var(--muted-foreground)); border: 1px solid transparent; transition: all var(--dur-hover) ease-out; }
+.sw-item.on { color: hsl(var(--foreground)); background: rgba(255,255,255,0.08); border-color: hsl(var(--accent) / 0.5); }
+.sw-item .nm { font-size: var(--text-2xs); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 视图切换过渡 */
+@keyframes view-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.view-in { animation: view-in 200ms ease-out both; }
+.crumb { color: hsl(var(--accent)); cursor: pointer; }
+.crumb:hover { text-decoration: underline; }
+
+/* 隐藏 App 星空 */
+.cosmos { position: relative; height: 100%; overflow: hidden; background: #030a12; }
+.cosmos canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cosmos-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-6); }
+.cosmos-inner h2 { font-size: 1.8rem; margin-bottom: var(--space-3); }
+
+@media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } }
+
+/* ============ 平板 769–1100（纯 CSS 增量，不动窗口逻辑） ============ */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .window { max-width: 96vw !important; max-height: 88vh !important; }
+  #deskHero .hero-name { font-size: 3.2rem; }
+  #deskHero .hero-slogan { font-size: 0.95rem; }
+  .desk-icons { grid-template-columns: repeat(3, 96px); }
+}
+
+/* ============ 小屏 ≤480 ============ */
+@media (max-width: 480px) {
+  #deskHero .hero-name { font-size: 2rem; }
+  #deskHero .hero-slogan { font-size: 0.78rem; }
+  .desk-icons { grid-template-columns: repeat(3, 1fr); padding-top: 168px; }
+  .desk-icon .tile { width: 50px; height: 50px; }
+  .desk-icon .nm { font-size: 10px; }
+  #tabbar .dock-btn { width: 44px; }
+}
+
+/* ============ 移动端掌机模式 ============ */
+#tabbar { display: none; }
+@media (max-width: 768px) {
+  :root { --dock-h: 56px; }
+  #deskHero { top: 6%; }
+  #deskHero .hero-name { font-size: 2.6rem; }
+  #deskHero .hero-slogan { font-size: 0.9rem; }
+  #deskHero .hero-meta { letter-spacing: 0.12em; }
+  .desk-icon::after { display: none; }
+  .desk-icons {
+    inset: 0; top: auto; padding: 200px var(--space-5) 120px;
+    grid-template-columns: repeat(4, 1fr); gap: var(--space-5) var(--space-2);
+    align-content: start; justify-items: center; overflow: auto; max-height: 100%;
+  }
+  .desk-icon .tile { width: 56px; height: 56px; }
+  #dash { display: none; }
+  .window { inset: 0 !important; width: 100% !important; height: 100% !important; border-radius: 0; transform: none !important; }
+  .window.mobile-in { animation: pg-in 250ms ease-out both; }
+  @keyframes pg-in { from { transform: translateY(6%); opacity: 0; } }
+  .resize-handle, .tb-min, .tb-max { display: none !important; }
+  .titlebar { cursor: default; }
+  #dock { display: none; }
+  #tabbar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-dock);
+    height: calc(var(--dock-h) + env(safe-area-inset-bottom)); padding: 6px var(--space-2) calc(6px + env(safe-area-inset-bottom));
+    gap: 6px; border-radius: 0; overflow-x: auto;
+  }
+  #tabbar .dock-btn { width: 48px; height: 100%; border-radius: var(--radius-lg); }
+  #startMenu { left: var(--space-2); right: var(--space-2); width: auto; transform: translateY(8px); bottom: calc(var(--dock-h) + 8px); }
+  #startMenu.open { transform: none; }
+  #achvWall { right: var(--space-2); left: var(--space-2); width: auto; bottom: calc(var(--dock-h) + 8px); }
+  #toast { right: var(--space-2); left: var(--space-2); max-width: none; bottom: calc(var(--dock-h) + 12px); }
+  .term-chips { display: flex; }
+  .fm-tree { width: 118px; }
+  .tm-row { grid-template-columns: minmax(110px,1.4fr) 52px 60px 62px; }
+  .tm-row .c-mem { display: none; }
+}
+
+/* ============ Reduced Motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: var(--dur-reduced) !important; animation-iteration-count: 1 !important; transition-duration: var(--dur-reduced) !important; }
+  #desktop.ready .desk-icon { animation-name: fade-rise; }
+  .window.opening, .window.closing, .window.minimizing, .window.restoring { animation-name: fade-rise; }
+  .learn-bar.ind i { animation: none; width: 30%; }
+}
+
+/* ============ 打印（简历专用） ============ */
+#printArea { display: none; }
+@media print {
+  body > *:not(#printArea) { display: none !important; }
+  #printArea { display: block; color: #111; background: #fff; font-size: 12px; }
+  #printArea .resume-doc { max-width: none; padding: 0; }
+  #printArea .r-name, #printArea .hl, #printArea li b { color: #000; }
+  #printArea .r-intent { color: #333; }
+  #printArea li, #printArea .r-meta { color: #333; }
+  #printArea h4 { color: #666; border-color: #ccc; }
+  #printArea .resume-foot { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<video class="bg-video" autoplay loop muted playsinline aria-hidden="true">
+  <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" type="video/mp4">
+</video>
+<div class="scrim" aria-hidden="true"></div>
+
+<!-- ============ SVG 图标库（Lucide 血统描边 · 24 网格） ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0Z"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><g transform="translate(-0.5 2.5) scale(0.83)"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/></g><path d="M19.5 1.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8Z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+  <symbol id="i-vol2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+  <symbol id="i-volx" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-min" viewBox="0 0 24 24"><line x1="7" y1="12" x2="17" y2="12"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="7" y1="7" x2="17" y2="17"/><line x1="17" y1="7" x2="7" y2="17"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+  <symbol id="i-power" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></symbol>
+</svg>
+
+<!-- ============ 开机 ============ -->
+<div id="boot" role="status" aria-label="开机中">
+  <div class="boot-box">
+    <div class="boot-lines" id="bootLines"></div>
+    <div class="boot-bar"><i id="bootBar"></i></div>
+  </div>
+  <button class="boot-skip" id="bootSkip" type="button">SKIP ▶</button>
+</div>
+<div class="crt-flash" id="crtFlash"></div>
+
+<!-- ============ 桌面 ============ -->
+<div id="desktop">
+  <div id="deskHero">
+    <div class="hero-name">Remi.</div>
+    <div class="hero-slogan">会造 AI 产品，也会卖方案。</div>
+    <div class="hero-meta">REMI OS V2.5 · 深圳/广州 · <span id="uptime">UPTIME 00:00:00</span></div>
+  </div>
+  <div class="desk-icons" id="deskIcons" role="group" aria-label="桌面图标"></div>
+  <div id="dash" class="liquid-glass" aria-label="数字仪表盘"></div>
+</div>
+
+<!-- ============ 窗口层 ============ -->
+<div id="windows"></div>
+
+<!-- ============ Dock / 移动端 Tab 栏 ============ -->
+<nav id="dock" class="liquid-glass" role="menubar" aria-label="Dock">
+  <button class="dock-btn" id="dockStart" aria-label="开始菜单" title="开始"><svg class="icon" width="20" height="20"><use href="#i-grid"/></svg></button>
+  <div class="dock-sep"></div>
+  <div id="dockWindows"></div>
+  <div class="dock-sep"></div>
+  <button class="dock-btn" id="dockTrophy" aria-label="成就墙" title="成就"><svg class="icon" width="20" height="20"><use href="#i-trophy"/></svg></button>
+  <button class="dock-btn" id="dockMute" aria-label="音效开关" title="音效"><svg class="icon" width="20" height="20"><use href="#i-volx"/></svg></button>
+  <div class="dock-clock" id="dockClock" title="">--:--</div>
+</nav>
+<nav id="tabbar" class="liquid-glass" aria-label="已打开的应用">
+  <button class="dock-btn" id="tabStart" aria-label="应用抽屉"><svg class="icon" width="20" height="20"><use href="#i-grid"/></svg></button>
+  <div id="tabWindows" style="display:flex;gap:6px;"></div>
+</nav>
+
+<!-- 开始菜单 -->
+<div id="startMenu" class="liquid-glass lg-hidden-overflow" role="menu" aria-label="开始菜单"></div>
+<!-- 成就墙 -->
+<div id="achvWall" class="liquid-glass lg-hidden-overflow"></div>
+<!-- Toast -->
+<div id="toast" class="liquid-glass" role="status"></div>
+<!-- 灯箱 -->
+<div id="lightbox"><div class="ph-big liquid-glass" id="lightboxInner"></div></div>
+<!-- Matrix -->
+<canvas id="matrixFx"></canvas>
+<!-- 窗口切换器 -->
+<div id="switcher"><div class="sw-panel liquid-glass" id="switcherPanel"></div></div>
+<!-- 关机 -->
+<div id="shutdown"><div class="shutdown-line"></div></div>
+<!-- 打印区 -->
+<div id="printArea"></div>
+
+<noscript>
+  <div style="position:fixed;inset:0;background:#060F18;color:#F9FAFB;padding:40px;font-family:sans-serif;overflow:auto;z-index:999;">
+    <h1>Remi · AI 售前 / 解决方案工程师</h1>
+    <p>深圳/广州 · 一周内到岗 · 2 年售前 × AI Coding 实战</p>
+    <h3>核心能力</h3>
+    <ul><li>解决方案编写与宣讲：累计培训 1300+ 家公司，80+ 项目汇报</li>
+    <li>AI 产品构建：独立交付 12+ 玲珑系列产品（Agent / RAG / 知识库）</li>
+    <li>RAG 全链路：119 文件建库 724 秒，检索实测 5 问 4 中</li></ul>
+    <h3>经历</h3>
+    <p>售前工程师 · 广东保伦电子（2024–2026）：主导 90 万级指挥大厅项目，20+ 项目验收答辩。</p>
+    <p>独立开发者 · 玲珑 AI 产品矩阵（2025–2026）：20+ 可演示 AI 产物。</p>
+    <p>（启用 JavaScript 可体验完整 Remi OS 桌面）</p>
+  </div>
+</noscript>
+
+<script>
+'use strict';
+/* ============================================================
+   CONTENT · 全站唯一内容源（对应蓝图第 7 章 content.ts）
+   数据口径：J0 个人画像 / J1 能力矩阵 / L0 素材盘点（已确认）
+   TODO(林公子): 替换 email / 真实姓名 / 自媒体链接
+   ============================================================ */
+const CONTENT = {
+  name: 'Remi',
+  realName: '林润基',
+  os: 'REMI OS',
+  version: 'v2.5',
+  slogan: '会造 AI 产品，也会卖方案。',
+  city: '深圳 / 广州',
+  email: '2782084545@qq.com',        // TODO 占位：替换真实邮箱
+  availability: '一周内到岗',
+  targetRole: 'AI 售前 / AI 解决方案工程师',
+  bio: '26 岁，一人公司（OPC）。前两年在音视频行业做售前：写方案、跑展会、向客户与专家评审把方案讲清楚——累计培训 1300+ 家公司，汇报 80+ 个项目，通过 20+ 场验收答辩。2025 年起用 AI Coding 独立构建玲珑产品矩阵：Skill 框架、教学引擎、食谱系统、RAG 检索栈，12 个产品从想法跑到落地。现在把「会造 AI 产品 + 会卖方案」这个稀缺组合，带去 AI 售前 / 解决方案岗位。',
+  statistics: [
+    { n: 1300, suffix: '+', label: '家公司方案培训' },
+    { n: 80,   suffix: '+', label: '项目汇报' },
+    { n: 20,   suffix: '+', label: '项目验收答辩' },
+    { n: 20,   suffix: '+', label: '玲珑系列产物' },
+    { n: 1529, suffix: '',  label: 'RAG 向量点 · 724s 建库' },
+  ],
+  skills: [
+    { name: '解决方案编写与宣讲', user: 'biz',  cpu: 95, mem: '2年', status: '运行中', note: '1300+ 家公司培训、80+ 场项目汇报的直接实证。' },
+    { name: '客户需求挖掘',       user: 'biz',  cpu: 92, mem: '2年', status: '运行中', note: '七维度客户个性化方案：角色→场景→痛点→预算→决策链→时限→风险。' },
+    { name: '项目推进与验收',     user: 'biz',  cpu: 90, mem: '2年', status: '运行中', note: '20+ 项目落地验收，专家评审会汇报方案原理并答辩。' },
+    { name: 'AI Coding 全家桶',   user: 'dev',  cpu: 90, mem: '2年', status: '运行中', note: 'Claude / Codex / 智谱：提需求 + 审代码，独立交付完整产品。' },
+    { name: 'Agent 产品构建',     user: 'dev',  cpu: 88, mem: '1年', status: '运行中', note: '玲珑矩阵 = Agent 产品群，自建 LUBAN 框架而非依赖低代码平台。' },
+    { name: 'Prompt Engineering', user: 'dev',  cpu: 85, mem: '1年', status: '运行中', note: '生产环境真用：30+ 个纯标准库工具全部由提示词工程驱动。' },
+    { name: 'RAG 检索增强',       user: 'dev',  cpu: 82, mem: '1年', status: '运行中', note: '自建生产级检索栈：Qdrant + BGE 本地模型，1529 向量点实测。' },
+    { name: 'MCP 协议',           user: 'dev',  cpu: 80, mem: '1年', status: '运行中', note: '2026 稀缺技能，工具统一接入协议实战。' },
+    { name: '大模型边界理解',     user: 'both', cpu: 78, mem: '1年', status: '运行中', note: '知道 AI 能做什么，更知道哪里不该用 AI——敢说「这里不适合」。' },
+    { name: 'Python',             user: 'dev',  cpu: 75, mem: '1年', status: '运行中', note: '纯标准库工具链：测试、覆盖率、文档生成全自助。' },
+    { name: '私有化部署（GPU / CUDA）',  user: 'dev',  cpu: 30, mem: '<1年', status: '学习中', note: 'RAG 全链路 CPU 跑通，GPU 私有化产线已开（玲珑学海 2026-09-04 开班）。' },
+    { name: '摸鱼.exe',           user: 'sys',  cpu: 0,  mem: '—',  status: '无响应', note: '此进程无响应。它只是在休息。', slack: true },
+  ],
+  projects: [
+    { id: 'rag',    name: 'RAG 全链路检索栈', year: 2026, type: 'AI 产品', icon: 'i-search',
+      tagline: '自建生产级检索：从 119 个文件到 5 问 4 中。',
+      desc: '不依赖 LangChain/Dify，用 <b>Qdrant 二进制 + BGE 本地模型</b>自建完整 RAG 栈：<b>119 文件 → 1527 切块 → 1529 向量点，建库 724 秒</b>，检索实测 <b>5 问 4 中</b>。四模式对比（naive / hybrid / rerank / agentic）脚本随时可跑。',
+      tags: ['RAG', 'Qdrant', 'BGE', 'Python', 'CPU 推理'], demo: 'rag-pipeline' },
+    { id: 'luban',  name: '玲珑造物 LUBAN', year: 2026, type: 'AI 产品', icon: 'i-zap',
+      tagline: '造 Skill 的 Skill——八层框架 + 三层防走偏。',
+      desc: '玲珑生态的母机：标准化 Skill 生产框架。八层结构、主控 + 状态注册表 + Hook 三层防走偏、TDD 覆盖率门控 <b>85%+</b>。已孵化 12+ 个子产品。',
+      tags: ['Skill 框架', 'FSM', 'TDD', 'Prompt 工程'] },
+    { id: 'mirror', name: '玲珑镜面 Mirror', year: 2026, type: 'AI 产品', icon: 'i-grid',
+      tagline: '所有 Skill 的通用展示层，五层架构论文支撑。',
+      desc: '读任何 Skill 产出的结构化数据，价值感知渲染（value = layer × recency × frequency）。五层架构每层有论文依据（MemLens / Drillboards / Local-first 等 5 篇）。<b>171 项测试零回退</b>，玲珑X光数据零适配直通。',
+      tags: ['TypeScript', 'Vega-Lite', 'Local-first', 'Obsidian'], demo: 'mirror-value' },
+    { id: 'brain',  name: '第二大脑', year: 2025, type: '体系', icon: 'i-brain',
+      tagline: 'Obsidian 知识库 + 画像/日记/轨迹三环自进化。',
+      desc: '00-10 编号目录体系 + scripts 校验链：核心画像置信度管理、30 天滑动窗口、执行轨迹复盘。本站的全部内容口径都出自这里。',
+      tags: ['Obsidian', 'Python', '知识管理', '自进化'] },
+    { id: 'xuehai', name: '玲珑学海 Sea-study', year: 2026, type: 'AI 产品', icon: 'i-book',
+      tagline: '真学习教学引擎：费曼双检查点，不给突击卡。',
+      desc: '「学会 = 能独立做出产物；学懂 = 能用自己的话答为什么」。<b>110 项测试 96% 覆盖</b>。正在用它补 GPU 私有化部署短板。',
+      tags: ['教学引擎', '费曼框架', 'TDD'] },
+    { id: 'shiyang', name: '玲珑食养', year: 2026, type: 'AI 产品', icon: 'i-star',
+      tagline: 'CP-SAT 约束求解食谱推荐，循证强制校验。',
+      desc: '中医食疗 × 营养学 × Google CP-SAT 约束求解。所有论断强制来源标注（代码级 __post_init__ 校验），<b>448 项测试 94% 覆盖</b>。',
+      tags: ['CP-SAT', '约束求解', '循证底线'], demo: 'shiyang-solver' },
+    { id: 'xray',   name: '玲珑X光 X-ray', year: 2026, type: '工程工具', icon: 'i-search',
+      tagline: '代码 X 光：安全审查数据直通 Mirror 可视化。',
+      desc: 'v2.0。radar 按 severity / 严重度×置信度矩阵 / 修复看板三视图，导出数据被玲珑镜面零适配消费，验证「通用展示层」成立。',
+      tags: ['静态分析', '安全', 'Python'] },
+    { id: 'longjob', name: '玲珑职举 LongJob', year: 2026, type: 'AI 产品', icon: 'i-file',
+      tagline: '求职托举流水线：L0→L5，30+ 个纯标准库工具。',
+      desc: 'JD 解析 → 命中映射 → 简历定制 → 作品集内容包 → Demo 工厂 → 面试弹药。四模板简历引擎 + ATS 文本层校验 + 伦理护栏三查。覆盖率门槛 <b>90%</b>。<b>本作品集站的内容包正是它的 L3 产物。</b>',
+      tags: ['FSM', 'stdlib', 'ATS', '流水线'], demo: 'longjob-pipeline' },
+    { id: 'huodai', name: '货代提效工具', year: 2026, type: '工程工具', icon: 'i-refresh',
+      tagline: '真实业务 PoC：邮箱录入 / 跟单 / 客户回复自动化。',
+      desc: '朋友货代公司的人工痛点：频繁点击录入、跟单状态分散、客户问题重复回复。独立完成的功能可用 PoC，「业务 → AI 转译」的现场案例。',
+      tags: ['PoC', '自动化', 'RAG 应用'], demo: 'huodai-roi' },
+    { id: 'secret', name: '玲珑秘库', year: 2026, type: 'AI 产品', icon: 'i-file',
+      tagline: '企业 LLM 隐私隔离（进行中）。',
+      desc: '让企业数据不出内网也能用大模型：私有化检索 + 权限分级的隔离层方案。状态：设计中。',
+      tags: ['隐私', '企业级', '设计中'] },
+    { id: 'junji',  name: '玲珑军机处', year: 2026, type: '工程工具', icon: 'i-terminal',
+      tagline: '任务执行器 + 战报系统。',
+      desc: '多 Agent 任务派发与战报沉淀：每次行动留痕，每周自动生成战报复盘。',
+      tags: ['Agent', '自动化'] },
+    { id: 'voice',  name: '玲珑语 Voice-core', year: 2026, type: 'AI 产品', icon: 'i-vol2',
+      tagline: '全双工语音通道：可插话、可打断、流式回显。',
+      desc: '设计稿。把「能打断」列为硬约束的语音交互通道——单工桥接不是交流。',
+      tags: ['全双工', '实时交互', '设计中'] },
+  ],
+  timeline: [
+    { ver: 'v1.0', year: '2024', title: '入行 · 音视频售前工程师', desc: '广东保伦电子。方案 PPT、展会、汇报、验收答辩全链路。' },
+    { ver: 'v1.8', year: '2024–2026', title: '扛下 90 万级指挥大厅项目', desc: '汕头综合保税区。两年累计：1300+ 家公司培训、80+ 项目汇报、20+ 验收答辩。' },
+    { ver: 'v2.0', year: '2025', title: 'AI Coding 觉醒', desc: 'Claude / Codex / 智谱。第二大脑开建，玲珑系列立项——一人公司运转起来。' },
+    { ver: 'v2.2', year: '2026', title: 'RAG 全链路跑通', desc: '119 文件 → 1529 向量点，724 秒建库，检索 5 问 4 中。玲珑矩阵 12+ 产品。' },
+    { ver: 'v2.5', year: '2026', title: 'RemiOS 上线 · 转向 AI 售前', desc: '把「会造 AI 产品 + 会卖方案」的组合，卖给需要的人。就是你正在看的这台电脑。', now: true },
+  ],
+  recycleNotes: [
+    { text: '把简历做成 NFT —— 2024 年的风已经过去了。', color: '#FFE9A8' },
+    { text: '用区块链给方案存证 —— 客户不关心，只关心能不能用。', color: '#BFE3FF' },
+    { text: '给回收站再做一个回收站 —— 递归地狱，打住。', color: '#FFD2E9' },
+    { text: '全自动怼杠精机器人 —— 有违和气生财。', color: '#C9F2D8' },
+    { text: '凌晨三点写的宏伟计划 —— 睡醒再说。', color: '#E4D7FF' },
+  ],
+  revivingProject: '统一作品站（就是你脚下这台电脑）',
+  evidence: [
+    { claim: '培训 1300+ 家公司', level: 'a', src: '来源：07-知识沉淀/求职/个人画像.md · [数据] 级 · 用户口述确认（data_date 2026-08-05）\n口径：七维度客户个性化方案培训，累计计数。' },
+    { claim: '主导 90 万级指挥大厅项目', level: 'a', src: '来源：个人画像.md · [数据] 级 · 汕头综合保税区指挥大厅\n注：另有保密项目按红线不出现在任何对外材料。' },
+    { claim: 'RAG：119 文件 → 1529 向量点 / 724s / 5 问 4 中', level: 'a', src: '来源：E:\\AI项目\\RAG学习\\ 切块结果.txt + 终端输出 · 实体文件可现场跑\n工具：four_mode_compare.py / build_vector_db.py / search_test.py' },
+    { claim: '玲珑食养 448 测试 · 94% 覆盖', level: 'b', src: '来源：08-项目/内部项目/玲珑食养.md · 项目文档在册\n复验：python -m pytest（食养工程目录）' },
+    { claim: '玲珑镜面 171 测试零回退', level: 'b', src: '来源：08-项目/内部项目/玲珑镜面Mirror.md · 更新追踪 2026-08-19\n含玲珑X光消费测试 11 项。' },
+    { claim: '20+ 个独立玲珑工程目录', level: 'a', src: '来源：E:\\AI项目\\ 目录实体 · 可现场打开验货\n盘点：L0 素材盘点 A4（2026-08-25 已确认）。' },
+  ],
+  learning: [
+    { name: '私有化部署（GPU / CUDA）', meta: '进行中 · 始于 2026-09-04 · 玲珑学海', mode: 'ind', note: 'RAG 全链路 CPU 跑通，延迟数字在手。GPU 私有化是下一步，产线已开。' },
+    { name: '行业语境宽度（电商 / 零售）', meta: '已开 L4 产线 · 电商场景 Demo', mode: 'ind', note: '音视频我熟，电商我没干过。不编造经历，做一条电商场景 Demo 产线补语境。' },
+    { name: 'Embedding / Rerank 术语补强', meta: '排队中 · 1 小时级', mode: 'idle', note: '概念早已跑在代码里，补的是面试场上的术语口径。' },
+  ],
+  socials: [
+    { name: 'GitHub', url: '#', todo: true },   // TODO 替换
+    { name: 'B 站', url: '#', todo: true },     // TODO 替换
+    { name: '小红书', url: '#', todo: true },   // TODO 替换
+  ],
+};
+
+/* ============================================================
+   工具
+   ============================================================ */
+const $  = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const isMobile = () => window.innerWidth <= 768;
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function el(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; }
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + '" height="' + (size || 20) + '"><use href="#' + id + '"/></svg>'; }
+function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+/* ============================================================
+   音效 · Web Audio 程序化合成（默认静音）
+   ============================================================ */
+const SFX = {
+  enabled: store('remios_sound') === 'on',
+  ctx: null,
+  ac() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); return this.ctx; },
+  tone(freq, t0, dur, type, gain) {
+    const ctx = this.ac(); const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type = type || 'square'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, ctx.currentTime + t0);
+    g.gain.linearRampToValueAtTime(gain || 0.06, ctx.currentTime + t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + t0 + dur);
+    o.connect(g).connect(ctx.destination);
+    o.start(ctx.currentTime + t0); o.stop(ctx.currentTime + t0 + dur + 0.05);
+  },
+  play(name) {
+    if (!this.enabled) return;
+    try {
+      switch (name) {
+        case 'boot':  [261.6, 329.6, 392.0, 523.3].forEach((f, i) => this.tone(f, i * 0.35, 1.6, 'triangle', 0.05)); break;
+        case 'open':  this.tone(660, 0, 0.12, 'sine', 0.07); this.tone(880, 0.05, 0.1, 'sine', 0.05); break;
+        case 'close': this.tone(440, 0, 0.08, 'sine', 0.06); this.tone(293, 0.04, 0.1, 'sine', 0.05); break;
+        case 'click': this.tone(1200, 0, 0.03, 'square', 0.03); break;
+        case 'enter': this.tone(880, 0, 0.06, 'square', 0.04); break;
+        case 'achv':  [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * 0.09, 0.3, 'triangle', 0.05)); break;
+        case 'error': this.tone(110, 0, 0.25, 'sawtooth', 0.05); break;
+      }
+    } catch (e) { /* 音频不可用时静默 */ }
+  },
+  toggle() {
+    this.enabled = !this.enabled;
+    store('remios_sound', this.enabled ? 'on' : 'off');
+    renderMuteIcon();
+    if (this.enabled) this.play('click');
+  },
+};
+function renderMuteIcon() { $('#dockMute').innerHTML = svgUse(SFX.enabled ? 'i-vol2' : 'i-volx'); }
+
+/* ============================================================
+   Toast（同屏最多 1 个，3s）
+   ============================================================ */
+let toastTimer = null;
+function toast(msg, icon) {
+  const t = $('#toast');
+  t.innerHTML = (icon ? svgUse(icon, 16) : svgUse('i-zap', 16)) + '<span>' + msg + '</span>';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ============================================================
+   成就系统（8 枚 · localStorage · 事件解耦）
+   ============================================================ */
+const ACHV_DEF = [
+  { id: 'A1', name: '初次见面', hint: '完整看完一次开机' },
+  { id: 'A2', name: '探索者',   hint: '打开过全部 7 个常规 App' },
+  { id: 'A3', name: '黑客',     hint: '在终端执行 5 个不同命令' },
+  { id: 'A4', name: '挖掘者',   hint: '有些东西被扔掉了，但没被忘记' },
+  { id: 'A5', name: '好奇心',   hint: '有个进程一直不干活，看看它？' },
+  { id: 'A6', name: '命令行大师', hint: '试试隐藏命令' },
+  { id: 'A7', name: '收藏家',   hint: '仔细看过 3 个作品详情' },
+  { id: 'A8', name: '老朋友',   hint: '常来的人，值得一个惊喜' },
+];
+const Achv = {
+  unlocked: new Set(JSON.parse(store('remios_achv') || '[]')),
+  unlock(id) {
+    if (this.unlocked.has(id)) return;
+    this.unlocked.add(id);
+    store('remios_achv', JSON.stringify(Array.from(this.unlocked)));
+    const def = ACHV_DEF.find(a => a.id === id);
+    toast('成就解锁：' + (def ? def.name : id), 'i-trophy');
+    SFX.play('achv');
+    $('#dockTrophy').classList.add('show');
+    if (this.unlocked.size >= ACHV_DEF.length) revealHiddenApp();
+  },
+};
+function renderAchvWall() {
+  const w = $('#achvWall');
+  w.innerHTML = '<div class="caption muted">成就 · ' + Achv.unlocked.size + '/8</div><div class="achv-grid">' +
+    ACHV_DEF.map(a => {
+      const on = Achv.unlocked.has(a.id);
+      return '<div class="achv-cell' + (on ? ' on' : '') + '" title="' + esc(on ? a.name : a.hint) + '">' + (on ? a.name : '???') + '</div>';
+    }).join('') + '</div>';
+}
+
+/* ============================================================
+   窗口管理器（蓝图第 3 章 · 工程心脏）
+   ============================================================ */
+const WM = {
+  wins: new Map(),   // appId -> win record
+  topZ: 10,
+  seq: 0,
+  focused: null,
+  openedOnce: new Set(),
+
+  open(appId, opts) {
+    opts = opts || {};
+    const app = APPS[appId];
+    if (!app) return;
+    // 单实例：已存在 → 恢复 + 聚焦 + 弹跳
+    const exist = this.wins.get(appId);
+    if (exist) {
+      if (exist.minimized) this.restore(exist);
+      this.focus(exist);
+      if (!REDUCED) { exist.el.classList.remove('bouncing'); void exist.el.offsetWidth; exist.el.classList.add('bouncing'); }
+      if (opts.onReady) opts.onReady(exist);
+      return exist;
+    }
+    const id = 'win-' + (++this.seq);
+    const w = Math.min(app.w, window.innerWidth - 16);
+    const h = Math.min(app.h, window.innerHeight - 100);
+    const x = opts.x != null ? opts.x : clamp(Math.round((window.innerWidth - w) / 2 + (this.seq % 5) * 28 - 56), 8, Math.max(8, window.innerWidth - w - 8));
+    const y = opts.y != null ? opts.y : clamp(Math.round((window.innerHeight - h) / 2.6 + (this.seq % 4) * 20 - 30), 8, Math.max(8, window.innerHeight - h - 80));
+    const winEl = el(
+      '<section class="window liquid-glass opening" role="dialog" aria-modal="false" aria-label="' + esc(app.title) + '" style="left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px;">' +
+        '<div class="titlebar">' +
+          '<span class="tb-icon">' + svgUse(app.icon, 16) + '</span>' +
+          '<span class="tb-title">' + esc(app.title) + '</span>' +
+          '<div class="tb-controls">' +
+            '<button class="tb-btn tb-min" aria-label="最小化">' + svgUse('i-min', 12) + '</button>' +
+            '<button class="tb-btn tb-max" aria-label="最大化">' + svgUse('i-max', 12) + '</button>' +
+            '<button class="tb-btn tb-close" aria-label="关闭">' + svgUse('i-x', 12) + '</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="win-body"></div>' +
+        '<div class="resize-handle" aria-hidden="true"></div>' +
+      '</section>');
+    const rec = { id, appId, el: winEl, body: $('.win-body', winEl), x, y, w, h, z: ++this.topZ, minimized: false, isMaximized: false, prevRect: null };
+    winEl.style.zIndex = rec.z;
+    $('#windows').appendChild(winEl);
+    this.wins.set(appId, rec);
+
+    // 内容（懒渲染一次）
+    try { app.render(rec.body, rec); } catch (err) { this.crash(rec, err); }
+
+    // 事件
+    const tb = $('.titlebar', winEl);
+    tb.addEventListener('pointerdown', e => this.dragStart(e, rec));
+    tb.addEventListener('dblclick', e => { if (!e.target.closest('.tb-btn')) this.toggleMax(rec); });
+    $('.tb-close', winEl).addEventListener('click', () => { SFX.play('close'); this.close(rec); });
+    $('.tb-min', winEl).addEventListener('click', () => { SFX.play('click'); this.minimize(rec); });
+    $('.tb-max', winEl).addEventListener('click', () => { SFX.play('click'); this.toggleMax(rec); });
+    $('.resize-handle', winEl).addEventListener('pointerdown', e => this.resizeStart(e, rec));
+    winEl.addEventListener('pointerdown', () => this.focus(rec), true);
+    winEl.addEventListener('animationend', () => winEl.classList.remove('opening', 'mobile-in', 'restoring', 'minimizing', 'bouncing'));
+    // 移动端左右滑切换
+    winEl.addEventListener('touchstart', e => { rec._tx = e.touches[0].clientX; }, { passive: true });
+    winEl.addEventListener('touchend', e => {
+      if (!isMobile() || rec._tx == null) return;
+      const dx = e.changedTouches[0].clientX - rec._tx;
+      if (Math.abs(dx) > 72) this.swipeApp(dx < 0 ? 1 : -1);
+      rec._tx = null;
+    }, { passive: true });
+
+    if (isMobile()) winEl.classList.add('mobile-in');
+    SFX.play('open');
+    this.focus(rec);
+    this.renderDock();
+    this.trackOpen(appId);
+    if (app.onOpen) app.onOpen(rec);
+    if (opts.onReady) opts.onReady(rec);
+    return rec;
+  },
+
+  trackOpen(appId) {
+    const REGULAR = ['files', 'taskmgr', 'terminal', 'about', 'resume', 'contact', 'recycle'];
+    if (REGULAR.includes(appId)) {
+      this.openedOnce.add(appId);
+      if (this.openedOnce.size >= REGULAR.length) Achv.unlock('A2');
+    }
+  },
+
+  focus(rec) {
+    if (this.focused === rec && !rec.minimized) { rec.el.style.zIndex = rec.z; return; }
+    this.focused = rec;
+    rec.z = ++this.topZ;
+    rec.el.style.zIndex = rec.z;
+    this.wins.forEach(w => w.el.classList.toggle('blurred', w !== rec && !w.minimized));
+    rec.el.classList.remove('blurred');
+    this.renderDock();
+  },
+
+  close(rec) {
+    const done = () => { rec.el.remove(); this.wins.delete(rec.appId); this.renderDock(); this.afterClose(); };
+    if (REDUCED) { done(); return; }
+    rec.el.classList.add('closing');
+    setTimeout(done, 140);
+  },
+  afterClose() {
+    const visible = Array.from(this.wins.values()).filter(w => !w.minimized);
+    this.focused = visible[visible.length - 1] || null;
+    if (this.focused) this.focus(this.focused);
+    if (this.wins.size === 0) toast('桌面很干净。但我知道你会再点开一个。', 'i-star');
+    this.renderDock();
+  },
+
+  minimize(rec) {
+    rec.minimized = true;
+    const hide = () => { rec.el.style.display = 'none'; };
+    if (REDUCED) { hide(); } else {
+      rec.el.classList.add('minimizing');
+      setTimeout(hide, 200);
+    }
+    this.afterCloseFocus();
+    this.renderDock();
+  },
+  afterCloseFocus() {
+    const visible = Array.from(this.wins.values()).filter(w => !w.minimized);
+    this.focused = visible[visible.length - 1] || null;
+    if (this.focused) this.focus(this.focused);
+  },
+  restore(rec) {
+    rec.minimized = false;
+    rec.el.style.display = 'flex';
+    if (!REDUCED) { rec.el.classList.add('restoring'); }
+    this.focus(rec);
+  },
+
+  toggleMax(rec) {
+    if (isMobile()) return;
+    const e = rec.el;
+    if (!rec.isMaximized) {
+      rec.prevRect = { x: rec.x, y: rec.y, w: rec.w, h: rec.h };
+      rec.isMaximized = true;
+      e.classList.add('maximized');
+      e.style.left = '0px'; e.style.top = '0px';
+      e.style.width = window.innerWidth + 'px';
+      e.style.height = (window.innerHeight - 0) + 'px';
+    } else {
+      rec.isMaximized = false;
+      e.classList.remove('maximized');
+      const p = rec.prevRect;
+      rec.x = p.x; rec.y = p.y; rec.w = p.w; rec.h = p.h;
+      e.style.left = p.x + 'px'; e.style.top = p.y + 'px';
+      e.style.width = p.w + 'px'; e.style.height = p.h + 'px';
+    }
+    this.focus(rec);
+  },
+
+  dragStart(e, rec) {
+    if (isMobile() || rec.isMaximized || e.target.closest('.tb-btn')) return;
+    const startX = e.clientX, startY = e.clientY;
+    const ox = rec.x, oy = rec.y;
+    let moved = false;
+    const tb = e.currentTarget;
+    tb.setPointerCapture(e.pointerId);
+    const move = ev => {
+      const dx = ev.clientX - startX, dy = ev.clientY - startY;
+      if (!moved && Math.hypot(dx, dy) < 3) return;   // 3px 阈值
+      if (!moved) { moved = true; rec.el.style.transition = 'none'; rec.body.style.userSelect = 'none'; }
+      rec.x = clamp(ox + dx, -rec.w + 80, window.innerWidth - 40);
+      rec.y = clamp(oy + dy, 0, window.innerHeight - 48);
+      rec.el.style.left = rec.x + 'px';
+      rec.el.style.top = rec.y + 'px';
+    };
+    const up = () => {
+      tb.removeEventListener('pointermove', move);
+      tb.removeEventListener('pointerup', up);
+      rec.el.style.transition = '';
+      rec.body.style.userSelect = '';
+    };
+    tb.addEventListener('pointermove', move);
+    tb.addEventListener('pointerup', up);
+  },
+
+  resizeStart(e, rec) {
+    if (isMobile() || rec.isMaximized) return;
+    e.preventDefault();
+    const startX = e.clientX, startY = e.clientY;
+    const ow = rec.w, oh = rec.h;
+    const handle = e.currentTarget;
+    handle.setPointerCapture(e.pointerId);
+    const move = ev => {
+      rec.w = clamp(ow + ev.clientX - startX, 420, window.innerWidth - rec.x);
+      rec.h = clamp(oh + ev.clientY - startY, 320, window.innerHeight - rec.y);
+      rec.el.style.width = rec.w + 'px';
+      rec.el.style.height = rec.h + 'px';
+    };
+    const up = () => {
+      handle.removeEventListener('pointermove', move);
+      handle.removeEventListener('pointerup', up);
+    };
+    handle.addEventListener('pointermove', move);
+    handle.addEventListener('pointerup', up);
+  },
+
+  swipeApp(dir) {
+    const list = Array.from(this.wins.values()).filter(w => !w.minimized);
+    if (list.length < 2 || !this.focused) return;
+    const i = list.indexOf(this.focused);
+    const next = list[(i + dir + list.length) % list.length];
+    this.focus(next);
+  },
+
+  crash(rec, err) {
+    rec.body.innerHTML = '';
+    SFX.play('error');
+    const m = el('<div class="modal-mask"><div class="modal liquid-glass"><h3>程序未响应</h3><p>' + esc(rec.appId) + '.exe 停止了工作。这台电脑对此表示遗憾。<br><span class="mono" style="font-size:11px">' + esc(String(err).slice(0, 120)) + '</span></p><div class="row"><button class="btn btn-primary">好</button></div></div></div>');
+    $('button', m).addEventListener('click', () => m.remove());
+    document.body.appendChild(m);
+  },
+
+  renderDock() {
+    const dw = $('#dockWindows'); const tw = $('#tabWindows');
+    dw.innerHTML = ''; tw.innerHTML = '';
+    this.wins.forEach(rec => {
+      const app = APPS[rec.appId];
+      const b = el('<button class="dock-btn' + (this.focused === rec && !rec.minimized ? ' focused' : '') + '" aria-label="' + esc(app.title) + '" title="' + esc(app.title) + '">' + svgUse(app.icon, 20) + '<i class="dock-dot"></i></button>');
+      b.addEventListener('click', () => {
+        SFX.play('click');
+        if (rec.minimized) this.restore(rec);
+        else if (this.focused === rec) this.minimize(rec);
+        else this.focus(rec);
+      });
+      dw.appendChild(b);
+      const b2 = b.cloneNode(true);
+      b2.addEventListener('click', () => { SFX.play('click'); if (rec.minimized) this.restore(rec); else this.focus(rec); });
+      tw.appendChild(b2);
+    });
+  },
+};
+
+/* ============================================================
+   假读盘（内容层通用微交互 400-900ms）
+   ============================================================ */
+const LOADING_TIPS = ['正在从第二大脑同步数据…', '编译灵感中，请勿关闭窗口', '召回 2025 年的回忆片段…', '正在渲染你的好奇心'];
+function fakeLoad(body, fn) {
+  const tip = LOADING_TIPS[Math.floor(Math.random() * LOADING_TIPS.length)];
+  body.innerHTML = '<div class="app-pad muted mono" style="font-size:12px" aria-live="polite">' + tip + '</div>';
+  const delay = REDUCED ? 60 : 400 + Math.random() * 500;
+  setTimeout(fn, delay);
+}
+
+/* ============================================================
+   APPS 注册表
+   ============================================================ */
+const APPS = {};
+
+/* ---------- 文件管理器 · 我的作品 ---------- */
+APPS.files = {
+  title: '我的作品', icon: 'i-folder', w: 780, h: 540,
+  render(body, rec) {
+    rec.state = { year: '全部', type: '全部', detail: null };
+    const paint = () => {
+      if (rec.state.detail) return paintDetail(rec.state.detail);
+      const years = ['全部'].concat(Array.from(new Set(CONTENT.projects.map(p => p.year))).sort().reverse());
+      const types = ['全部', 'AI 产品', '工程工具', '体系'];
+      const list = CONTENT.projects.filter(p =>
+        (rec.state.year === '全部' || p.year === rec.state.year) &&
+        (rec.state.type === '全部' || p.type === rec.state.type));
+      body.innerHTML =
+        '<div class="fm view-in">' +
+          '<div class="fm-tree">' +
+            '<div class="grp">年份</div>' +
+            years.map(y => '<button data-y="' + y + '" class="' + (rec.state.year === y ? 'on' : '') + '">' + y + '</button>').join('') +
+            '<div class="grp">类型</div>' +
+            types.map(t => '<button data-t="' + t + '" class="' + (rec.state.type === t ? 'on' : '') + '">' + t + '</button>').join('') +
+          '</div>' +
+          '<div class="fm-main">' +
+            '<div class="fm-bar"><span class="muted mono" style="font-size:12px">/作品/ ' + list.length + ' 个项目 · 双击进入详情</span></div>' +
+            '<div class="fm-grid">' +
+              list.map(p =>
+                '<div class="fm-item" data-id="' + p.id + '" tabindex="0" role="button" aria-label="' + esc(p.name) + '">' +
+                  svgUse(p.icon, 26) + '<span class="nm">' + esc(p.name) + '</span>' +
+                  '<span class="chip">' + p.type + '</span>' +
+                '</div>').join('') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      $$('.fm-tree button', body).forEach(b => b.addEventListener('click', () => {
+        if (b.dataset.y) rec.state.year = b.dataset.y === '全部' ? '全部' : +b.dataset.y;
+        if (b.dataset.t) rec.state.type = b.dataset.t;
+        SFX.play('click'); paint();
+      }));
+      $$('.fm-item', body).forEach(it => {
+        const openIt = () => { SFX.play('open'); rec.state.detail = it.dataset.id; paintDetail(it.dataset.id); };
+        it.addEventListener('dblclick', openIt);
+        it.addEventListener('click', () => { $$('.fm-item', body).forEach(x => x.style.borderColor = ''); it.style.borderColor = 'hsl(var(--accent))'; });
+        it.addEventListener('keydown', e => { if (e.key === 'Enter') openIt; });
+      });
+    };
+    const paintDetail = id => {
+      const p = CONTENT.projects.find(x => x.id === id);
+      if (!p) return paint();
+      fakeLoad(body, () => {
+        body.innerHTML =
+          '<div class="fm-main view-in" style="overflow:auto;height:100%">' +
+            '<div class="fm-bar"><button class="fm-back">' + svgUse('i-left', 14) + ' 上级目录</button><span class="muted mono" style="font-size:12px">/ <span class="crumb" data-crumb>作品</span> / ' + esc(p.name) + '</span></div>' +
+            '<div class="fm-detail">' +
+              '<div class="fm-hero" style="background:linear-gradient(135deg, hsl(var(--accent) / 0.25), hsl(260 55% 26% / 0.55))">' + svgUse(p.icon, 56) + '<span class="wm">' + p.id + ' · ' + p.year + '</span></div>' +
+              '<h2 class="app-h">' + esc(p.name) + '</h2>' +
+              '<p class="app-sub">' + esc(p.tagline) + '</p>' +
+              '<div class="fm-tags">' + p.tags.map(t => '<span class="chip">' + esc(t) + '</span>').join('') + '<span class="chip acc">' + p.year + '</span></div>' +
+              '<p class="fm-desc">' + p.desc + '</p>' +
+              '<div class="fm-actions">' +
+                (p.demo
+                  ? '<button class="btn btn-primary" data-demo>' + svgUse('i-play', 14) + ' 运行 Demo</button>'
+                  : '<button class="btn btn-ghost" data-ext>' + svgUse('i-ext', 14) + ' 现场可演示 · 无公开链接</button>') +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        $('.fm-back', body).addEventListener('click', () => { SFX.play('click'); rec.state.detail = null; paint(); });
+        $('[data-crumb]', body).addEventListener('click', () => { SFX.play('click'); rec.state.detail = null; paint(); });
+        const demoBtn = $('[data-demo]', body);
+        if (demoBtn) demoBtn.addEventListener('click', () => WM.open('sandbox', { onReady: r => r.startDemo && r.startDemo(p.demo) }));
+        const extBtn = $('[data-ext]', body);
+        if (extBtn) extBtn.addEventListener('click', () => toast('该项目为本机工程，面试现场可直接打开验货', 'i-folder'));
+        // 成就 A7：累计浏览 ≥3 个详情
+        const seen = new Set(JSON.parse(store('remios_seen') || '[]'));
+        seen.add(id); store('remios_seen', JSON.stringify(Array.from(seen)));
+        if (seen.size >= 3) Achv.unlock('A7');
+      });
+    };
+    rec.openProject = id => { rec.state.detail = id; paintDetail(id); };
+    fakeLoad(body, paint);
+  },
+};
+
+/* ---------- Demo 沙盒（蓝图第 5 章 · 5 个可体验 Demo） ---------- */
+const DEMOS = {
+
+  /* D1 · RAG 全链路 */
+  'rag-pipeline': {
+    title: 'RAG 全链路检索栈', hint: '点「开始检索」，看一条问句如何命中答案',
+    mount(stage) {
+      stage.innerHTML =
+        '<div class="rag-pipe">' +
+          '<div class="rag-q"><input value="客户的知识库问答为什么总答错？" aria-label="演示问句" readonly><button class="btn btn-primary" data-run>开始检索</button></div>' +
+          '<div class="rag-node"><span class="st">01</span><div class="bd"><div class="t">语料加载</div><div class="d">本地知识库文件</div></div><span class="n"></span></div>' +
+          '<div class="rag-node"><span class="st">02</span><div class="bd"><div class="t">语义切块</div><div class="d">按语义边界切分，保留上下文</div></div><span class="n"></span></div>' +
+          '<div class="rag-node"><span class="st">03</span><div class="bd"><div class="t">向量化</div><div class="d">BGE 本地模型 · CPU 推理</div></div><span class="n"></span></div>' +
+          '<div class="rag-node"><span class="st">04</span><div class="bd"><div class="t">写入 Qdrant</div><div class="d">二进制部署 · 零外部依赖</div></div><span class="n"></span></div>' +
+          '<div class="rag-node"><span class="st">05</span><div class="bd"><div class="t">检索命中</div><div class="d">混合检索 + Rerank</div></div><span class="n"></span></div>' +
+          '<div class="rag-result" data-result><b>5 问 4 中</b> · 全程 724 秒建库（119 文件）。问题命中了正确文档切片，答案带来源引用——这就是「我怎么相信模型是对的」的工程回答。</div>' +
+          '<div class="demo-note">口径：真实跑通数据 · four_mode_compare.py 现场可复跑</div>' +
+        '</div>';
+      $('[data-run]', stage).addEventListener('click', ev => {
+        ev.target.disabled = true;
+        SFX.play('enter');
+        const stats = ['119 文件', '1527 块', '1529 向量', '724s', '5 问 4 中'];
+        const nodes = $$('.rag-node', stage);
+        let i = 0;
+        const step = () => {
+          if (i > 0) { nodes[i - 1].classList.remove('run'); nodes[i - 1].classList.add('done'); nodes[i - 1].querySelector('.st').textContent = '✓'; nodes[i - 1].querySelector('.n').textContent = stats[i - 1]; }
+          if (i >= nodes.length) { $('[data-result]', stage).classList.add('on'); SFX.play('achv'); return; }
+          nodes[i].classList.add('run');
+          i++;
+          setTimeout(step, REDUCED ? 90 : 420 + Math.random() * 260);
+        };
+        step();
+      });
+    },
+  },
+
+  /* D2 · 货代 ROI 模拟器 */
+  'huodai-roi': {
+    title: '货代提效工具 · ROI 模拟器', hint: '拖参数看每月省多少，再点「模拟运行」',
+    mount(stage) {
+      stage.innerHTML =
+        '<div class="demo-head"><h3>邮箱自动化，省下的是真金白银</h3><p>货代日常：舱单、报价、跟进邮件靠人工点开、抄录、回复。这个工具把整条链自动化——下面用可拖参数算给你看。</p></div>' +
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">参数 · 演示口径</div>' +
+            '<div class="demo-row"><label>每天业务邮件 <b><span data-v-t>30</span> 封</b></label><input type="range" min="10" max="80" value="30" data-r-t aria-label="每天邮件数"></div>' +
+            '<div class="demo-row"><label>每封人工处理 <b><span data-v-m>6</span> 分钟</b></label><input type="range" min="2" max="15" value="6" data-r-m aria-label="每封处理分钟"></div>' +
+            '<div class="demo-row"><label>自动化覆盖率 <b>85%</b></label><div class="learn-bar"><i style="width:85%"></i></div></div>' +
+            '<button class="btn btn-primary" data-run style="width:100%;margin-top:var(--space-3)">模拟运行（3 封邮件）</button>' +
+          '</div>' +
+          '<div class="demo-card"><div class="t">无人值守流水线</div>' +
+            '<div class="rag-node"><span class="st">01</span><div class="bd"><div class="t">邮件到达</div><div class="d">舱单查询 / 报价请求 / 客户跟单</div></div><span class="n"></span></div>' +
+            '<div class="rag-node"><span class="st">02</span><div class="bd"><div class="t">字段提取</div><div class="d">柜型 · 目的港 · 件重 · 截关日</div></div><span class="n"></span></div>' +
+            '<div class="rag-node"><span class="st">03</span><div class="bd"><div class="t">自动入库</div><div class="d">跟单状态同步更新</div></div><span class="n"></span></div>' +
+            '<div class="rag-node"><span class="st">04</span><div class="bd"><div class="t">模板回复</div><div class="d">按场景生成并发送</div></div><span class="n"></span></div>' +
+            '<div class="demo-log" data-log>待命中……</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="demo-kpis">' +
+          '<div class="demo-kpi"><div class="v" data-k1>153</div><div class="l">每天节省（分钟）</div></div>' +
+          '<div class="demo-kpi"><div class="v" data-k2>56.1</div><div class="l">每月节省 · 22 工作日（小时）</div></div>' +
+          '<div class="demo-kpi"><div class="v" data-k3>¥3,366</div><div class="l">折算人力成本 · ¥60/h（月）</div></div>' +
+        '</div>' +
+        '<div class="demo-note">口径：参数为演示值，现场可换真实邮箱数据 · 工具独立完成 · 功能可用 PoC</div>';
+      const fmt = n => Math.round(n).toLocaleString('en-US');
+      const recalc = () => {
+        const t = +$('[data-r-t]', stage).value, m = +$('[data-r-m]', stage).value;
+        $('[data-v-t]', stage).textContent = t;
+        $('[data-v-m]', stage).textContent = m;
+        const k1 = t * m * 0.85, k2 = k1 * 22 / 60;
+        $('[data-k1]', stage).textContent = Math.round(k1);
+        $('[data-k2]', stage).textContent = k2.toFixed(1);
+        $('[data-k3]', stage).textContent = '¥' + fmt(k2 * 60);
+      };
+      $('[data-r-t]', stage).addEventListener('input', recalc);
+      $('[data-r-m]', stage).addEventListener('input', recalc);
+      recalc();
+      $('[data-run]', stage).addEventListener('click', ev => {
+        ev.target.disabled = true;
+        SFX.play('enter');
+        const log = $('[data-log]', stage);
+        const nodes = $$('.rag-node', stage);
+        const mails = ['舱单查询 · 40HQ → HAM · 截关 09-12', '报价请求 · 深圳 → 鹿特丹 · 2×20GP', '客户跟单 · 提单号 HLCU2508 状态确认'];
+        log.innerHTML = '';
+        let mi = 0, ni = 0;
+        nodes.forEach(n => n.classList.remove('run', 'done'));
+        const step = () => {
+          if (ni > 0 && ni <= 4) { nodes[ni - 1].classList.remove('run'); nodes[ni - 1].classList.add('done'); nodes[ni - 1].querySelector('.st').textContent = '✓'; }
+          if (ni === 1) log.innerHTML += '<div>&gt; <span class="hl">' + mails[mi] + '</span></div>';
+          if (ni === 4) log.innerHTML += '<div class="ok">  ✓ 已回复 · 人工介入 0 分钟</div>';
+          if (ni >= 4) {
+            mi++; ni = 0;
+            if (mi >= mails.length) {
+              log.innerHTML += '<div class="ok hl">— 3 封邮件处理完成 · 用时 ≈4s · 人工 0 分钟 —</div>';
+              nodes.forEach(n => { n.classList.remove('run'); n.classList.add('done'); n.querySelector('.st').textContent = '✓'; });
+              SFX.play('achv');
+              ev.target.disabled = false;
+              return;
+            }
+            nodes.forEach(n => { n.classList.remove('run', 'done'); n.querySelector('.st').textContent = '0' + ($$('.rag-node', stage).indexOf(n) + 1); });
+            setTimeout(step, REDUCED ? 60 : 320);
+            return;
+          }
+          nodes[ni].classList.add('run');
+          ni++;
+          setTimeout(step, REDUCED ? 60 : 300 + Math.random() * 160);
+        };
+        step();
+      });
+    },
+  },
+
+  /* D3 · 食养约束求解 */
+  'shiyang-solver': {
+    title: '玲珑食养 · 约束求解体验', hint: '设约束 → 点「开始求解」',
+    mount(stage) {
+      stage.innerHTML =
+        '<div class="demo-head"><h3>把「今天吃什么」从决策疲劳变成一次求解</h3><p>中医食疗 × 营养学 × Google CP-SAT 约束求解。设好约束，剩下的交给求解器。</p></div>' +
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">约束条件</div>' +
+            '<div class="demo-row"><label>人数</label><div class="chips" data-g="p"><span class="chip on">1 人</span><span class="chip">2 人</span><span class="chip">4 人</span></div></div>' +
+            '<div class="demo-row"><label>每日预算 <b>¥<span data-v-b>60</span></b></label><input type="range" min="30" max="150" value="60" data-r-b aria-label="每日预算"></div>' +
+            '<div class="demo-row"><label>忌口（可多选）</label><div class="chips" data-g="a"><span class="chip">辣</span><span class="chip">海鲜</span><span class="chip">香菜</span></div></div>' +
+            '<div class="demo-row"><label>目标</label><div class="chips" data-g="g"><span class="chip on">减脂</span><span class="chip">增肌</span><span class="chip">日常</span></div></div>' +
+            '<button class="btn btn-primary" data-run style="width:100%;margin-top:var(--space-3)">开始求解</button>' +
+          '</div>' +
+          '<div class="demo-card"><div class="t">求解输出</div><div data-out><p class="muted" style="font-size:13px">设定约束后点「开始求解」。</p></div></div>' +
+        '</div>' +
+        '<div class="demo-note">演示数据 · 真实求解器在食养工程内 · 448 测试 94% 覆盖 · 每道菜强制循证来源（__post_init__ 校验）</div>';
+      $$('.chips .chip', stage).forEach(c => c.addEventListener('click', () => {
+        const g = c.parentElement.dataset.g;
+        if (g !== 'a') { $$('.chip', c.parentElement).forEach(x => x.classList.remove('on')); c.classList.add('on'); }
+        else c.classList.toggle('on');
+        SFX.play('click');
+      }));
+      $('[data-r-b]', stage).addEventListener('input', e => { $('[data-v-b]', stage).textContent = e.target.value; });
+      $('[data-run]', stage).addEventListener('click', ev => {
+        ev.target.disabled = true;
+        SFX.play('enter');
+        const out = $('[data-out]', stage);
+        const steps = ['约束传播中…', '目标优化中…', '营养校验中…'];
+        let i = 0;
+        out.innerHTML = '<p class="demo-log" data-st></p>';
+        const tick = () => {
+          if (i < steps.length) {
+            out.querySelector('[data-st]').textContent = steps[i];
+            i++;
+            setTimeout(tick, REDUCED ? 60 : 340);
+            return;
+          }
+          const budget = +$('[data-r-b]', stage).value;
+          const cost = 39;
+          out.innerHTML =
+            '<div class="meal-row"><span class="mm">早餐</span><span class="mn">燕麦鸡蛋杯 + 牛奶</span><span class="mv">420 kcal · 蛋白 22g<br>¥9</span></div>' +
+            '<div class="meal-row"><span class="mm">午餐</span><span class="mn">香煎鸡胸糙米饭 + 时蔬</span><span class="mv">610 kcal · 蛋白 45g<br>¥18</span></div>' +
+            '<div class="meal-row"><span class="mm">晚餐</span><span class="mn">番茄豆腐汤 + 杂粮馒头</span><span class="mv">480 kcal · 蛋白 20g<br>¥12</span></div>' +
+            '<div class="demo-checks">' +
+              '<span class="ok">✓ 预算 ¥' + cost + ' ≤ ¥' + budget + '</span>' +
+              '<span class="ok">✓ 忌口命中 0 项</span>' +
+              '<span class="ok">✓ 热量缺口 -400 kcal（减脂）</span>' +
+              '<span class="ok">✓ 蛋白 87g 达标</span>' +
+            '</div>';
+          SFX.play('achv');
+          ev.target.disabled = false;
+        };
+        tick();
+      });
+    },
+  },
+
+  /* D4 · 镜面价值感知公式 */
+  'mirror-value': {
+    title: '玲珑镜面 · 价值感知演示', hint: '拖滑块，看同一条数据如何改变展示方式',
+    mount(stage) {
+      stage.innerHTML =
+        '<div class="demo-head"><h3>不是所有数据都值得同样展示</h3><p>镜面的数据层给每条数据算价值分：<span class="mono" style="color:hsl(var(--accent))">value = layer × recency × (1 + frequency × 0.1)</span>。拖滑块，看右边这张画像卡在三档展示间实时切换。</p></div>' +
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">价值因子</div>' +
+            '<div class="demo-row"><label>数据层级</label><div class="chips" data-g="l"><span class="chip on" data-l="1.0">核心层 1.0</span><span class="chip" data-l="0.6">近期层 0.6</span><span class="chip" data-l="0.2">归档层 0.2</span></div></div>' +
+            '<div class="demo-row"><label>更新于 <b><span data-v-d>1</span> 天前</b></label><input type="range" min="0" max="60" value="1" data-r-d aria-label="天数"><div class="muted mono" style="font-size:10px;margin-top:4px">recency = e^(-days/30) ≈ <span data-v-r>0.97</span></div></div>' +
+            '<div class="demo-row"><label>被钻取 <b><span data-v-f>3</span> 次</b></label><input type="range" min="0" max="10" value="3" data-r-f aria-label="钻取次数"></div>' +
+            '<div style="margin-top:var(--space-5)"><div class="muted" style="font-size:11px;font-family:var(--font-mono);letter-spacing:0.1em">VALUE</div><div class="val-big" data-v-val>1.26</div></div>' +
+          '</div>' +
+          '<div>' +
+            '<div class="val-card hot" data-card>' +
+              '<div style="display:flex;justify-content:space-between;align-items:baseline"><b>系统性框架思维</b><span class="chip acc" data-state>醒目展示</span></div>' +
+              '<p class="muted" style="font-size:13px;margin-top:8px">置信度 0.8 · 来源：第二大脑核心层<br>「自主提出四阶段 Skill 框架」</p>' +
+            '</div>' +
+            '<div class="demo-kpis" style="margin-top:var(--space-4)">' +
+              '<div class="demo-kpi"><div class="v" style="font-size:1rem">&gt; 0.8</div><div class="l">醒目：大图置顶默认展开</div></div>' +
+              '<div class="demo-kpi"><div class="v" style="font-size:1rem">0.3 – 0.8</div><div class="l">正常：标准尺寸</div></div>' +
+              '<div class="demo-kpi"><div class="v" style="font-size:1rem">&lt; 0.3</div><div class="l">折叠：灰化默认隐藏</div></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="demo-note">论文依据：MemLens (2026) · Drillboards (2024) · LLM Adaptive Dashboard (2026) · 171 测试零回退</div>';
+      let layer = 1.0;
+      const calc = () => {
+        const d = +$('[data-r-d]', stage).value, f = +$('[data-r-f]', stage).value;
+        const rec = Math.exp(-d / 30);
+        const v = layer * rec * (1 + f * 0.1);
+        $('[data-v-d]', stage).textContent = d;
+        $('[data-v-f]', stage).textContent = f;
+        $('[data-v-r]', stage).textContent = rec.toFixed(2);
+        $('[data-v-val]', stage).textContent = v.toFixed(2);
+        const card = $('[data-card]', stage), st = $('[data-state]', stage);
+        card.classList.remove('hot', 'dim');
+        if (v > 0.8) { card.classList.add('hot'); st.textContent = '醒目展示'; }
+        else if (v >= 0.3) { st.textContent = '正常展示'; }
+        else { card.classList.add('dim'); st.textContent = '折叠隐藏'; }
+      };
+      $$('.chips .chip', stage).forEach(c => c.addEventListener('click', () => {
+        $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        layer = +c.dataset.l;
+        SFX.play('click');
+        calc();
+      }));
+      $('[data-r-d]', stage).addEventListener('input', calc);
+      $('[data-r-f]', stage).addEventListener('input', calc);
+      calc();
+    },
+  },
+
+  /* D5 · 职举迷你流水线 */
+  'longjob-pipeline': {
+    title: '玲珑职举 · 迷你托举流水线', hint: '点「运行 L0→L2」，看一份 JD 怎么变成简历 bullet',
+    mount(stage) {
+      stage.innerHTML =
+        '<div class="demo-head"><h3>一份 JD 的奇幻漂流</h3><p>玲珑职举把求职做成流水线：JD 解析 → 命中映射 → 简历定制 → 作品集内容包 → Demo 工厂 → 面试弹药。你正在看的这个网站，就是它 L3 的产物。</p></div>' +
+        '<div class="demo-card" style="margin-bottom:var(--space-5)"><div class="t">输入 · 示例 JD</div>' +
+          '<p style="font-size:13px;line-height:1.8" class="muted">AI 解决方案工程师（FDE）：负责客户业务场景拆解，输出可演示 AI 方案；要求 RAG / Agent 实战，有 ToB 汇报经验。</p>' +
+          '<button class="btn btn-primary" data-run style="margin-top:var(--space-4)">运行 L0 → L2</button>' +
+        '</div>' +
+        '<div class="rag-pipe" style="max-width:none">' +
+          '<div class="rag-node"><span class="st">L0</span><div class="bd"><div class="t">JD 解析</div><div class="d">提取能力词 + 硬门槛 + 隐性信号</div></div><span class="n"></span></div>' +
+          '<div data-o0></div>' +
+          '<div class="rag-node"><span class="st">L1</span><div class="bd"><div class="t">命中映射</div><div class="d">能力词 × J0 画像 × J1 矩阵 → 逐条评级</div></div><span class="n"></span></div>' +
+          '<div data-o1></div>' +
+          '<div class="rag-node"><span class="st">L2</span><div class="bd"><div class="t">简历定制</div><div class="d">量化句动词开头 · guardrails 三查</div></div><span class="n"></span></div>' +
+          '<div data-o2></div>' +
+        '</div>' +
+        '<div class="demo-note">真实流水线另有 L3 作品集内容包 / L4 Demo 工厂 / L5 面试弹药 · 30+ 纯标准库工具 · 覆盖率门槛 90%</div>';
+      $('[data-run]', stage).addEventListener('click', ev => {
+        ev.target.disabled = true;
+        SFX.play('enter');
+        const nodes = $$('.rag-node', stage);
+        const wait = ms => new Promise(r => setTimeout(r, REDUCED ? 60 : ms));
+        const done = (n, txt) => { nodes[n].classList.remove('run'); nodes[n].classList.add('done'); nodes[n].querySelector('.st').textContent = '✓'; nodes[n].querySelector('.n').textContent = txt; };
+        (async () => {
+          nodes[0].classList.add('run');
+          await wait(500);
+          done(0, '5 个能力词');
+          $('[data-o0]', stage).innerHTML = '<div class="chips" style="margin:4px 0 12px 44px"><span class="chip">业务场景拆解</span><span class="chip">AI 方案转译</span><span class="chip">RAG 实战</span><span class="chip">Agent 实战</span><span class="chip">ToB 汇报</span></div>';
+          nodes[1].classList.add('run');
+          await wait(650);
+          done(1, '4 ✅ · 1 🟡');
+          $('[data-o1]', stage).innerHTML =
+            '<div style="margin:4px 0 12px 44px;font-size:13px;line-height:2">' +
+            '<div><span class="chip ok">✅ 强</span> 业务场景拆解 ← 90 万项目全链</div>' +
+            '<div><span class="chip ok">✅ 强</span> ToB 汇报 ← 80+ 场项目汇报</div>' +
+            '<div><span class="chip ok">✅ 强</span> Agent 实战 ← 玲珑产品矩阵</div>' +
+            '<div><span class="chip ok">✅ 命中</span> RAG 实战 ← 1529 向量点实测</div>' +
+            '<div><span class="chip warn">🟡 中</span> 方案转译话术 ← J2 补包装</div></div>';
+          nodes[2].classList.add('run');
+          await wait(650);
+          done(2, 'guardrails 通过');
+          $('[data-o2]', stage).innerHTML =
+            '<div class="rag-result on" style="margin:4px 0 12px 44px"><b>简历 bullet：</b>主导 <b>90 万级</b>指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。</div>';
+          SFX.play('achv');
+        })();
+      });
+    },
+  },
+};
+
+APPS.sandbox = {
+  title: 'Demo 沙盒', icon: 'i-play', w: 880, h: 640,
+  render(body, rec) {
+    body.innerHTML = '<div class="app-pad muted mono" style="font-size:12px">从「我的作品」的项目详情页启动一个 Demo…</div>';
+    rec.startDemo = id => {
+      const d = DEMOS[id];
+      if (!d) return;
+      rec.demoId = id;
+      $('.tb-title', rec.el).textContent = 'Demo 沙盒 · ' + d.title;
+      body.innerHTML =
+        '<div class="sandbox">' +
+          '<div class="sb-bar">' +
+            '<button class="sb-btn" data-exit>' + svgUse('i-left', 14) + ' 退出 Demo</button>' +
+            '<button class="sb-btn" data-reset>' + svgUse('i-refresh', 14) + ' 重置</button>' +
+            '<span class="hint">' + esc(d.hint) + '</span>' +
+          '</div>' +
+          '<div class="sb-stage"></div>' +
+        '</div>';
+      $('[data-exit]', body).addEventListener('click', () => { SFX.play('close'); WM.close(rec); });
+      $('[data-reset]', body).addEventListener('click', () => { SFX.play('click'); rec.startDemo(id); });
+      try { d.mount($('.sb-stage', body)); } catch (err) { WM.crash(rec, err); }
+    };
+  },
+  onOpen(rec) { /* 最大化展示 */ if (!isMobile()) WM.toggleMax(rec); },
+};
+
+/* ---------- 任务管理器 · 技能 ---------- */
+APPS.taskmgr = {
+  title: '任务管理器 · 技能进程', icon: 'i-gauge', w: 740, h: 540,
+  render(body, rec) {
+    body.innerHTML =
+      '<div class="tm">' +
+        '<div class="tm-chart"><span class="lbl">CPU HISTORY ·&nbsp;<span data-focus-name>' + esc(CONTENT.skills[0].name) + '.exe</span></span><canvas></canvas></div>' +
+        '<div class="tm-table"><div class="tm-row head" role="row">' +
+          '<span data-k="name">名称</span><span data-k="user">用户</span><span data-k="cpu">CPU %</span><span class="c-mem" data-k="mem">内存</span><span data-k="status">状态</span>' +
+        '</div><div data-rows></div></div>' +
+        '<div class="tm-detail" data-detail hidden></div>' +
+      '</div>';
+    const rowsEl = $('[data-rows]', body);
+    const canvas = $('canvas', body);
+    const detailEl = $('[data-detail]', body);
+    let sortKey = 'cpu', sortDir = -1, focusIdx = 0, timer = null;
+    const hist = Array.from({ length: 60 }, () => CONTENT.skills[0].cpu);
+
+    const paint = () => {
+      const rows = CONTENT.skills.slice().sort((a, b) => {
+        const va = a[sortKey], vb = b[sortKey];
+        return (typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb), 'zh')) * sortDir;
+      });
+      rowsEl.innerHTML = rows.map((s) => {
+        const idx = CONTENT.skills.indexOf(s);
+        const live = rec['cpu' + idx] != null ? rec['cpu' + idx] : s.cpu;
+        return '<div class="tm-row' + (s.slack ? ' slacking' : '') + '" data-i="' + idx + '">' +
+          '<span class="nm">' + svgUse(s.slack ? 'i-clock' : 'i-zap', 14) + '<span>' + esc(s.name) + (s.slack ? '' : '.exe') + '</span></span>' +
+          '<span class="chip' + (s.user === 'dev' ? ' acc' : s.user === 'both' ? ' warn' : '') + '">' + s.user + '</span>' +
+          '<span class="cpu">' + live.toFixed(1) + '</span>' +
+          '<span class="c-mem muted">' + s.mem + '</span>' +
+          '<span class="' + (s.status === '运行中' ? 'accent' : 'muted') + '" style="font-size:12px">' + s.status + '</span>' +
+        '</div>';
+      }).join('');
+      $$('.tm-row[data-i]', rowsEl).forEach(r => {
+        r.addEventListener('mouseenter', () => { focusIdx = +r.dataset.i; $('[data-focus-name]', body).textContent = CONTENT.skills[focusIdx].name + '.exe'; });
+        r.addEventListener('dblclick', () => {
+          const s = CONTENT.skills[+r.dataset.i];
+          if (s.slack) {
+            Achv.unlock('A5');
+            const m = el('<div class="modal-mask"><div class="modal liquid-glass"><h3>摸鱼.exe 无响应</h3><p>它只是在休息。<br>等待不会有结果，关闭也不会。</p><div class="row"><button class="btn btn-ghost">随缘</button></div></div></div>');
+            $('button', m).addEventListener('click', () => m.remove());
+            document.body.appendChild(m);
+            return;
+          }
+          detailEl.hidden = false;
+          detailEl.innerHTML = '<b>' + esc(s.name) + '</b> — ' + esc(s.note);
+        });
+      });
+    };
+    $$('.tm-row.head span', body).forEach(h => h.addEventListener('click', () => {
+      sortKey = h.dataset.k; sortDir *= -1; SFX.play('click'); paint();
+    }));
+
+    const draw = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const cw = canvas.clientWidth, ch = canvas.clientHeight;
+      if (!cw) return;
+      canvas.width = cw * dpr; canvas.height = ch * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, cw, ch);
+      const base = CONTENT.skills[focusIdx].cpu;
+      hist.push(clamp(base + Math.sin(Date.now() / 900) * 1.8 + (Math.random() - 0.5) * 2.4, 0, 100));
+      hist.shift();
+      ctx.beginPath();
+      hist.forEach((v, i) => {
+        const x = (i / (hist.length - 1)) * cw;
+        const y = ch - 8 - (v / 100) * (ch - 24);
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      });
+      const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+      ctx.strokeStyle = 'hsl(' + accent + ')';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.lineTo(cw, ch); ctx.lineTo(0, ch); ctx.closePath();
+      ctx.fillStyle = 'hsl(' + accent + ' / 0.08)';
+      ctx.fill();
+    };
+    paint();
+    timer = setInterval(() => {
+      if (rec.minimized || !document.body.contains(rec.el)) { clearInterval(timer); return; }
+      CONTENT.skills.forEach((s, i) => {
+        rec['cpu' + i] = s.slack ? 0 : clamp(s.cpu + Math.sin(Date.now() / 900 + i) * 3, 0, 100);
+      });
+      $$('.tm-row[data-i] .cpu', rowsEl).forEach((cEl, i2) => {
+        const row = cEl.closest('.tm-row');
+        cEl.textContent = rec['cpu' + row.dataset.i].toFixed(1);
+      });
+      draw();
+    }, 800);
+    draw();
+  },
+};
+
+/* ---------- 终端 ---------- */
+APPS.terminal = {
+  title: '终端 · remi@universe', icon: 'i-terminal', w: 660, h: 460,
+  render(body, rec) {
+    body.innerHTML =
+      '<div class="term">' +
+        '<div class="term-out" data-out aria-live="polite"></div>' +
+        '<div class="term-chips">' + ['help', 'whoami', 'projects', 'skills', 'contact', 'version', 'clear'].map(c => '<button class="chip" data-cmd="' + c + '">' + c + '</button>').join('') + '</div>' +
+        '<div class="term-in"><span class="p">remi@universe:~$</span><input data-in aria-label="终端输入" autocomplete="off" spellcheck="false"></div>' +
+      '</div>';
+    const out = $('[data-out]', body);
+    const input = $('[data-in]', body);
+    rec.history = rec.history || []; let hIdx = rec.history.length;
+    rec.cmdSet = rec.cmdSet || new Set();
+
+    const print = (html) => { out.innerHTML += html + '\n'; out.scrollTop = out.scrollHeight; };
+    const typePrint = (text, cls) => {
+      if (REDUCED) { print('<span class="' + (cls || '') + '">' + text + '</span>'); return; }
+      let i = 0; const line = el('<span class="' + (cls || '') + '"></span>');
+      out.appendChild(line);
+      const tick = () => {
+        line.textContent = text.slice(0, ++i);
+        out.scrollTop = out.scrollHeight;
+        if (i < text.length) setTimeout(tick, 12);
+        else out.innerHTML += '\n';
+      };
+      tick();
+    };
+    print('<span class="g">REMI OS v2.5 · tty0</span>');
+    print('<span class="m">这台电脑装载的不是软件，是大脑分区。输入 <span class="p">help</span> 查看可用命令。</span>\n');
+
+    const CMDS = {
+      help() {
+        print('可用命令：\n' +
+          '  <span class="p">help</span>      你在看的这个\n' +
+          '  <span class="p">whoami</span>    他是谁\n' +
+          '  <span class="p">projects</span>  作品列表（open N 直接打开）\n' +
+          '  <span class="p">skills</span>    技能条形图\n' +
+          '  <span class="p">contact</span>   联系方式\n' +
+          '  <span class="p">version</span>   人生更新日志\n' +
+          '  <span class="p">clear</span>     清屏\n' +
+          '  <span class="m">（也许还有没被列出来的命令…）</span>');
+      },
+      whoami() {
+        print('<span class="g">  ██████╗ ███████╗███╗   ███╗██╗\n  ██╔══██╗██╔════╝████╗ ████║██║\n  ██████╔╝█████╗  ██╔████╔██║██║\n  ██╔══██╗██╔══╝  ██║╚██╔╝██║██║\n  ██║  ██║███████╗██║ ╚═╝ ██║██║\n  ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚═╝</span>');
+        print('Remi · 26 · ' + CONTENT.city + ' · 一人公司');
+        print(CONTENT.slogan);
+        print('<span class="m">求职意向：' + CONTENT.targetRole + ' · ' + CONTENT.availability + '</span>');
+      },
+      projects() {
+        CONTENT.projects.forEach((p, i) => print('  <span class="p">[' + (i + 1) + ']</span> ' + esc(p.name) + ' <span class="m">· ' + p.year + ' · ' + esc(p.tagline) + '</span>'));
+        print('<span class="m">输入 open N 打开对应作品（如 open 1）</span>');
+      },
+      skills() {
+        CONTENT.skills.filter(s => !s.slack).forEach(s => {
+          const filled = Math.round(s.cpu / 10);
+          print('  ' + esc(s.name.padEnd(12, '　')) + ' <span class="g">' + '▓'.repeat(filled) + '</span><span class="m">' + '░'.repeat(10 - filled) + '</span> ' + s.cpu + '%');
+        });
+      },
+      contact() {
+        print('  邮箱  <span class="p">' + CONTENT.email + '</span>');
+        print('  城市  ' + CONTENT.city + ' · ' + CONTENT.availability);
+        print('<span class="m">  或打开「联系我」窗口复制邮箱。</span>');
+      },
+      version() {
+        print('<span class="g">REMI OS 人生更新日志</span>');
+        CONTENT.timeline.forEach(t => print('  <span class="p">' + t.ver + '</span> <span class="m">(' + t.year + ')</span> ' + esc(t.title) + '\n      <span class="m">' + esc(t.desc) + '</span>'));
+      },
+      matrix() { Achv.unlock('A6'); matrixRain(3000); print('<span class="g">Wake up, Remi.</span>'); },
+      clear() { out.innerHTML = ''; },
+    };
+    CMDS['sudo unlock'] = () => {
+      Achv.unlock('A6');
+      print('<span class="w">[sudo] 权限提升…… 隐藏分区已挂载。</span>');
+      revealHiddenApp();
+    };
+
+    const exec = raw => {
+      const cmd = raw.trim();
+      if (!cmd) return;
+      print('<span class="p">remi@universe:~$</span> ' + esc(cmd));
+      rec.history.push(cmd); hIdx = rec.history.length;
+      SFX.play('enter');
+      const fn = CMDS[cmd.toLowerCase()];
+      if (fn) {
+        fn();
+        rec.cmdSet.add(cmd.toLowerCase().split(' ')[0]);
+        if (rec.cmdSet.size >= 5) Achv.unlock('A3');
+      } else if (/^open\s+\d+$/.test(cmd.toLowerCase())) {
+        const n = +cmd.split(/\s+/)[1];
+        const p = CONTENT.projects[n - 1];
+        if (p) {
+          print('<span class="g">打开 ' + esc(p.name) + ' …</span>');
+          WM.open('files', { onReady: r => r.openProject && r.openProject(p.id) });
+          rec.cmdSet.add('open');
+          if (rec.cmdSet.size >= 5) Achv.unlock('A3');
+        } else print('<span class="w">没有第 ' + n + ' 号作品。projects 查看列表。</span>');
+      } else {
+        print('<span class="m">' + esc(cmd) + ': command not found —— 但我欣赏你的探索精神。</span>');
+      }
+    };
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { exec(input.value); input.value = ''; }
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); if (hIdx > 0) input.value = rec.history[--hIdx] || ''; }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); if (hIdx < rec.history.length) input.value = rec.history[++hIdx] || ''; }
+    });
+    $$('.term-chips .chip', body).forEach(c => c.addEventListener('click', () => { exec(c.dataset.cmd); input.focus(); }));
+    rec.body.addEventListener('pointerdown', () => setTimeout(() => input.focus(), 0));
+  },
+};
+
+/* ---------- 关于我 ---------- */
+APPS.about = {
+  title: '关于我', icon: 'i-brain', w: 680, h: 560,
+  render(body) {
+    body.innerHTML =
+      '<div class="about-tabs" role="tablist">' +
+        ['简介', '经历', '频道', '相册'].map((t, i) => '<button role="tab" data-tab="' + i + '" class="' + (i === 0 ? 'on' : '') + '">' + t + '</button>').join('') +
+      '</div><div class="about-page" data-page></div>';
+    const page = $('[data-page]', body);
+    const pages = [
+      () =>
+        '<div class="about-hero"><div class="avatar">R</div><div>' +
+          '<h2 class="app-h">' + CONTENT.name + ' · ' + CONTENT.realName + '</h2>' +
+          '<p class="app-sub" style="margin-bottom:8px">' + CONTENT.slogan + '</p>' +
+          '<div class="fm-tags" style="margin:0"><span class="chip acc">' + CONTENT.targetRole + '</span><span class="chip">' + CONTENT.city + '</span><span class="chip">' + CONTENT.availability + '</span></div>' +
+        '</div></div>' +
+        '<p class="fm-desc">' + CONTENT.bio + '</p>' +
+        '<p class="mono muted" style="font-size:12px">系统备注：本简介由第二大脑画像库背书，每条战绩可在「证据墙」溯源。</p>',
+      () =>
+        '<div class="tl">' + CONTENT.timeline.map(t =>
+          '<div class="tl-item' + (t.now ? ' now' : '') + '">' +
+            '<div class="tl-ver">' + t.ver + ' · ' + t.year + '</div>' +
+            '<div class="tl-title">' + esc(t.title) + '</div>' +
+            '<div class="tl-desc">' + esc(t.desc) + '</div>' +
+          '</div>').join('') + '</div>',
+      () =>
+        '<p class="app-sub">自媒体阵地筹备中——内容品牌「玲珑说」规划中，先把产品做硬。</p>' +
+        '<div class="ev-list" style="padding:0">' +
+          '<div class="ev-item" style="cursor:default"><div class="ev-claim">' + svgUse('i-zap', 16) + ' 玲珑说 · 筹备中 <span class="chip">选题库已就位</span></div></div>' +
+          '<div class="ev-item" style="cursor:default"><div class="ev-claim">' + svgUse('i-star', 16) + ' 更多平台 · 待定 <span class="chip">待定</span></div></div>' +
+        '</div>',
+      () =>
+        '<p class="app-sub">生活相册 · 程序化占位（真实照片上线前替换）</p>' +
+        '<div class="album">' +
+          ['咖啡与代码', '展会现场', '深夜书桌', '深圳湾', '白板推演', '第一台显示器'].map((t, i) =>
+            '<div class="ph" data-lb="' + i + '" style="background:linear-gradient(' + (120 + i * 40) + 'deg, hsl(var(--accent) / 0.3), hsl(' + (200 + i * 20) + ' 50% 22% / 0.7))">' + t + '</div>').join('') +
+        '</div>',
+    ];
+    const show = i => {
+      page.innerHTML = pages[i]();
+      page.classList.remove('view-in');
+      void page.offsetWidth;
+      page.classList.add('view-in');
+      $$('.ph', page).forEach(ph => ph.addEventListener('click', () => {
+        $('#lightboxInner').innerHTML = ph.textContent;
+        $('#lightboxInner').style.background = ph.style.background;
+        $('#lightbox').classList.add('on');
+      }));
+    };
+    $$('.about-tabs button', body).forEach(b => b.addEventListener('click', () => {
+      $$('.about-tabs button', body).forEach(x => x.classList.remove('on'));
+      b.classList.add('on'); SFX.play('click'); show(+b.dataset.tab);
+    }));
+    show(0);
+  },
+};
+
+/* ---------- 简历.exe（HR 专用 · 禁系统层幽默） ---------- */
+APPS.resume = {
+  title: '简历.exe', icon: 'i-file', w: 680, h: 640,
+  render(body) {
+    body.innerHTML =
+      '<div class="resume-doc">' +
+        '<div class="r-name">' + CONTENT.name + '（' + CONTENT.realName + '）</div>' +
+        '<div class="r-intent">求职意向：' + CONTENT.targetRole + '</div>' +
+        '<div class="r-meta">' + CONTENT.city + ' · ' + CONTENT.availability + ' · ' + CONTENT.email + '</div>' +
+
+        '<h4>核心能力</h4><ul>' +
+          '<li><b>解决方案编写与宣讲</b>：累计面向 <b>1300+ 家</b>公司完成七维度个性化方案培训，<b>80+ 场</b>项目汇报。</li>' +
+          '<li><b>业务 → AI 方案转译</b>：售前 2 年 + AI Coding 实战，把 Know-how 变成可演示、可复用的方案。</li>' +
+          '<li><b>Agent 产品落地</b>：独立构建 20+ 可演示 AI 产物（Agent / RAG / 知识库 / 自动化）。</li>' +
+          '<li><b>项目全链推进</b>：需求访谈 → 方案汇报 → 验收答辩，20+ 项目通过专家评审。</li>' +
+        '</ul>' +
+
+        '<h4>工作经历</h4>' +
+        '<div class="r-job"><span class="co">售前工程师 · 广东保伦电子（音视频行业）</span><span class="pd">2024 – 2026</span></div><ul>' +
+          '<li>主导 <b>90 万级</b>指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。</li>' +
+          '<li>累计 <b>1300+ 家</b>公司方案培训、<b>80+ 场</b>汇报、<b>20+ 个</b>项目落地验收（专家评审会答辩）。</li>' +
+        '</ul>' +
+        '<div class="r-job"><span class="co">独立开发者 · 玲珑 AI 产品矩阵（一人公司）</span><span class="pd">2025 – 2026</span></div><ul>' +
+          '<li>独立构建 <b>20+ 可演示 AI 产物</b>：Agent、Workflow、RAG、知识库、自动化流程。</li>' +
+          '<li>跑通生产级 RAG 全链路：<b>119 文件建库 724 秒，检索实测 5 问 4 中</b>。</li>' +
+          '<li>把一次交付沉淀为可复用资产：第二大脑编号知识库 + 玲珑 SOP 模板体系。</li>' +
+        '</ul>' +
+
+        '<h4>方法论资产</h4><ul>' +
+          '<li><b>场景拆解七件套</b>：角色 → 流程 → 节点 → 规则 → 数据 → 审批 → 异常。</li>' +
+          '<li><b>AI 切入三问</b>：重复规则？数据可得？错得起吗？——敢说「这里不适合 AI」。</li>' +
+          '<li><b>循证底线</b>：所有战绩可溯源（本站「证据墙」App 可逐条核对）。</li>' +
+        '</ul>' +
+
+        '<h4>教育</h4><ul><li>全日制本科（专升本）· 通信工程</li></ul>' +
+
+        '<h4>技能清单</h4><ul><li>' +
+          CONTENT.skills.filter(s => !s.slack).map(s => esc(s.name)).join(' · ') +
+        '</li></ul>' +
+
+        '<div class="resume-foot">' +
+          '<span class="resume-explore">这台电脑里还有更多 → <button data-explore>探索桌面</button></span>' +
+          '<button class="btn btn-ghost" data-print>' + svgUse('i-print', 14) + ' 打印 / 保存 PDF</button>' +
+        '</div>' +
+      '</div>';
+    $('[data-print]', body).addEventListener('click', () => {
+      $('#printArea').innerHTML = body.innerHTML;
+      const f = $('#printArea .resume-foot'); if (f) f.remove();
+      window.print();
+    });
+    $('[data-explore]', body).addEventListener('click', () => {
+      if (location.hash === '#resume') history.replaceState(null, '', location.pathname);
+      WM.minimize(WM.wins.get('resume'));
+      WM.open('files');
+    });
+  },
+};
+
+/* ---------- 联系我 ---------- */
+APPS.contact = {
+  title: '联系我', icon: 'i-mail', w: 460, h: 480,
+  render(body) {
+    body.innerHTML =
+      '<div class="contact-card liquid-glass" style="border-radius:var(--radius-2xl)">' +
+        '<div class="avatar">R</div>' +
+        '<h2 class="app-h">' + CONTENT.name + '</h2>' +
+        '<p class="app-sub" style="margin-bottom:0">' + CONTENT.slogan + '</p>' +
+        '<p class="r-meta" style="margin-top:8px">' + CONTENT.city + ' · ' + CONTENT.availability + '</p>' +
+        '<button class="copy-btn" data-copy>' + svgUse('i-copy', 14) + ' 复制邮箱</button>' +
+        '<div class="socials">' +
+          CONTENT.socials.map(s => '<button data-url="' + s.url + '">' + esc(s.name) + '</button>').join('') +
+        '</div>' +
+      '</div>';
+    $('[data-copy]', body).addEventListener('click', () => {
+      const done = () => toast('邮箱已复制：' + CONTENT.email, 'i-copy');
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(CONTENT.email).then(done, done);
+      else done();
+      SFX.play('click');
+    });
+    $$('.socials button', body).forEach(b => b.addEventListener('click', () => {
+      if (b.dataset.url === '#') toast('账号配置中，先邮箱联系吧', 'i-mail');
+      else window.open(b.dataset.url, '_blank');
+    }));
+  },
+};
+
+/* ---------- 回收站（彩蛋） ---------- */
+APPS.recycle = {
+  title: '回收站', icon: 'i-trash', w: 620, h: 460,
+  render(body, rec) {
+    body.innerHTML =
+      '<div class="recycle-zone">' +
+        '<p class="recycle-head">这里安息着被废弃的想法。它们曾发光过。</p>' +
+        CONTENT.recycleNotes.map((n, i) =>
+          '<div class="note" style="background:' + n.color + ';left:' + (30 + (i % 3) * 170) + 'px;top:' + (64 + Math.floor(i / 3) * 150 + (i % 2) * 20) + 'px;transform:rotate(' + ((i % 2 ? -1 : 1) * (2 + i)) + 'deg)">' + esc(n.text) + '</div>').join('') +
+        '<p class="recycle-foot">其中某个想法正在复活中… → ' + esc(CONTENT.revivingProject) + '</p>' +
+      '</div>';
+    $$('.note', body).forEach(note => {
+      note.addEventListener('pointerdown', e => {
+        e.preventDefault();
+        const zone = note.parentElement.getBoundingClientRect();
+        const r = note.getBoundingClientRect();
+        const ox = e.clientX - r.left, oy = e.clientY - r.top;
+        note.setPointerCapture(e.pointerId);
+        Achv.unlock('A4');
+        const move = ev => {
+          note.style.left = clamp(ev.clientX - zone.left - ox, 0, zone.width - r.width) + 'px';
+          note.style.top = clamp(ev.clientY - zone.top - oy, 0, zone.height - r.height) + 'px';
+          note.style.transform = 'rotate(0deg)';
+        };
+        const up = () => { note.removeEventListener('pointermove', move); note.removeEventListener('pointerup', up); };
+        note.addEventListener('pointermove', move);
+        note.addEventListener('pointerup', up);
+      });
+    });
+  },
+};
+
+/* ---------- 证据墙 Evidence.exe ---------- */
+APPS.evidence = {
+  title: '证据墙 Evidence.exe', icon: 'i-search', w: 640, h: 500,
+  render(body) {
+    body.innerHTML =
+      '<div class="app-pad" style="padding-bottom:0">' +
+        '<h2 class="app-h">循证底线，可视化</h2>' +
+        '<p class="app-sub">本站的每一条能力声明都能点开看原始出处。<span class="badge a">A 级 · 直接证据</span> <span class="badge b">B 级 · 文档在册</span></p>' +
+      '</div>' +
+      '<div class="ev-list">' +
+        CONTENT.evidence.map((e, i) =>
+          '<div class="ev-item" data-i="' + i + '">' +
+            '<div class="ev-claim"><span class="badge ' + e.level + '">' + e.level.toUpperCase() + '</span> ' + esc(e.claim) + '</div>' +
+            '<div class="ev-src">' + esc(e.src).replace(/\n/g, '<br>') + '</div>' +
+          '</div>').join('') +
+      '</div>';
+    $$('.ev-item', body).forEach(it => it.addEventListener('click', () => { it.classList.toggle('open'); SFX.play('click'); }));
+  },
+};
+
+/* ---------- 学习进行时 Learning.sys ---------- */
+APPS.learning = {
+  title: '学习进行时 Learning.sys', icon: 'i-book', w: 560, h: 460,
+  render(body) {
+    body.innerHTML =
+      '<div class="app-pad" style="padding-bottom:0">' +
+        '<h2 class="app-h">正在编译新能力</h2>' +
+        '<p class="app-sub">差距不藏着。补到什么程度，来自哪个差距清单，都摊开。</p>' +
+      '</div>' +
+      '<div class="learn-list">' +
+        CONTENT.learning.map(l =>
+          '<div class="learn-card">' +
+            '<div class="learn-top"><span class="learn-name">' + esc(l.name) + '</span><span class="learn-meta">' + esc(l.meta) + '</span></div>' +
+            '<p class="muted" style="font-size:12px;line-height:1.7">' + esc(l.note) + '</p>' +
+            '<div class="learn-bar ' + l.mode + '"><i></i></div>' +
+          '</div>').join('') +
+      '</div>';
+  },
+};
+
+/* ---------- 隐藏 App ??? ---------- */
+APPS.cosmos = {
+  title: '???', icon: 'i-star', w: 720, h: 540,
+  render(body) {
+    body.innerHTML =
+      '<div class="cosmos"><canvas></canvas>' +
+        '<div class="cosmos-inner">' +
+          '<h2>感谢你翻遍了这台电脑。</h2>' +
+          '<p class="muted" style="max-width:34em">' + CONTENT.slogan + '<br>—— 如果这套做事方式正是你团队缺的，「联系我」就在桌面上。</p>' +
+        '</div>' +
+      '</div>';
+    const cv = $('canvas', body);
+    const ctx = cv.getContext('2d');
+    let stars = [], raf = null;
+    const size = () => { cv.width = cv.clientWidth; cv.height = cv.clientHeight; };
+    const init = () => {
+      size();
+      stars = Array.from({ length: 140 }, () => ({ x: Math.random() * cv.width, y: Math.random() * cv.height, r: Math.random() * 1.4 + 0.3, s: Math.random() * 0.25 + 0.05 }));
+    };
+    const tick = () => {
+      if (!document.body.contains(cv)) { cancelAnimationFrame(raf); return; }
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.fillStyle = '#dff1ff';
+      stars.forEach(st => {
+        st.y += st.s; if (st.y > cv.height) st.y = 0;
+        ctx.globalAlpha = 0.35 + Math.sin((Date.now() / 700) + st.x) * 0.3;
+        ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 7); ctx.fill();
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    init(); tick();
+    window.addEventListener('resize', init);
+  },
+};
+
+/* ============================================================
+   桌面图标 & 开始菜单
+   ============================================================ */
+const DESKTOP = [
+  { app: 'files',    label: '我的作品',   tip: '12 个产品，从想法到落地' },
+  { app: 'taskmgr',  label: '任务管理器', tip: '技能进程，CPU 实时波动' },
+  { app: 'terminal', label: '终端',       tip: '试试 sudo unlock' },
+  { app: 'about',    label: '关于我',     tip: '这个人是谁' },
+  { app: 'evidence', label: '证据墙',     tip: '每条战绩都可溯源' },
+  { app: 'learning', label: '学习进行时', tip: '正在编译：GPU 私有化' },
+  { app: 'contact',  label: '联系我',     tip: '一周内到岗' },
+  { app: 'recycle',  label: '回收站',     tip: '废弃想法安息地' },
+  { app: 'resume',   label: '简历.exe',   tip: 'HR 请进 · 3 秒可读', entry: true },
+  { app: 'cosmos',   label: '???',        tip: '???', hidden: true },
+];
+function renderDesktop() {
+  const wrap = $('#deskIcons');
+  wrap.innerHTML = '';
+  DESKTOP.forEach((d, i) => {
+    const app = APPS[d.app];
+    const ic = el(
+      '<button class="desk-icon' + (d.entry ? ' is-entry' : '') + (d.hidden ? ' hidden-app' : '') + '" style="--i:' + i + '" data-app="' + d.app + '" data-tip="' + esc(d.tip || '') + '" aria-label="' + esc(d.label) + '">' +
+        '<span class="tilewrap"><span class="tile">' + svgUse(app.icon, 26) + '</span>' + (d.entry ? '<span class="qr-badge">HR</span>' : '') + '</span>' +
+        '<span class="lbl">' + esc(d.label) + '</span>' +
+      '</button>');
+    let lastTap = 0;
+    ic.addEventListener('click', () => {
+      $$('.desk-icon').forEach(x => x.classList.remove('selected'));
+      ic.classList.add('selected');
+      const now = Date.now();
+      if (now - lastTap < 350) { WM.open(d.app); lastTap = 0; }
+      else lastTap = now;
+    });
+    ic.addEventListener('dblclick', () => WM.open(d.app));
+    ic.addEventListener('keydown', e => { if (e.key === 'Enter') WM.open(d.app); });
+    wrap.appendChild(ic);
+  });
+}
+function revealHiddenApp() {
+  store('remios_hidden', '1');
+  const ic = $('.desk-icon[data-app="cosmos"]');
+  if (ic && !ic.classList.contains('revealed')) {
+    ic.classList.add('revealed');
+    toast('桌面出现了新的图标：???', 'i-star');
+  }
+}
+function renderStartMenu() {
+  const m = $('#startMenu');
+  m.innerHTML =
+    '<div class="caption muted" style="padding:8px 12px 4px">REMI OS v2.5</div>' +
+    DESKTOP.filter(d => !d.hidden).map(d =>
+      '<button class="sm-item" data-app="' + d.app + '">' + svgUse(APPS[d.app].icon, 16) + ' ' + esc(d.label) + '</button>').join('') +
+    '<div class="sm-sep"></div>' +
+    '<button class="sm-item danger" data-power>' + svgUse('i-power', 16) + ' 关机</button>' +
+    '<div class="caption muted" style="padding:6px 12px 8px;font-size:9px">F2 窗口切换 · Esc 关闭窗口</div>';
+  $$('.sm-item[data-app]', m).forEach(b => b.addEventListener('click', () => { toggleStart(false); WM.open(b.dataset.app); }));
+  $('[data-power]', m).addEventListener('click', () => { toggleStart(false); shutdown(); });
+}
+function toggleStart(force) {
+  const m = $('#startMenu');
+  const open = force != null ? force : !m.classList.contains('open');
+  m.classList.toggle('open', open);
+  if (open) SFX.play('click');
+}
+function shutdown() {
+  const sd = $('#shutdown');
+  sd.classList.add('on');
+  SFX.play('close');
+  setTimeout(() => {
+    sd.classList.remove('on');
+    // 回到开机（老访客 2s 快闪）
+    Array.from(WM.wins.values()).forEach(w => { w.el.remove(); });
+    WM.wins.clear(); WM.renderDock();
+    $('#desktop').classList.remove('ready');
+    boot(true);
+  }, REDUCED ? 100 : 1100);
+}
+
+/* ============================================================
+   Matrix 代码雨
+   ============================================================ */
+function matrixRain(ms) {
+  const cv = $('#matrixFx');
+  cv.classList.add('on');
+  const ctx = cv.getContext('2d');
+  cv.width = window.innerWidth; cv.height = window.innerHeight;
+  const cols = Math.floor(cv.width / 16);
+  const drops = Array.from({ length: cols }, () => Math.random() * -40);
+  const chars = 'アイウエオ01玲珑REMI';
+  const t0 = Date.now();
+  const draw = () => {
+    if (Date.now() - t0 > ms || REDUCED) { cv.classList.remove('on'); return; }
+    ctx.fillStyle = 'rgba(3,10,18,0.12)'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.font = '14px JetBrains Mono, monospace';
+    drops.forEach((y, i) => {
+      ctx.fillStyle = Math.random() > 0.96 ? '#bfefff' : '#0DA2E7';
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 16, y * 16);
+      drops[i] = y * 16 > cv.height && Math.random() > 0.98 ? 0 : y + 1;
+    });
+    requestAnimationFrame(draw);
+  };
+  draw();
+}
+
+/* ============================================================
+   数字仪表盘
+   ============================================================ */
+function renderDash() {
+  const d = $('#dash');
+  d.innerHTML = CONTENT.statistics.map((s, i) =>
+    '<div class="dash-item"><div class="dash-num"><span data-n="' + s.n + '" data-i="' + i + '">0</span><small>' + s.suffix + '</small></div><div class="dash-lbl">' + esc(s.label) + '</div></div>').join('');
+  $$('.dash-num span', d).forEach(sp => {
+    const target = +sp.dataset.n;
+    if (REDUCED) { sp.textContent = target; return; }
+    const t0 = performance.now(), dur = 1400;
+    const tick = now => {
+      const p = clamp((now - t0) / dur, 0, 1);
+      sp.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+/* ============================================================
+   时钟
+   ============================================================ */
+function startClock() {
+  const c = $('#dockClock');
+  const tick = () => {
+    const d = new Date();
+    c.innerHTML = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') +
+      '<small>' + (d.getMonth() + 1) + '/' + d.getDate() + ' 周' + '日一二三四五六'[d.getDay()] + '</small>';
+  };
+  c.title = '时间在走，版本在涨。';
+  tick(); setInterval(tick, 10000);
+}
+
+/* uptime · 本次会话运行时间 */
+const bootTime = Date.now();
+setInterval(() => {
+  const s = Math.floor((Date.now() - bootTime) / 1000);
+  const h = String(Math.floor(s / 3600)).padStart(2, '0');
+  const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  const ss = String(s % 60).padStart(2, '0');
+  const up = $('#uptime');
+  if (up) up.textContent = 'UPTIME ' + h + ':' + m + ':' + ss;
+}, 1000);
+
+/* ============================================================
+   开机序列（5 种分级 · 蓝图 8.2）
+   ============================================================ */
+const BIOS_LINES = [
+  ['REMI BIOS v2.5', ''],
+  ['MEMORY CHECK ............ 65536K ', 'OK'],
+  ['CREATIVITY MODULE ....... ', 'LOADED'],
+  ['CAFFEINE LEVEL .......... ', '74%'],
+  ['MOUNTING PERSONALITY .... ', 'OK'],
+  ['BOOTING REMI OS ......... ', ''],
+];
+let bootSkipped = false;
+function boot(isReboot) {
+  const bootEl = $('#boot');
+  const lines = $('#bootLines');
+  const bar = $('#bootBar');
+  const skipBtn = $('#bootSkip');
+  bootEl.classList.remove('gone');
+  lines.innerHTML = ''; bar.style.width = '0%';
+  bootSkipped = false;
+
+  // 访次计数
+  let visits = +(store('remios_visits') || 0);
+  if (!isReboot) { visits += 1; store('remios_visits', String(visits)); }
+
+  // 分级
+  const directResume = location.hash === '#resume';
+  let mode = 'full';
+  if (REDUCED) mode = 'skip';
+  else if (directResume) mode = 'fast';        // 1.5s
+  else if (visits > 1 || isReboot) mode = 'return'; // 2s
+  skipBtn.style.display = mode === 'full' ? '' : 'none';
+
+  const finishBoot = () => {
+    if (!REDUCED) { const f = $('#crtFlash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on'); }
+    bootEl.classList.add('gone');
+    $('#desktop').classList.add('ready');
+    renderDash();
+    if (mode === 'full' && !bootSkipped) Achv.unlock('A1');
+    if (directResume) {
+      WM.open('resume', { onReady: r => { if (!isMobile()) WM.toggleMax(r); } });
+    } else if (visits >= 3 && !Achv.unlocked.has('A8')) {
+      Achv.unlock('A8');
+      setTimeout(() => { toast('又见面了。这次我不装了——直接给你开个窗口', 'i-star'); WM.open('about'); }, 900);
+    }
+    // 首访：简历入口提示 6s
+    if (visits === 1 && !directResume) {
+      document.body.classList.add('hint-entry');
+      setTimeout(() => document.body.classList.remove('hint-entry'), 6000);
+    }
+    maybeAskSound();
+  };
+
+  if (mode === 'skip') { finishBoot(); return; }
+
+  const perLine = mode === 'full' ? 380 : mode === 'return' ? 260 : 170;
+  let i = 0;
+  const typeLine = () => {
+    if (bootSkipped) return;
+    if (i >= BIOS_LINES.length) {
+      bar.style.width = '100%';
+      if (mode === 'full') SFX.play('boot');
+      setTimeout(finishBoot, mode === 'full' ? 900 : 350);
+      return;
+    }
+    const [text, mark] = BIOS_LINES[i];
+    const div = el('<div></div>');
+    lines.appendChild(div);
+    let c = 0;
+    const tick = () => {
+      if (bootSkipped) return;
+      c = Math.min(text.length, c + 3);
+      div.innerHTML = esc(text.slice(0, c)) + (mark ? ' <span class="ok">' + mark + '</span>' : '');
+      bar.style.width = Math.round(((i + c / text.length) / BIOS_LINES.length) * 100) + '%';
+      if (c < text.length) setTimeout(tick, 24);
+      else { i++; setTimeout(typeLine, perLine * 0.4); }
+    };
+    tick();
+  };
+  typeLine();
+
+  skipBtn.onclick = () => {
+    bootSkipped = true;
+    finishBoot();
+  };
+}
+
+/* 音效询问（开机后一次） */
+function maybeAskSound() {
+  if (store('remios_sound')) { renderMuteIcon(); return; }
+  const m = el(
+    '<div class="modal-mask"><div class="modal liquid-glass">' +
+      '<h3>这台电脑会说话。</h3><p>开启 8-bit 音效？（随时可以点 Dock 上的喇叭反悔）</p>' +
+      '<div class="row"><button class="btn btn-primary" data-yes>开启音效</button><button class="btn btn-ghost" data-no>保持安静</button></div>' +
+    '</div></div>');
+  $('[data-yes]', m).addEventListener('click', () => { store('remios_sound', 'on'); SFX.enabled = true; renderMuteIcon(); SFX.play('open'); m.remove(); });
+  $('[data-no]', m).addEventListener('click', () => { store('remios_sound', 'off'); SFX.enabled = false; renderMuteIcon(); m.remove(); });
+  document.body.appendChild(m);
+}
+
+/* ============================================================
+   F2 窗口切换器
+   ============================================================ */
+const Switcher = {
+  open: false, idx: 0, list: [],
+  show() {
+    this.list = Array.from(WM.wins.values());
+    if (!this.list.length) return;
+    this.open = true;
+    const cur = this.list.indexOf(WM.focused);
+    this.idx = cur >= 0 ? (cur + 1) % this.list.length : 0;
+    this.paint();
+    $('#switcher').classList.add('on');
+  },
+  paint() {
+    $('#switcherPanel').innerHTML = this.list.map((w, i) => {
+      const app = APPS[w.appId];
+      return '<div class="sw-item' + (i === this.idx ? ' on' : '') + '">' + svgUse(app.icon, 22) + '<div class="nm">' + esc(app.title) + '</div></div>';
+    }).join('');
+  },
+  cycle(dir) { this.idx = (this.idx + dir + this.list.length) % this.list.length; SFX.play('click'); this.paint(); },
+  commit() {
+    const w = this.list[this.idx];
+    this.close();
+    if (w) { if (w.minimized) WM.restore(w); WM.focus(w); SFX.play('open'); }
+  },
+  close() { this.open = false; $('#switcher').classList.remove('on'); },
+};
+
+/* ============================================================
+   全局事件
+   ============================================================ */
+function bindGlobal() {
+  $('#dockStart').addEventListener('click', () => toggleStart());
+  $('#tabStart').addEventListener('click', () => toggleStart());
+  $('#dockMute').addEventListener('click', () => SFX.toggle());
+  $('#dockTrophy').addEventListener('click', () => { renderAchvWall(); $('#achvWall').classList.toggle('open'); });
+  document.addEventListener('pointerdown', e => {
+    if (!e.target.closest('#startMenu') && !e.target.closest('#dockStart') && !e.target.closest('#tabStart')) toggleStart(false);
+    if (!e.target.closest('#achvWall') && !e.target.closest('#dockTrophy')) $('#achvWall').classList.remove('open');
+    if (!e.target.closest('.window') && !e.target.closest('#dock') && !e.target.closest('#tabbar')) {
+      $$('.desk-icon').forEach(x => x.classList.remove('selected'));
+    }
+  });
+  $('#lightbox').addEventListener('click', () => $('#lightbox').classList.remove('on'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F2') { e.preventDefault(); Switcher.open ? Switcher.cycle(1) : Switcher.show(); return; }
+    if (Switcher.open) {
+      e.preventDefault();
+      if (e.key === 'ArrowRight') Switcher.cycle(1);
+      else if (e.key === 'ArrowLeft') Switcher.cycle(-1);
+      else if (e.key === 'Enter') Switcher.commit();
+      else if (e.key === 'Escape') Switcher.close();
+      return;
+    }
+    if (e.key === 'Escape') {
+      if ($('#lightbox').classList.contains('on')) { $('#lightbox').classList.remove('on'); return; }
+      if ($('#startMenu').classList.contains('open')) { toggleStart(false); return; }
+      if (WM.focused && !WM.focused.minimized) WM.close(WM.focused);
+    }
+  });
+  $('#switcher').addEventListener('pointerdown', e => { if (e.target.id === 'switcher') Switcher.close(); });
+  window.addEventListener('resize', () => {
+    // 窗口钳制回视口
+    WM.wins.forEach(w => {
+      if (w.isMaximized) { w.el.style.width = window.innerWidth + 'px'; w.el.style.height = window.innerHeight + 'px'; return; }
+      w.x = clamp(w.x, -w.w + 80, window.innerWidth - 40);
+      w.y = clamp(w.y, 0, window.innerHeight - 48);
+      w.el.style.left = w.x + 'px'; w.el.style.top = w.y + 'px';
+    });
+  });
+}
+
+/* ============================================================
+   启动
+   ============================================================ */
+renderDesktop();
+renderStartMenu();
+renderMuteIcon();
+if (Achv.unlocked.size > 0) $('#dockTrophy').classList.add('show');
+if (Achv.unlocked.size >= ACHV_DEF.length || store('remios_hidden') === '1') revealHiddenApp();
+bindGlobal();
+startClock();
+boot(false);
+</script>
+</body>
+</html>

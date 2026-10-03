@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>Remi — 个人主页 | AI 应用开发者</title>
+    <meta name="title" content="Remi — 个人主页 | AI 应用开发者">
+    <meta name="description" content="专注 AI 应用落地与智能自动化系统开发，探索 AI Agent 与业务场景的深度融合。作品包括 Remi Radar、AI 小说创作工作流、定制工作自动化系统等。">
+    <meta name="keywords" content="Remi, AI 应用开发，智能自动化，AI Agent, 个人主页，作品集">
+    <meta name="author" content="Remi">
+    
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="assets/remi-logo.png">
+
+    <!-- 资源预连接 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/">
+    <meta property="og:title" content="Remi — 个人主页 | AI 应用开发者">
+    <meta property="og:description" content="专注 AI 应用落地与智能自动化系统开发，探索 AI Agent 与业务场景的深度融合。作品包括 Remi Radar、AI 小说创作工作流、定制工作自动化系统等。">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.remifei.cn/">
+    <meta name="twitter:title" content="Remi — 个人主页 | AI 应用开发者">
+    <meta name="twitter:description" content="专注 AI 应用落地与智能自动化系统开发，探索 AI Agent 与业务场景的深度融合。">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta name="twitter:creator" content="@你的 Twitter">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="Remi — 个人主页 | AI 应用开发者">
+    <meta name="wechat:description" content="专注 AI 应用落地与智能自动化系统开发，探索 AI Agent 与业务场景的深度融合。">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    // 微信分享配置 - 需要后端提供签名
+    // 获取签名后取消下面注释并填入配置
+    /*
+    fetch('/api/wechat-signature?url=' + encodeURIComponent(window.location.href))
+      .then(res => res.json())
+      .then(data => {
+        wx.config({
+          debug: false,
+          appId: data.appId,           // 公众号 ID
+          timestamp: data.timestamp,    // 时间戳
+          nonceStr: data.nonceStr,      // 随机字符串
+          signature: data.signature,    // 签名
+          jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
+        });
+      });
+    
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'Remi — 个人主页 | AI 应用开发者',
+        desc: '专注 AI 应用落地与智能自动化系统开发，探索 AI Agent 与业务场景的深度融合。',
+        link: 'https://www.remifei.cn/',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);      // 朋友分享
+      wx.updateTimelineShareData(shareConfig);        // 朋友圈分享
+    });
+    */
+    </script>
+    -->
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">关于</a>
+                <a href="#story" class="nav-link">我的故事</a>
+                <a href="#work" class="nav-link">作品</a>
+                <a href="#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-nav">打个招呼</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <a href="#about" class="mobile-link">关于</a>
+            <a href="#story" class="mobile-link">我的故事</a>
+            <a href="#work" class="mobile-link">作品</a>
+            <a href="#contact" class="mobile-link">联系</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-wrapper">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>热爱生活 · 持续创造</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-line">你好，我是</span>
+                    <span class="title-line">
+                        <span class="title-highlight">Remi</span>
+                    </span>
+                </h1>
+                <p class="hero-desc">
+                    做过教练、测过产品、现在玩 AI。
+                </p>
+                <p class="hero-desc hero-desc-secondary">
+                    人生没有白走的路，每一步都算数。
+                </p>
+                <div class="hero-actions">
+                    <a href="#about" class="btn btn-primary btn-lg">
+                        <span>了解更多</span>
+                    </a>
+                    <a href="#work" class="btn btn-ghost btn-lg">
+                        <span>看看作品</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-wrapper">
+                    <div class="image-ring"></div>
+                    <div class="image-glow"></div>
+                    <img src="assets/avatar.jpg" alt="Remi" class="avatar-photo" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="8">0</span>
+                    <span class="stat-label">作品与项目</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-text">终身</span>
+                    <span class="stat-label">学习者</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="5">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">核心技能</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="100">0</span>
+                    <span class="stat-suffix">%</span>
+                    <span class="stat-label">用心投入</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section section-light" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">01 — 关于我</span>
+                <h2 class="section-title">人生没有白走的路，每一步都算数。</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-content">
+                    <p class="about-lead">
+                        你好，我是 <strong>Remi</strong>，一个正在 AI 路上探索的终身学习者。
+                    </p>
+                    <p class="about-text">
+                        我不是科班出身，只是个爱折腾的普通人。
+                        经历过不同行业的打磨，从体育到技术，从执行到沟通，
+                        每一次转型都是新的开始，每一段经历都在塑造现在的我。
+                    </p>
+                    <p class="about-text">
+                        现在的我，专注于 AI 与 Agentic Engineering，
+                        用项目驱动学习，用实践验证想法。
+                        相信多元的经历不是负担，而是独特的优势。
+                    </p>
+                    <div class="about-skills">
+                        <div class="skill-category">
+                            <h4>学习方式</h4>
+                            <div class="skill-tags">
+                                <span>项目驱动</span>
+                                <span>TDD 实践</span>
+                                <span>垂直切分</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>AI 方向</h4>
+                            <div class="skill-tags">
+                                <span>Agentic Engineering</span>
+                                <span>多智能体系统</span>
+                                <span>AI 应用开发</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>软技能</h4>
+                            <div class="skill-tags">
+                                <span>沟通协作</span>
+                                <span>需求分析</span>
+                                <span>快速学习</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="visual-card">
+                        <div class="visual-header">
+                            <span class="visual-dot red"></span>
+                            <span class="visual-dot yellow"></span>
+                            <span class="visual-dot green"></span>
+                        </div>
+                        <div class="visual-content">
+                            <div class="code-line"><span class="code-keyword">const</span> <span class="code-var">remi</span> = {</div>
+                            <div class="code-line indent"><span class="code-prop">身份</span>: <span class="code-string">"终身学习者"</span>,</div>
+                            <div class="code-line indent"><span class="code-prop">赛道</span>: <span class="code-string">"AI & Agentic"</span>,</div>
+                            <div class="code-line indent"><span class="code-prop">风格</span>: <span class="code-string">"多元 · 真诚 · 实干"</span>,</div>
+                            <div class="code-line indent"><span class="code-prop">正在进行</span>: <span class="code-string">"从 0 到 1 的转型"</span></div>
+                            <div class="code-line">};</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story / Goals Section -->
+    <section class="section section-dark" id="story">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">02 — 我的故事</span>
+                <h2 class="section-title">从 0 到 1，正在路上。</h2>
+            </div>
+            <div class="goals-container">
+                <div class="goal-card">
+                    <div class="goal-number">01</div>
+                    <div class="goal-content">
+                        <h3>起点 · 篮球教练</h3>
+                        <p>在球场上教人投篮的日子，<br>学会了如何拆解动作、耐心指导。<br>那时的我，还不知道未来会和代码打交道。</p>
+                    </div>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-number">02</div>
+                    <div class="goal-content">
+                        <h3>探索 · 技术岗位</h3>
+                        <p>做过测试工程师，较真每一个细节；<br>做过售前工程师，和客户聊需求、讲方案。<br>每一次尝试，都在寻找真正热爱的方向。</p>
+                    </div>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-number">03</div>
+                    <div class="goal-content">
+                        <h3>转型 · AI 工程</h3>
+                        <p>今年 1 月，正式踏上 AI 学习之路。<br>从 Vibe Coding 到 Agentic Engineering，<br>1 个月，7 个项目，每天都在突破认知。</p>
+                    </div>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-number">04</div>
+                    <div class="goal-content">
+                        <h3>期待 · 持续成长</h3>
+                        <p>不是科班出身，但有多元的背景；<br>没有光鲜的履历，但有踏实的努力。<br>相信只要持续前行，终会到达想去的地方。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section class="section" id="work">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">03 — 作品</span>
+                <h2 class="section-title">一些小心血。</h2>
+            </div>
+            <div class="work-filter">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="complete">完整作品</button>
+                <button class="filter-btn" data-filter="demo">Demo</button>
+                <button class="filter-btn" data-filter="skills">Skills</button>
+            </div>
+            <div class="work-grid">
+                <!-- Project 1: Remi Radar -->
+                <article class="work-item" data-category="complete">
+                    <a href="project-remi-radar.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/remi-radar-thumb.svg" alt="Remi Radar" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">完整作品</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">Remi Radar — 智能信息雷达</h3>
+                            <p class="work-desc">Electron 桌面应用，集成 RSS、AI 分析、多平台爬虫的智能信息采集系统</p>
+                            <div class="work-tags">
+                                <span>Electron</span>
+                                <span>React</span>
+                                <span>TypeScript</span>
+                                <span>AI</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- Project 2: AI 小说创作工作流系统 -->
+                <article class="work-item" data-category="demo">
+                    <a href="project-novel-workflow.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/novel-workflow-thumb.svg" alt="AI 小说创作工作流系统" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="dna-overlay">
+                                <span class="dna-strand dna-left"></span>
+                                <span class="dna-strand dna-right"></span>
+                            </div>
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">Demo</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">AI 小说创作工作流系统</h3>
+                            <p class="work-desc">DNA 档案 + 情绪节拍 + 分层写作三大核心方法论，系统化创作高质量小说</p>
+                            <div class="work-tags">
+                                <span>Flask</span>
+                                <span>Claude AI</span>
+                                <span>创意写作</span>
+                                <span>工作流</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- Project 3: AI 视频生成工具 -->
+                <article class="work-item" data-category="demo">
+                    <a href="project-ai-video-generator.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/ai-video-generator-thumb.svg" alt="AI 视频生成工具" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">Demo</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">AI 视频生成工具</h3>
+                            <p class="work-desc">基于 AI 的视频创作平台，文生视频、AI 生图、智能配音，完全免费</p>
+                            <div class="work-tags">
+                                <span>Flask</span>
+                                <span>Edge TTS</span>
+                                <span>Pollinations AI</span>
+                                <span>MoviePy</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- Project 4: Agent_WE 多智能体团队讨论 -->
+                <article class="work-item" data-category="demo">
+                    <a href="project-agent-we.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/agent-we-thumb.svg" alt="Agent_WE" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="network-overlay">
+                                <span class="network-node node-1"></span>
+                                <span class="network-node node-2"></span>
+                                <span class="network-node node-3"></span>
+                                <span class="network-node node-4"></span>
+                                <span class="network-node node-5"></span>
+                                <span class="network-node node-6"></span>
+                                <span class="network-line line-1-2"></span>
+                                <span class="network-line line-3-4"></span>
+                                <span class="network-line line-5-6"></span>
+                            </div>
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">Demo</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">Agent_WE — 多智能体对话系统</h3>
+                            <p class="work-desc">基于 LangChain + LangGraph 的多智能体协作对话系统，提供情绪陪伴和工作讨论</p>
+                            <div class="work-tags">
+                                <span>LangChain</span>
+                                <span>LangGraph</span>
+                                <span>Streamlit</span>
+                                <span>AI</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- Project 6: 定制工作自动化系统 -->
+                <article class="work-item" data-category="complete">
+                    <div class="work-link-disabled">
+                        <div class="work-image">
+                            <img src="assets/custom-automation-thumb.svg" alt="定制工作自动化系统" class="work-screenshot" loading="lazy" decoding="async">
+                            <!-- 自动化流程动画覆盖层 -->
+                            <div class="automation-overlay">
+                                <!-- 角落装饰 -->
+                                <div class="automation-corner top-left"></div>
+                                <div class="automation-corner top-right"></div>
+                                <div class="automation-corner bottom-left"></div>
+                                <div class="automation-corner bottom-right"></div>
+
+                                <!-- 模块 -->
+                                <div class="automation-module email">
+                                    <svg class="automation-icon" viewBox="0 0 32 32">
+                                        <rect x="5" y="8" width="22" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <path d="M5 10L16 18L27 10" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                                <div class="automation-module document">
+                                    <svg class="automation-icon" viewBox="0 0 32 32">
+                                        <path d="M10 6H18L22 10V26H10V6Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <path d="M18 6V10H22" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <line x1="14" y1="15" x2="20" y2="15" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="14" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="14" y1="25" x2="18" y2="25" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="automation-module rpa">
+                                    <svg class="automation-icon" viewBox="0 0 32 32">
+                                        <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <path d="M16 10V14L19 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <circle cx="16" cy="16" r="2" fill="currentColor"/>
+                                    </svg>
+                                </div>
+
+                                <!-- 数据流线 -->
+                                <div class="automation-line line-1"></div>
+                                <div class="automation-line line-2"></div>
+
+                                <!-- 流动的数据点 -->
+                                <div class="automation-dot"></div>
+
+                                <!-- 扫描线 -->
+                                <div class="automation-scan-line"></div>
+
+                                <!-- 状态指示器 -->
+                                <div class="automation-status">
+                                    <span class="status-dot"></span>
+                                    <span class="status-text">运行中</span>
+                                </div>
+                            </div>
+                            <div class="work-overlay work-overlay-disabled">
+                                <span class="overlay-text">产品开发中</span>
+                                <i class="fas fa-hourglass"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">完整作品</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">定制工作自动化系统</h3>
+                            <p class="work-desc">本地化 LLM 驱动的企业智能自动化平台，邮件处理、单证解析、RPA 流程自动化</p>
+                            <div class="work-tags">
+                                <span>FastAPI</span>
+                                <span>Vue 3</span>
+                                <span>本地 LLM</span>
+                                <span>RPA</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <!-- Project 6.5: 爻胜 YiSheng -->
+                <article class="work-item" data-category="complete">
+                    <a href="project-yisheng.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/yisheng-thumb.svg" alt="爻胜 YiSheng" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">完整作品</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">爻胜 YiSheng — 易学 × 统计双引擎</h3>
+                            <p class="work-desc">Elo+DC 统计与六爻/梅花/大六壬融合的竞彩预测系统</p>
+                            <div class="work-tags">
+                                <span>Rust</span>
+                                <span>Node.js</span>
+                                <span>六爻</span>
+                                <span>Elo+DC</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- Project 7: 成长教练 Skill -->
+                <article class="work-item" data-category="skills">
+                    <a href="project-growth-coach.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/growth-coach-thumb.svg" alt="成长教练 Skill" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">Skills</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">成长教练 Skill</h3>
+                            <p class="work-desc">从 Vibe Coder 到 Agentic Engineer 的实战教练</p>
+                            <div class="work-tags">
+                                <span>AI Skill</span>
+                                <span>Agentic</span>
+                                <span>教学系统</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- Project 6: QualityGuard L3 -->
+                <article class="work-item" data-category="skills">
+                    <a href="project-quality-guard.html" class="work-link">
+                        <div class="work-image">
+                            <img src="assets/quality-guard-thumb.svg" alt="QualityGuard L3" class="work-screenshot" loading="lazy" decoding="async">
+                            <div class="work-overlay">
+                                <span class="overlay-text">查看详情</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-meta">
+                                <span class="work-category">Skills</span>
+                                <span class="work-year">2026</span>
+                            </div>
+                            <h3 class="work-title">QualityGuard L3</h3>
+                            <p class="work-desc">垂直切片 × 自适应 TDD 质量保障系统</p>
+                            <div class="work-tags">
+                                <span>AI Skill</span>
+                                <span>TDD</span>
+                                <span>代码质量</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <!-- More -->
+                <article class="work-item work-more">
+                    <a href="#" class="work-link">
+                        <div class="work-image">
+                            <div class="work-placeholder more-placeholder">
+                                <i class="fas fa-plus"></i>
+                                <span>持续创作中<br>敬请期待</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey / AI Transformation Section -->
+    <section class="section section-dark" id="journey">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">04 — 我的 AI 转型路</span>
+                <h2 class="section-title">从 FOMO 到 Agentic，每一步都算数。</h2>
+            </div>
+            <div class="journey-cards">
+                <!-- Card 1: AI 初体验 -->
+                <div class="journey-card" data-step="1">
+                    <div class="card-header">
+                        <span class="card-number">01</span>
+                        <span class="card-time">2026.1 起</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>AI 初体验：原来这不是 AI</h3>
+                        <p class="card-desc">
+                            第一次接触 AI，以为就是个「超级问答机器」。后来才知道，这叫 
+                            <span class="tech-tag">LLM（大语言模型）</span>
+                            —— 能聊天、能写文章的那种 AI。
+                        </p>
+                        <p class="card-desc">
+                            想着用 AI 写小说，DeepSeek 写大纲、千问写细纲、豆包轮流产出内容。
+                            结果——AI 味太浓、故事不精彩、文笔生硬。
+                            <strong>第一课：没有自己的沉淀，AI 也救不了你。</strong>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footprint-container">
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: AIGC 探索 -->
+                <div class="journey-card" data-step="2">
+                    <div class="card-header">
+                        <span class="card-number">02</span>
+                        <span class="card-time">2026.1 起</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>AIGC 探索：原来 AI 还能搞创作</h3>
+                        <p class="card-desc">
+                            转战 
+                            <span class="tech-tag">AIGC（AI 生成内容）</span>
+                            —— 文字、图片、视频、音乐都能搞。
+                        </p>
+                        <p class="card-desc">
+                            学 Prompt、做 AI 音乐、尝试文生图、文生视频。
+                            然后发现：审美很重要、创意很重要、<strong>钱也很重要</strong>（做视频好贵）。
+                            但也做出了几首自己喜欢的歌，挺有成就感。
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footprint-container">
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Vibe Coding 狂热 -->
+                <div class="journey-card" data-step="3">
+                    <div class="card-header">
+                        <span class="card-number">03</span>
+                        <span class="card-time">2026.2 起</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Vibe Coding 狂热：万物皆可 coding</h3>
+                        <p class="card-desc">
+                            接触到 
+                            <span class="tech-tag">Vibe Coding（氛围编程）</span>
+                            —— 用自然语言描述想法，AI 帮你写代码。
+                        </p>
+                        <p class="card-desc">
+                            接入 Claude Code，每天都在高强度使用。
+                            一天一个 Demo，觉得 AI 太厉害了，一度认为<strong>万物皆可 coding</strong>。
+                            那时候的我，膨胀到不行。
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footprint-container">
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: 被现实打脸 -->
+                <div class="journey-card" data-step="4">
+                    <div class="card-header">
+                        <span class="card-number">04</span>
+                        <span class="card-time">2026.2 中旬</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>被现实打脸：屎山代码教我做人</h3>
+                        <p class="card-desc">
+                            做第一个作品时，做出了一堆<strong>屎山代码</strong>。
+                            今天 IPC 通讯报错，明天前后端连接报错。
+                        </p>
+                        <p class="card-desc">
+                            小白连报错都看不懂，只能寄希望于 Claude Code，一次次点击 Yes 的背后透露的是我的无知。
+                            <strong>啪啪打脸：AI 能写代码，但不懂架构，BUG 永远修不完。</strong>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footprint-container">
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: 觉醒与前行 -->
+                <div class="journey-card" data-step="5">
+                    <div class="card-header">
+                        <span class="card-number">05</span>
+                        <span class="card-time">现在</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>觉醒与前行：走向 Agentic Engineering</h3>
+                        <p class="card-desc">
+                            静心思考：AI 可以写代码，但<strong>架构和框架</strong>需要人来设计。
+                            我负责骨架和神经，AI 负责填补血肉——BUG 率大大降低。
+                        </p>
+                        <p class="card-desc">
+                            现在往 
+                            <span class="tech-tag">Agentic Engineering</span>
+                            方向发展——用工程思维实现人与 AI 高效协作。
+                            学习上下文工程、提示词工程、工具化、单模块验证。
+                            <strong>从人编程思维，转向人与 AI 协作思维。</strong>
+                        </p>
+                        <p class="card-desc card-highlight">
+                            思考是阴，行动是阳。只想不动会患得患失。
+                            在乌托邦到来之前，先做能提升效率的工具。
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footprint-container">
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                            <span class="footprint"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section section-cta" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">很高兴认识你。</h2>
+                <p class="cta-desc">如果你想聊聊技术、设计，或者只是想打个招呼，都很欢迎。</p>
+                <div class="cta-actions">
+                    <a href="mailto:2782084545@qq.com" class="btn btn-primary btn-lg">
+                        <span>写封邮件</span>
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <span class="info-label">邮箱</span>
+                        <a href="mailto:2782084545@qq.com" class="info-value">2782084545@qq.com</a>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">坐标</span>
+                        <span class="info-value">中国 · 深圳</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/roseG-lin" target="_blank" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <button type="button" class="social-link wechat-link" aria-label="微信" title="点击显示微信号">
+                            <i class="fab fa-weixin"></i>
+                        </button>
+                    </div>
+                    <div class="wechat-popup" id="wechatPopup">
+                        <div class="wechat-qrcode">
+                            <span class="wechat-id">Remi__LIN</span>
+                        </div>
+                        <div class="wechat-arrow"></div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/mkovdqyl" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">怎么称呼</label>
+                            <input type="text" id="name" name="name" required placeholder="你的名字">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">联系方式</label>
+                            <input type="email" id="email" name="email" required placeholder="邮箱或其他">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">想说点什么</label>
+                        <textarea id="message" name="message" rows="4" required placeholder="随便聊聊..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <span>发送</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <span class="logo-text">Remi</span>
+                    <span class="logo-dot"></span>
+                </div>
+                <nav class="footer-nav">
+                    <a href="#about">关于</a>
+                    <a href="#story">故事</a>
+                    <a href="#work">作品</a>
+                    <a href="#contact">联系</a>
+                </nav>
+                <p class="footer-copy">© 2026 Remi. Made with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

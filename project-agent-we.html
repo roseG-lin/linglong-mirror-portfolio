@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>Agent_WE — 多智能体对话系统 | Remi</title>
+    <meta name="title" content="Agent_WE — 多智能体对话系统 | Remi">
+    <meta name="description" content="基于 LangChain + LangGraph 的轻量化多智能体对话系统，提供情绪陪伴和工作讨论支持">
+    <meta name="keywords" content="Agent_WE, 多智能体，LangChain, LangGraph, 情绪陪伴，工作讨论，AI 对话">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-agent-we.html">
+    <meta property="og:title" content="Agent_WE — 多智能体对话系统">
+    <meta property="og:description" content="基于 LangChain + LangGraph 的轻量化多智能体对话系统，情绪陪伴群 + 工作讨论群，极低成本运行">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agent_WE — 多智能体对话系统">
+    <meta name="twitter:description" content="基于 LangChain + LangGraph 的轻量化多智能体对话系统">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="Agent_WE — 多智能体对话系统">
+    <meta name="wechat:description" content="基于 LangChain + LangGraph 的轻量化多智能体对话系统">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    /*
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'Agent_WE — 多智能体对话系统',
+        desc: '基于 LangChain + LangGraph 的轻量化多智能体对话系统',
+        link: 'https://www.remifei.cn/project-agent-we.html',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">Demo</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">Agent_WE — 多智能体对话系统</h1>
+            <p class="project-subtitle">基于 LangChain + LangGraph 的轻量化多智能体对话系统，提供情绪陪伴和工作讨论支持</p>
+            <div class="project-tech">
+                <span>LangChain</span>
+                <span>LangGraph</span>
+                <span>Streamlit</span>
+                <span>ChromaDB</span>
+                <span>DeepSeek API</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">不是一个聊天机器人，而是一个智能体协作网络</h2>
+                    <p class="lead-text">
+                        Agent_WE 是一款轻量化多智能体对话系统，通过模拟不同角色的 AI 智能体进行协作对话，
+                        为用户提供情绪价值陪伴和工作讨论支持。无需昂贵的服务器，个人电脑即可运行，
+                        支持开源本地模型和低成本云 API，开箱即用，高度可扩展。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>情绪陪伴群</h3>
+                        <p>夸夸师 Sunny + 捧哏大师 Buddy，提供温暖真诚的赞美和幽默风趣的对话，获得积极情绪价值</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3>工作讨论群</h3>
+                        <p>产品经理 ProdMaster + 研发工程师 CodeForge，模拟真实工作场景的跨角色协作讨论</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <h3>智能体管理</h3>
+                        <p>可视化创建和管理自定义智能体，配置专属知识库，轻松添加新角色和群聊配置</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <h3>统一入口</h3>
+                        <p>一站式管理和访问所有应用，实时监控运行状态，一键启动，快速复制启动命令</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>极低成本</h3>
+                        <p>使用 DeepSeek API 每次对话约¥0.01，支持本地模型完全免费，本地运行零服务器成本</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <h3>高度可扩展</h3>
+                        <p>基于 LangChain + LangGraph 构建，轻松添加新智能体角色、知识库和对话模式</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Gallery -->
+    <section class="project-section section-light">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目展示</span>
+                    <h2 class="section-heading">界面预览</h2>
+                </div>
+
+                <div class="gallery-grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px;">
+                    <div class="gallery-main" style="grid-column: span 2;">
+                        <img src="assets/agent-we-1.jpg" alt="Agent_WE 主界面" class="gallery-image" style="width: 100%; height: auto; display: block;" loading="lazy" decoding="async">
+                    </div>
+                    <div class="thumb-item">
+                        <img src="assets/agent-we-2.png" alt="Agent_WE 对话界面" class="thumb-image" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" decoding="async">
+                    </div>
+                    <div class="thumb-item">
+                        <img src="assets/agent-we-3.png" alt="Agent_WE 智能体管理" class="thumb-image" style="width: 100%; height: 200px; object-fit: cover; display: block;" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术架构</span>
+                    <h2 class="section-heading">系统设计与实现</h2>
+                </div>
+
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h4>核心框架</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">LangChain</span>
+                            <span class="tech-item">LangGraph</span>
+                            <span class="tech-item">Streamlit</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>AI 模型</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">DeepSeek API</span>
+                            <span class="tech-item">OpenAI API</span>
+                            <span class="tech-item">Ollama 本地模型</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>数据存储</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">ChromaDB</span>
+                            <span class="tech-item">FAISS</span>
+                            <span class="tech-item">BGE-M3 Embedding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="architecture-flow">
+                    <h4>工作流程</h4>
+                    <div class="flow-diagram">
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-keyboard"></i>
+                            </div>
+                            <h4>用户输入</h4>
+                            <p>发起对话请求</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-random"></i>
+                            </div>
+                            <h4>Manager 路由</h4>
+                            <p>决策下一个发言 Agent</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h4>Agent 节点</h4>
+                            <p>检索历史生成回复</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-stage">
+                            <div class="stage-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h4>上下文更新</h4>
+                            <p>更新对话记录</p>
+                        </div>
+                    </div>
+                    <div class="flow-feedback">
+                        <div class="feedback-loop">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>多轮对话循环（最多 10 轮）</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="capability-matrix">
+                    <h4>智能体互相检索机制</h4>
+                    <div class="matrix-table">
+                        <div class="matrix-row header">
+                            <div class="matrix-cell">对话轮次</div>
+                            <div class="matrix-cell">用户发言</div>
+                            <div class="matrix-cell">对方 Agent</div>
+                            <div class="matrix-cell">自己发言</div>
+                            <div class="matrix-cell">记忆保留</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">第 1 轮</div>
+                            <div class="matrix-cell">提取记录</div>
+                            <div class="matrix-cell">提取记录</div>
+                            <div class="matrix-cell">生成回复</div>
+                            <div class="matrix-cell">最近 5 轮</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">第 2-N 轮</div>
+                            <div class="matrix-cell">累积历史</div>
+                            <div class="matrix-cell">智能检索</div>
+                            <div class="matrix-cell">上下文生成</div>
+                            <div class="matrix-cell">滚动更新</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Showcase -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">核心功能</span>
+                    <h2 class="section-heading">两大核心场景</h2>
+                </div>
+
+                <div class="showcase-grid">
+                    <div class="showcase-card">
+                        <div class="showcase-header">
+                            <span class="showcase-icon">💖</span>
+                            <h3>情绪价值群</h3>
+                        </div>
+                        <div class="showcase-body">
+                            <h4>群成员</h4>
+                            <ul class="agent-list">
+                                <li>
+                                    <span class="agent-avatar">☀️</span>
+                                    <div>
+                                        <strong>夸夸师 Sunny</strong>
+                                        <p>温暖真诚，善于发现用户闪光点，提供真诚赞美</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="agent-avatar">🌟</span>
+                                    <div>
+                                        <strong>捧哏大师 Buddy</strong>
+                                        <p>幽默风趣，接话找话题高手，让对话轻松愉快</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <h4>对话特点</h4>
+                            <ul class="feature-list">
+                                <li>智能体之间互相理解并回应彼此的话语</li>
+                                <li>自动多轮对话（最多 10 轮）</li>
+                                <li>智能识别用户参与时机，适时邀请用户加入讨论</li>
+                                <li>用户可随时打断并开始新话题</li>
+                            </ul>
+                            <h4>适用场景</h4>
+                            <div class="scenario-tags">
+                                <span>情绪低落时寻求鼓励</span>
+                                <span>想找人聊天解闷</span>
+                                <span>获得积极的情绪价值</span>
+                                <span>练习社交对话</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-card">
+                        <div class="showcase-header">
+                            <span class="showcase-icon">💼</span>
+                            <h3>工作讨论群</h3>
+                        </div>
+                        <div class="showcase-body">
+                            <h4>群成员</h4>
+                            <ul class="agent-list">
+                                <li>
+                                    <span class="agent-avatar">👔</span>
+                                    <div>
+                                        <strong>产品经理 ProdMaster</strong>
+                                        <p>需求分析、产品规划、用户视角</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="agent-avatar">👨‍💻</span>
+                                    <div>
+                                        <strong>研发工程师 CodeForge</strong>
+                                        <p>技术实现、可行性评估、架构建议</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <h4>对话特点</h4>
+                            <ul class="feature-list">
+                                <li>基于各自专业知识库的深度讨论</li>
+                                <li>智能体之间可以互相检索和回应</li>
+                                <li>保留最近 5 轮对话记忆，保持上下文连贯</li>
+                                <li>需要用户决策时自动暂停等待</li>
+                            </ul>
+                            <h4>适用场景</h4>
+                            <div class="scenario-tags">
+                                <span>产品需求验证</span>
+                                <span>技术方案讨论</span>
+                                <span>跨角色沟通模拟</span>
+                                <span>项目可行性评估</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost Comparison -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">成本优势</span>
+                    <h2 class="section-heading">极低成本，个人可用</h2>
+                </div>
+
+                <div class="cost-comparison">
+                    <div class="cost-card">
+                        <h4>组件</h4>
+                    </div>
+                    <div class="cost-card enterprise">
+                        <h4>企业级方案</h4>
+                    </div>
+                    <div class="cost-card agent-we">
+                        <h4>Agent_WE 方案</h4>
+                        <span class="savings-badge">节省 90%+</span>
+                    </div>
+                </div>
+
+                <div class="cost-table">
+                    <div class="cost-row">
+                        <div class="cost-cell label">LLM</div>
+                        <div class="cost-cell">GPT-4 API</div>
+                        <div class="cost-cell highlight">DeepSeek API</div>
+                    </div>
+                    <div class="cost-row">
+                        <div class="cost-cell label">向量库</div>
+                        <div class="cost-cell">Pinecone 云服务</div>
+                        <div class="cost-cell highlight">ChromaDB 本地</div>
+                    </div>
+                    <div class="cost-row">
+                        <div class="cost-cell label">Embedding</div>
+                        <div class="cost-cell">OpenAI API</div>
+                        <div class="cost-cell highlight">BGE-M3 本地模型</div>
+                    </div>
+                    <div class="cost-row">
+                        <div class="cost-cell label">部署</div>
+                        <div class="cost-cell">云服务器</div>
+                        <div class="cost-cell highlight">本地运行</div>
+                    </div>
+                </div>
+
+                <div class="cost-estimate">
+                    <h4>实际成本估算（使用 DeepSeek API）</h4>
+                    <div class="estimate-grid">
+                        <div class="estimate-item">
+                            <span class="estimate-label">输入</span>
+                            <span class="estimate-value">¥1 / 1M tokens</span>
+                        </div>
+                        <div class="estimate-item">
+                            <span class="estimate-label">输出</span>
+                            <span class="estimate-value">¥2 / 1M tokens</span>
+                        </div>
+                        <div class="estimate-item">
+                            <span class="estimate-label">典型会话</span>
+                            <span class="estimate-value">约 ¥0.01</span>
+                        </div>
+                        <div class="estimate-item">
+                            <span class="estimate-label">每天 10 次</span>
+                            <span class="estimate-value">约 ¥0.1/天</span>
+                        </div>
+                    </div>
+                    <p class="estimate-note">使用本地模型（Ollama）则完全免费，仅需电脑配置支持</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">系统要求</span>
+                    <h2 class="section-heading">运行环境</h2>
+                </div>
+
+                <div class="system-requirements">
+                    <div class="requirements-grid">
+                        <div class="requirement-item">
+                            <i class="fas fa-desktop"></i>
+                            <span>Windows / macOS / Linux</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python 3.10+</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fas fa-memory"></i>
+                            <span>8GB+ 内存</span>
+                        </div>
+                        <div class="requirement-item">
+                            <i class="fas fa-wifi"></i>
+                            <span>互联网连接（使用云 API 时）</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Stats -->
+    <section class="project-section section-light">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目信息</span>
+                    <h2 class="section-heading">项目详情</h2>
+                </div>
+
+                <div class="premium-stats-grid">
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>4+ 智能体</h4>
+                        <p>夸夸师/捧哏/产品经理/工程师</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>10 轮</h4>
+                        <p>自动多轮对话上限</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>5 轮</h4>
+                        <p>对话记忆保留</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h4>¥0.01</h4>
+                        <p>单次会话成本</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">对项目感兴趣？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/project.js"></script>
+</body>
+</html>

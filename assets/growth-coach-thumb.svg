@@ -1,0 +1,170 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 主背景渐变 - 深邃星空感 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#12121a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 强调色渐变 - 赛博朋克风格 -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7b2cbf;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e040fb;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 金色点缀 -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 强光效果 -->
+    <filter id="brightGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 网格图案 -->
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(0,212,255,0.08)" stroke-width="1"/>
+    </pattern>
+    
+    <!-- 光晕环形 -->
+    <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(0,212,255,0.3);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(0,212,255,0);stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="800" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- 网格层 -->
+  <rect width="800" height="600" fill="url(#grid)"/>
+  
+  <!-- 背景光晕装饰 -->
+  <circle cx="650" cy="150" r="200" fill="url(#ringGlow)" opacity="0.4"/>
+  <circle cx="150" cy="450" r="150" fill="url(#ringGlow)" opacity="0.3"/>
+  
+  <!-- 六边形蜂巢图案 -->
+  <g opacity="0.06">
+    <polygon points="50,80 70,70 90,80 90,100 70,110 50,100" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <polygon points="70,70 90,60 110,70 110,90 90,100 70,90" fill="none" stroke="#7b2cbf" stroke-width="1"/>
+    <polygon points="90,80 110,70 130,80 130,100 110,110 90,100" fill="none" stroke="#e040fb" stroke-width="1"/>
+    <polygon points="600,400 620,390 640,400 640,420 620,430 600,420" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <polygon points="620,390 640,380 660,390 660,410 640,420 620,410" fill="none" stroke="#7b2cbf" stroke-width="1"/>
+  </g>
+  
+  <!-- 中央主视觉 - 抽象的 AI 成长路径 -->
+  <g transform="translate(400, 280)">
+    <!-- 外环光晕 -->
+    <circle r="140" fill="none" stroke="url(#primaryGradient)" stroke-width="2" opacity="0.3" filter="url(#glow)">
+      <animate attributeName="opacity" values="0.3;0.5;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- 旋转外环 -->
+    <circle r="120" fill="none" stroke="url(#primaryGradient)" stroke-width="1.5" stroke-dasharray="20 10" opacity="0.5">
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="20s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- 内环 -->
+    <circle r="100" fill="none" stroke="url(#primaryGradient)" stroke-width="2" opacity="0.4" filter="url(#glow)"/>
+    
+    <!-- 核心图标组合 -->
+    <g filter="url(#brightGlow)">
+      <!-- 学士帽轮廓 - 简洁几何风格 -->
+      <path d="M -70 -15 L 0 -50 L 70 -15 L 0 25 Z" fill="none" stroke="url(#primaryGradient)" stroke-width="3" opacity="0.9"/>
+      <path d="M -70 -15 L 0 25 L 70 -15" fill="none" stroke="url(#primaryGradient)" stroke-width="2" opacity="0.5"/>
+      
+      <!-- 帽穗 -->
+      <circle cx="0" cy="-50" r="8" fill="url(#goldGradient)" filter="url(#glow)"/>
+      <line x1="0" y1="-50" x2="40" y2="-35" stroke="url(#goldGradient)" stroke-width="2" opacity="0.7"/>
+      <circle cx="40" cy="-35" r="4" fill="url(#goldGradient)"/>
+      
+      <!-- 中心 AI 核心 - 发光的脑/芯片抽象 -->
+      <rect x="-25" y="-15" width="50" height="40" rx="8" fill="none" stroke="url(#primaryGradient)" stroke-width="2" opacity="0.8"/>
+      <circle cx="0" cy="5" r="12" fill="url(#primaryGradient)" opacity="0.6" filter="url(#glow)"/>
+      
+      <!-- 电路线条 -->
+      <g stroke="url(#primaryGradient)" stroke-width="1.5" fill="none" opacity="0.7">
+        <line x1="-25" y1="0" x2="-45" y2="0"/>
+        <line x1="25" y1="0" x2="45" y2="0"/>
+        <line x1="0" y1="-15" x2="0" y2="-35"/>
+        <line x1="0" y1="25" x2="0" y2="45"/>
+      </g>
+      
+      <!-- 电路节点 -->
+      <circle cx="-45" cy="0" r="4" fill="#00d4ff" filter="url(#glow)"/>
+      <circle cx="45" cy="0" r="4" fill="#7b2cbf" filter="url(#glow)"/>
+      <circle cx="0" cy="-35" r="4" fill="#e040fb" filter="url(#glow)"/>
+      <circle cx="0" cy="45" r="4" fill="#ffd700" filter="url(#glow)"/>
+    </g>
+    
+    <!-- 上升箭头 - 象征成长 -->
+    <g transform="translate(0, -90)" filter="url(#glow)">
+      <path d="M 0 -30 L 0 20 M -15 -5 L 0 -30 L 15 -5" fill="none" stroke="url(#goldGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+    </g>
+  </g>
+  
+  <!-- 漂浮的代码元素 -->
+  <g font-family="'Courier New', Consolas, monospace" font-size="13" opacity="0.5">
+    <text x="80" y="100" fill="#00d4ff">const growth = new Journey()</text>
+    <text x="520" y="120" fill="#7b2cbf">await agent.evolve()</text>
+    <text x="60" y="520" fill="#e040fb">→ Agentic Engineer</text>
+    <text x="550" y="540" fill="#00d4ff">skill.learn()</text>
+  </g>
+  
+  <!-- 装饰性线条 -->
+  <line x1="0" y1="1" x2="800" y2="1" stroke="url(#primaryGradient)" stroke-width="1" opacity="0.3"/>
+  <line x1="0" y1="599" x2="800" y2="599" stroke="url(#primaryGradient)" stroke-width="1" opacity="0.3"/>
+  
+  <!-- 主标题 -->
+  <text x="400" y="480" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="2">
+    Agentic Growth Coach
+  </text>
+  
+  <!-- 副标题 -->
+  <text x="400" y="515" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="16" fill="#00d4ff" text-anchor="middle" letter-spacing="4">
+    从 Vibe Coder 到 Agentic Engineer
+  </text>
+  
+  <!-- 底部标签 -->
+  <g transform="translate(400, 555)">
+    <rect x="-100" y="-12" width="200" height="24" rx="12" fill="rgba(123, 44, 191, 0.2)" stroke="url(#primaryGradient)" stroke-width="1"/>
+    <text x="0" y="5" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="12" fill="#e040fb" text-anchor="middle" letter-spacing="2">
+      AI Skill · 实战教学 · 架构思维
+    </text>
+  </g>
+  
+  <!-- 角落装饰 -->
+  <g stroke="url(#primaryGradient)" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M 20 20 L 60 20 L 60 25 M 20 20 L 20 60 L 25 60"/>
+    <path d="M 780 20 L 740 20 L 740 25 M 780 20 L 780 60 L 775 60"/>
+    <path d="M 20 580 L 60 580 L 60 575 M 20 580 L 20 540 L 25 540"/>
+    <path d="M 780 580 L 740 580 L 740 575 M 780 580 L 780 540 L 775 540"/>
+  </g>
+  
+  <!-- 星星点缀 -->
+  <g fill="#ffffff">
+    <circle cx="120" cy="80" r="1.5" opacity="0.6"/>
+    <circle cx="680" cy="120" r="1" opacity="0.4"/>
+    <circle cx="200" cy="520" r="1.5" opacity="0.5"/>
+    <circle cx="720" cy="480" r="1" opacity="0.6"/>
+    <circle cx="550" cy="80" r="1.5" opacity="0.4"/>
+  </g>
+</svg>

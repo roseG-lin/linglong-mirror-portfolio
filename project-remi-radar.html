@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>Remi Radar — 智能信息雷达 | Remi</title>
+    <meta name="title" content="Remi Radar — 智能信息雷达 | Remi">
+    <meta name="description" content="Electron 桌面应用，集成 RSS、AI 分析、多平台爬虫的智能信息采集系统">
+    <meta name="keywords" content="Remi Radar, RSS, AI 分析，智能信息采集，Electron, 桌面应用">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-remi-radar.html">
+    <meta property="og:title" content="Remi Radar — 智能信息雷达">
+    <meta property="og:description" content="Electron 桌面应用，集成 RSS 订阅、AI 智能分析、多平台爬虫的智能信息采集系统">
+    <meta property="og:image" content="https://www.remifei.cn/assets/remi-radar-thumb.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Remi Radar — 智能信息雷达">
+    <meta name="twitter:description" content="Electron 桌面应用，集成 RSS、AI 分析、多平台爬虫的智能信息采集系统">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/remi-radar-thumb.svg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="Remi Radar — 智能信息雷达">
+    <meta name="wechat:description" content="Electron 桌面应用，集成 RSS、AI 分析、多平台爬虫的智能信息采集系统">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/remi-radar-thumb.svg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    // 微信分享配置 - 需要后端提供签名
+    // 获取签名后取消下面注释并填入配置
+    /*
+    fetch('/api/wechat-signature?url=' + encodeURIComponent(window.location.href))
+      .then(res => res.json())
+      .then(data => {
+        wx.config({
+          debug: false,
+          appId: data.appId,
+          timestamp: data.timestamp,
+          nonceStr: data.nonceStr,
+          signature: data.signature,
+          jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
+        });
+      });
+    
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'Remi Radar — 智能信息雷达',
+        desc: 'Electron 桌面应用，集成 RSS、AI 分析、多平台爬虫的智能信息采集系统',
+        link: 'https://www.remifei.cn/project-remi-radar.html',
+        imgUrl: 'https://www.remifei.cn/assets/remi-radar-thumb.svg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/logo.svg" alt="Remi" class="nav-logo-icon">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">完整作品</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">Remi Radar — 智能信息雷达</h1>
+            <p class="project-subtitle">Electron 桌面应用，集成 RSS、AI 分析、多平台爬虫的智能信息采集系统</p>
+            <div class="project-tech">
+                <span>Electron</span>
+                <span>React</span>
+                <span>TypeScript</span>
+                <span>AI</span>
+                <span>SQLite</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Gallery -->
+    <section class="project-gallery">
+        <div class="container">
+            <div class="gallery-grid">
+                <div class="gallery-main">
+                    <img src="assets/1.jpg" alt="Remi Radar 主界面" class="gallery-image" loading="lazy" decoding="async">
+                </div>
+                <div class="gallery-thumbs">
+                    <div class="thumb-item">
+                        <img src="assets/2.jpg" alt="功能界面" class="thumb-image" loading="lazy" decoding="async">
+                    </div>
+                    <div class="thumb-item">
+                        <img src="assets/3.jpg" alt="设置界面" class="thumb-image" loading="lazy" decoding="async">
+                    </div>
+                    <div class="thumb-item">
+                        <img src="assets/4.jpg" alt="数据展示" class="thumb-image" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">一款智能信息采集工具</h2>
+                    <p class="lead-text">
+                        Remi Radar（原名 MCP shouji）是一款智能信息采集工具，专为需要高效获取和整理技术资讯的用户设计。
+                        它集成了 RSS 订阅管理、多平台爬虫、AI 内容分析、语义搜索和定时任务调度等功能，
+                        帮助用户从海量信息中快速提取有价值的内容。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-rss"></i>
+                        </div>
+                        <h3>RSS 订阅管理</h3>
+                        <p>支持添加/管理多个 RSS 订阅源，内置国内优质 RSS 源（虎嗅、36 氪、少数派、IT 之家等）</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI 智能分析</h3>
+                        <p>集成 DeepSeek AI，0-10 分智能评分，自动提取关键词标签，生成文章摘要</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-magnifying-glass"></i>
+                        </div>
+                        <h3>语义搜索</h3>
+                        <p>基于 Embedding 向量的智能语义搜索，支持自然语言查询</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>定时任务</h3>
+                        <p>灵活的 cron 表达式调度，支持每日/每周任务，自动获取资讯</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-spider"></i>
+                        </div>
+                        <h3>多平台爬虫</h3>
+                        <p>支持知乎热榜、Twitter/X、微博热搜、GitHub Trending 等平台</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <h3>飞书集成</h3>
+                        <p>多维表格记录同步，每日简报推送，Webhook 消息推送</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">技术架构</span>
+                    <h2 class="section-heading">系统设计与实现</h2>
+                </div>
+
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h4>前端技术</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Electron 39</span>
+                            <span class="tech-item">React 19</span>
+                            <span class="tech-item">TypeScript 5.9</span>
+                            <span class="tech-item">Vite 7</span>
+                            <span class="tech-item">Zustand 5.0</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>后端技术</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">Better-SQLite3</span>
+                            <span class="tech-item">SQLite</span>
+                            <span class="tech-item">node-cron 4.2</span>
+                            <span class="tech-item">axios</span>
+                            <span class="tech-item">Cheerio</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>AI 集成</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">DeepSeek API</span>
+                            <span class="tech-item">OpenAI API</span>
+                            <span class="tech-item">Embeddings</span>
+                            <span class="tech-item">AI 分析模式</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <h4>第三方集成</h4>
+                        <div class="tech-list">
+                            <span class="tech-item">飞书多维表格</span>
+                            <span class="tech-item">AES-256-GCM</span>
+                            <span class="tech-item">RapidAPI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="architecture-diagram">
+                    <h4>系统架构图</h4>
+                    <div class="diagram-content">
+                        <pre>
+┌─────────────────────────────────────────┐
+│         Electron 桌面应用                │
+│        (info-collector)                 │
+│  ┌─────────────────────────────────┐    │
+│  │      React + TypeScript          │    │
+│  │        渲染进程 UI                │    │
+│  └─────────────┬───────────────────┘    │
+│                │ IPC                    │
+│  ┌─────────────▼───────────────────┐    │
+│  │      Electron 主进程             │    │
+│  │   - 定时任务调度                 │    │
+│  │   - AI 内容处理                  │    │
+│  │   - 爬虫模块                     │    │
+│  │   - 数据存储                     │    │
+│  └─────────────────────────────────┘    │
+└──────────────────┬──────────────────────┘
+                   │
+┌──────────────────▼──────────────────────┐
+│         外部服务                         │
+│  ┌─────────────┐  ┌────────────────┐    │
+│  │  RSSHub     │  │  AI 服务        │    │
+│  │  (RSS 生成)  │  │ (DeepSeek)     │    │
+│  └─────────────┘  └────────────────┘    │
+│  ┌─────────────┐  ┌────────────────┐    │
+│  │  飞书多维表格│  │  目标平台       │    │
+│  │  (数据存储)  │  │ (知乎/X 等)     │    │
+│  └─────────────┘  └────────────────┘    │
+└─────────────────────────────────────────┘
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">核心功能</span>
+                    <h2 class="section-heading">功能详解</h2>
+                </div>
+
+                <div class="feature-detail">
+                    <div class="detail-item">
+                        <h3>01. AI 智能分析</h3>
+                        <p>集成 DeepSeek AI 和 OpenAI，提供 0-10 分智能评分系统，自动提取关键词标签，生成文章摘要。</p>
+                        <div class="feature-modes">
+                            <div class="mode-card">
+                                <h4>Digest</h4>
+                                <p>生成摘要、标签、评分（基础分析）</p>
+                            </div>
+                            <div class="mode-card">
+                                <h4>Critique</h4>
+                                <p>批判性观点分析</p>
+                            </div>
+                            <div class="mode-card">
+                                <h4>Action</h4>
+                                <p>生成可执行的行动清单</p>
+                            </div>
+                            <div class="mode-card">
+                                <h4>DryGoods</h4>
+                                <p>提取核心知识点（干货模式）</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <h3>02. 定时任务调度</h3>
+                        <p>灵活的 cron 表达式调度，支持每日/每周/一次性任务。</p>
+                        <ul class="feature-list">
+                            <li>每天早上 8 点获取 36 氪早报</li>
+                            <li>每天上午 10 点获取 IT 之家日报</li>
+                            <li>每周日下午 2 点获取阮一峰周刊</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-item">
+                        <h3>03. 语义搜索</h3>
+                        <p>基于 Embedding 向量的智能语义搜索，支持自然语言查询。</p>
+                        <div class="search-example">
+                            <code>搜索"关于 Agent 开发的文章"</code>
+                            <code>搜索"AI 视频生成技术"</code>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <h3>04. 多平台爬虫</h3>
+                        <p>支持多个主流平台的内容抓取。</p>
+                        <div class="platform-list">
+                            <span class="platform-tag">知乎热榜</span>
+                            <span class="platform-tag">知乎搜索</span>
+                            <span class="platform-tag">Twitter/X</span>
+                            <span class="platform-tag">微博热搜</span>
+                            <span class="platform-tag">GitHub Trending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Stats -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目数据</span>
+                    <h2 class="section-heading">运行数据</h2>
+                </div>
+
+                <div class="premium-stats-grid">
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h4>50+</h4>
+                        <p>已采集记录</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>9 个</h4>
+                        <p>定时任务</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-rss"></i>
+                        </div>
+                        <h4>9 个</h4>
+                        <p>RSS 订阅源</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>80%</h4>
+                        <p>AI 处理率</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">对项目感兴趣？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

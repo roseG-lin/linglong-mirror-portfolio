@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 基础 Meta 标签 -->
+    <title>Agentic Growth Coach — 成长教练 Skill | Remi</title>
+    <meta name="title" content="Agentic Growth Coach — 成长教练 Skill | Remi">
+    <meta name="description" content="从 Vibe Coder 到 Agentic Engineer 的实战教练，帮助 AI 编程用户通过实战项目转型成为 Agent 系统工程师">
+    <meta name="keywords" content="Agentic Growth Coach, AI Skill, Claude Code, Agent 架构，实战教学">
+    
+    <!-- Open Graph / 社交媒体分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.remifei.cn/project-growth-coach.html">
+    <meta property="og:title" content="Agentic Growth Coach — 成长教练 Skill">
+    <meta property="og:description" content="从 Vibe Coder 到 Agentic Engineer 的实战教练，在做中学的 AI 教学系统">
+    <meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Remi">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agentic Growth Coach — 成长教练 Skill">
+    <meta name="twitter:description" content="从 Vibe Coder 到 Agentic Engineer 的实战教练">
+    <meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+    
+    <!-- 微信分享优化 -->
+    <meta name="wechat:title" content="Agentic Growth Coach — 成长教练 Skill">
+    <meta name="wechat:description" content="从 Vibe Coder 到 Agentic Engineer 的实战教练">
+    <meta name="wechat:image" content="https://www.remifei.cn/assets/og-image.jpg">
+
+    <!-- 微信 JS-SDK（需要公众号配置后启用） -->
+    <!-- 
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+    /*
+    wx.ready(() => {
+      const shareConfig = {
+        title: 'Agentic Growth Coach — 成长教练 Skill',
+        desc: '从 Vibe Coder 到 Agentic Engineer 的实战教练',
+        link: 'https://www.remifei.cn/project-growth-coach.html',
+        imgUrl: 'https://www.remifei.cn/assets/og-image.jpg',
+        success: () => console.log('分享成功')
+      };
+      wx.updateAppMessageShareData(shareConfig);
+      wx.updateTimelineShareData(shareConfig);
+    });
+    */
+    </script>
+    -->
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">Remi</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about" class="nav-link">关于</a>
+                <a href="index.html#story" class="nav-link">我的故事</a>
+                <a href="index.html#work" class="nav-link">作品</a>
+                <a href="index.html#contact" class="nav-link">联系</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#work" class="btn btn-nav">返回作品</a>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-link">首页</a>
+                <a href="index.html#about" class="mobile-link">关于</a>
+                <a href="index.html#story" class="mobile-link">我的故事</a>
+                <a href="index.html#work" class="mobile-link">作品</a>
+                <a href="index.html#contact" class="mobile-link">联系</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="project-header-content">
+            <div class="project-back">
+                <a href="index.html#work">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>返回作品</span>
+                </a>
+            </div>
+            <div class="project-meta">
+                <span class="project-tag">Skills</span>
+                <span class="project-year">2026</span>
+            </div>
+            <h1 class="project-title">Agentic Growth Coach — 成长教练 Skill</h1>
+            <p class="project-subtitle">从 Vibe Coder 到 Agentic Engineer 的实战教练，帮助 AI 编程用户通过实战项目转型成为 Agent 系统工程师</p>
+            <div class="project-tech">
+                <span>Claude Code</span>
+                <span>AI Skill</span>
+                <span>Agentic Engineering</span>
+                <span>教学系统</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目概述</span>
+                    <h2 class="section-heading">不是先教后做，而是边做边学</h2>
+                    <p class="lead-text">
+                        Agentic Growth Coach 是一个为 Claude Code 设计的 Skill，帮助 Vibe Coder（纯 AI 编程用户）
+                        通过实战项目转型成为 Agentic Engineer（能够设计和构建 Agent 系统的工程师）。
+                        它不是传统的教学工具，而是一个"在做中学"的实战教练。
+                    </p>
+                </div>
+
+                <div class="features-grid-premium">
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>双模式教学</h3>
+                        <p>创建模式（12 步流程）+ 分析模式（8 步流程），覆盖从 0 到 1 和从 1 到 N 的学习路径</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>批判式反馈</h3>
+                        <p>指出对错，解释为什么。二次提示机制：第一次引导思考，第二次才讲原理</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>知识分层</h3>
+                        <p>区分稳定知识（5 年+）和易变知识（需查文档），培养架构思维而非语法记忆</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Agent 架构</h3>
+                        <p>教授 6 种基础架构模式：ReAct、Planning、Supervisor、Hierarchy、Parallel、Debate</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3>垂直切分</h3>
+                        <p>Agentic 项目的稳妥实施方式，每周都有可工作的东西，避免最后才发现架构错误</p>
+                    </div>
+                    <div class="feature-card-premium">
+                        <div class="feature-icon-premium">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>质量保证</h3>
+                        <p>所有知识追溯权威来源（Anthropic、OpenAI、LangGraph），确保教学内容可靠</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">教学体系</span>
+                    <h2 class="section-heading">12 步创建流程</h2>
+                </div>
+
+                <div class="process-steps">
+                    <div class="step-card">
+                        <span class="step-number">01</span>
+                        <div class="step-content">
+                            <h4>需求澄清</h4>
+                            <p>核心问题、输入输出、成功标准</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">02</span>
+                        <div class="step-content">
+                            <h4>选择 Agent 架构模式</h4>
+                            <p>6 种基础架构选型</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">03</span>
+                        <div class="step-content">
+                            <h4>模块拆解</h4>
+                            <p>6 个标准模块：输入、LLM、规划、工具、记忆、输出</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">04</span>
+                        <div class="step-content">
+                            <h4>数据流设计</h4>
+                            <p>信息在系统中的流动路径</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">05</span>
+                        <div class="step-content">
+                            <h4>状态管理设计</h4>
+                            <p>Agent 在任何时刻"知道"的一切</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">06</span>
+                        <div class="step-content">
+                            <h4>工具选择与接口设计</h4>
+                            <p>搜索类、知识类、执行类、输出类</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">07</span>
+                        <div class="step-content">
+                            <h4>框架选择</h4>
+                            <p>LangGraph、LangChain、CrewAI、AutoGen</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">08</span>
+                        <div class="step-content">
+                            <h4>实施策略（垂直切分）</h4>
+                            <p>4 周计划，每周都有可工作的东西</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">09</span>
+                        <div class="step-content">
+                            <h4>AI 写代码的指挥方式</h4>
+                            <p>定义结构，AI 填充实现</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">10</span>
+                        <div class="step-content">
+                            <h4>Code Review 训练</h4>
+                            <p>检查数据流、错误处理、状态更新、模块职责</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">11</span>
+                        <div class="step-content">
+                            <h4>调试思维</h4>
+                            <p>状态→决策→工具调用→提示词</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-number">12</span>
+                        <div class="step-content">
+                            <h4>迭代规划</h4>
+                            <p>收集反馈、定位问题、优先级排序、小步迭代</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Mode -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">逆向学习</span>
+                    <h2 class="section-heading">8 步分析流程</h2>
+                    <p class="lead-text">通过分析现有产品学习 Agent 系统设计，从"用户视角"到"架构师视角"</p>
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <span class="analysis-number">A1</span>
+                        <h4>产品观察</h4>
+                        <p>入口、输出、核心能力、过程记录</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A2</span>
+                        <h4>架构推断</h4>
+                        <p>根据行为推断架构模式</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A3</span>
+                        <h4>模块边界识别</h4>
+                        <p>把产品拆成"黑盒模块"</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A4</span>
+                        <h4>数据流反推</h4>
+                        <p>从输出倒推输入</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A5</span>
+                        <h4>接口猜测</h4>
+                        <p>定义模块输入输出</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A6</span>
+                        <h4>技术栈推测</h4>
+                        <p>LLM、工具、框架</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A7</span>
+                        <h4>复刻简化版</h4>
+                        <p>保留核心，简化次要</p>
+                    </div>
+                    <div class="analysis-card">
+                        <span class="analysis-number">A8</span>
+                        <h4>对比分析</h4>
+                        <p>通过对比发现差距</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Knowledge System -->
+    <section class="project-section section-dark">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">知识体系</span>
+                    <h2 class="section-heading">知识半衰期分层</h2>
+                </div>
+
+                <div class="knowledge-layers">
+                    <div class="layer-card">
+                        <div class="layer-header">
+                            <span class="layer-stars">★★★★★</span>
+                            <span class="layer-time">10 年 +</span>
+                        </div>
+                        <h4>永久知识</h4>
+                        <ul>
+                            <li>系统设计思维</li>
+                            <li>模块化原则</li>
+                            <li>数据流设计</li>
+                        </ul>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-header">
+                            <span class="layer-stars">★★★★☆</span>
+                            <span class="layer-time">3-5 年</span>
+                        </div>
+                        <h4>长期知识</h4>
+                        <ul>
+                            <li>Agent 架构模式</li>
+                            <li>状态管理思维</li>
+                            <li>错误处理原则</li>
+                        </ul>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-header">
+                            <span class="layer-stars">★★★☆☆</span>
+                            <span class="layer-time">1-2 年</span>
+                        </div>
+                        <h4>中期知识</h4>
+                        <ul>
+                            <li>提示工程原理</li>
+                            <li>结构化输出方法</li>
+                            <li>RAG 基础</li>
+                        </ul>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-header">
+                            <span class="layer-stars">★★☆☆☆</span>
+                            <span class="layer-time">3-6 个月</span>
+                        </div>
+                        <h4>易变知识</h4>
+                        <ul>
+                            <li>具体 API 使用</li>
+                            <li>框架特定功能</li>
+                            <li>模型版本差异</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="knowledge-sources">
+                    <h4>权威来源</h4>
+                    <div class="source-list">
+                        <a href="https://docs.anthropic.com/en/docs/build-with-claude/agentic-systems" target="_blank" class="source-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Anthropic - Building Effective Agents</span>
+                        </a>
+                        <a href="https://github.com/openai/openai-cookbook" target="_blank" class="source-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>OpenAI Cookbook</span>
+                        </a>
+                        <a href="https://langchain-ai.github.io/langgraph/" target="_blank" class="source-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>LangGraph Documentation</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Stats -->
+    <section class="project-section section-light">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">项目数据</span>
+                    <h2 class="section-heading">教学成果</h2>
+                </div>
+
+                <div class="premium-stats-grid">
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h4>12</h4>
+                        <p>创建模式步骤</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4>8</h4>
+                        <p>分析模式步骤</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <h4>6</h4>
+                        <p>架构模式</p>
+                    </div>
+                    <div class="premium-stat-card">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h4>4</h4>
+                        <p>知识层级</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Section -->
+    <section class="project-section">
+        <div class="container">
+            <div class="project-content">
+                <div class="content-block">
+                    <span class="section-tag">快速开始</span>
+                    <h2 class="section-heading">如何使用</h2>
+                </div>
+
+                <div class="usage-section">
+                    <div class="usage-card">
+                        <h4>安装</h4>
+                        <div class="code-block">
+                            <pre><code># 克隆仓库
+git clone https://github.com/roseG-lin/agentic-growth-coach.git
+cd agentic-growth-coach
+
+# 复制到 Claude Skills 目录
+cp -r . ~/.claude/skills/agentic-growth-coach</code></pre>
+                        </div>
+                    </div>
+                    <div class="usage-card">
+                        <h4>唤醒方式</h4>
+                        <div class="code-block">
+                            <pre><code># 简短触发
+@教练 我想做一个智能客服
+
+# 创建模式
+我想做一个 Newsletter 自动生成工具
+开始一个新项目
+帮我设计一个 agent
+
+# 分析模式
+分析 Perplexity AI 是怎么做的
+逆向工程 XXX</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-links">
+                    <a href="https://github.com/roseG-lin/agentic-growth-coach" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub 仓库</span>
+                    </a>
+                    <a href="https://github.com/roseG-lin/agentic-growth-coach/blob/main/skill.md" target="_blank" class="btn btn-ghost">
+                        <i class="fas fa-file-alt"></i>
+                        <span>完整文档</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Footer -->
+    <footer class="project-footer">
+        <div class="container">
+            <div class="project-footer-content">
+                <div class="project-nav">
+                    <a href="index.html#work" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回作品列表</span>
+                    </a>
+                </div>
+                <div class="project-contact">
+                    <p class="project-contact-text">对项目感兴趣？欢迎交流</p>
+                    <a href="index.html#contact" class="btn btn-ghost">联系我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

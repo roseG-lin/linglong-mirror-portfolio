@@ -1,0 +1,63 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 暗金渐变 -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37"/>
+      <stop offset="50%" style="stop-color:#f4d03f"/>
+      <stop offset="100%" style="stop-color:#c9a227"/>
+    </linearGradient>
+    
+    <!-- 金属光泽 -->
+    <linearGradient id="metallicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#b8941f"/>
+      <stop offset="30%" style="stop-color:#f4d03f"/>
+      <stop offset="50%" style="stop-color:#d4af37"/>
+      <stop offset="70%" style="stop-color:#f4d03f"/>
+      <stop offset="100%" style="stop-color:#b8941f"/>
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景圆 - 深色 -->
+  <circle cx="32" cy="32" r="31" fill="#0a0e1a" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.3"/>
+  
+  <!-- 外环光晕 -->
+  <circle cx="32" cy="32" r="28" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="32" cy="32" r="24" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.15"/>
+  
+  <!-- R 字母主体 -->
+  <g filter="url(#glow)">
+    <!-- 左侧竖线 -->
+    <rect x="18" y="18" width="5" height="28" rx="2.5" fill="url(#metallicGrad)"/>
+    
+    <!-- 顶部弧线 -->
+    <path d="M 23 20.5 L 38 20.5 A 9.5 9.5 0 0 1 38 39 L 23 39" stroke="url(#metallicGrad)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    
+    <!-- 中间连接 -->
+    <rect x="23" y="27" width="15" height="5" rx="2.5" fill="url(#metallicGrad)"/>
+    
+    <!-- 右下斜腿 -->
+    <rect x="32" y="31" width="5" height="14" rx="2.5" fill="url(#metallicGrad)" transform="rotate(35 34.5 38)"/>
+  </g>
+  
+  <!-- 装饰性光点 -->
+  <circle cx="48" cy="16" r="2" fill="url(#goldGrad)" filter="url(#glow)">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="14" cy="48" r="1.5" fill="url(#goldGrad)" filter="url(#glow)">
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 轨道环 -->
+  <path d="M 48 32 A 16 16 0 0 1 32 48" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.4">
+    <animateTransform attributeName="transform" type="rotate" from="0 32 32" to="360 32 32" dur="8s" repeatCount="indefinite"/>
+  </path>
+</svg>
