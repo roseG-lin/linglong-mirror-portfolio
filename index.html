@@ -830,9 +830,9 @@ const CONTENT = {
     { id: 'huodai-mask', kicker: 'CASE 02 · 企业级隐私', title: '玲珑货代 RAG · 脱敏屏障', tag: '客户名和单号，永远到不了 LLM。脱敏屏障进，还原屏障出，中间只站得住占位符。',
       nav: ['脱敏屏障', 'LLM 全程只见占位符。点场景③，看它敢转人工。'],
       metrics: ['双库隔离 · 5 道边界', '代码消歧 70-80%', '人工兜底 <5%', '验收 7/7 全过'] },
-    { id: 'mirror-value', kicker: 'CASE 03 · 通用展示层', title: '玲珑镜面 Mirror · 价值感知', tag: '数据有贵贱，展示分轻重。值多少，公式说了算：value = layer × recency × frequency。',
+    { id: 'mirror-value', kicker: 'CASE 03 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，26 秒长出整个界面，每条决策带理由；14 套主题一键换肤带 AA 门禁；数据自带价值分层。三个核心切面都在里面。',
       nav: ['价值感知', '数据分三档展示。拖滑块，看画像卡实时升降级。'],
-      metrics: ['五层架构', '5 篇论文依据', '171 测试零回退', 'X-ray 零适配消费'] },
+      metrics: ['声明→界面 ≈26s', '14 套主题 · AA 门禁', '553 测试', '每条决策带理由'] },
     { id: 'shiyang-solver', kicker: 'CASE 04 · 约束求解', title: '玲珑食养 · 约束求解体验', tag: '中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看，绝不装死。',
       nav: ['约束求解', '预算往下拖到 ¥20，看它回溯软化，绝不装死。'],
       metrics: ['L1-L4 四层约束', '单餐求解 <5s', '448 测试 94% 覆盖', 'V1-V12 符号否决'] },
@@ -1477,7 +1477,113 @@ const DEMOS = {
   'mirror-value': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-head"><p>镜面的数据层给每条数据算价值分：<span class="mono" style="color:hsl(var(--accent))">value = layer × recency × (1 + frequency × 0.1)</span>。拖滑块，看右边这张画像卡在三档展示间实时切换。</p></div>' +
+        '<div class="demo-head"><p>镜面 = 自适应界面设计引擎：Skill 只声明功能意图与数据，自动获得界面——每条设计决策带人话理由，换肤带门禁。三个核心切面 ↓</p></div>' +
+        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 声明 → 界面</span><span class="chip" data-t="1">② 一键换肤 · 门禁</span><span class="chip" data-t="2">③ 价值感知数据层</span></div>' +
+        '<div data-pane="0"></div><div data-pane="1" style="display:none"></div><div data-pane="2" style="display:none"></div>';
+
+      const panes = $$('[data-pane]', stage);
+      $$('[data-tabs] .chip', stage).forEach(c => c.addEventListener('click', () => {
+        $$('[data-tabs] .chip', stage).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        panes.forEach(p => p.style.display = 'none');
+        panes[+c.dataset.t].style.display = '';
+        if (+c.dataset.t === 0) playGen();
+      }));
+
+      /* ---------- Pane 0：声明 → 界面（26 秒实测） ---------- */
+      const p0 = panes[0];
+      p0.innerHTML =
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">module.yaml · 功能意图声明</div>' +
+            '<pre class="mono" style="font-size:11px;line-height:1.75;margin:8px 0;white-space:pre-wrap">intent:<br>  type: dashboard<br>  role: 实验室设备管理<br>views:<br>  - stat: { 设备在线率, 在线/总数 }<br>  - table: { 台账, 字段: [设备,状态,负责人] }<br>actions:<br>  - { 报修, confirm: true }<br>  - { 报废, danger: true }</pre>' +
+            '<button class="chip acc" data-gen style="width:100%;justify-content:center">▶ 生成界面（实测 26 秒）</button></div>' +
+          '<div class="demo-card" data-out><div class="t">自动生成的界面 <span class="muted" style="font-size:10px;font-family:var(--font-mono)">零前端代码</span></div><div data-canvas style="margin-top:8px;min-height:230px"></div></div>' +
+        '</div>' +
+        '<div class="demo-note">验收标准①端到端实测：全新 Skill「实验室报修」从手写声明到界面可用+调优闭环 <b>≈26 秒</b>（声明 199ms + 启动 25.5s + 调优 384ms）——已固化为回归资产 standard1-e2e</div>';
+
+      const reasons = [
+        ['检测到 intent.type = dashboard', '指标卡置顶，主数据表居中——六类布局模板自动匹配'],
+        ['台账字段含 状态/负责人', '表格主区渲染，类型感知单元格（状态色点）'],
+        ['「报废」声明 danger: true', '危险行动自动设防——二次确认门，理由留痕入 audit.jsonl'],
+        ['方案生成完毕', '每条决策可展开追溯；人工调优写入品味档案，下次生成自动反映'],
+      ];
+      const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+      let genPlayed = false;
+      async function playGen() {
+        if (genPlayed) return; genPlayed = true;
+        const cv = $('[data-canvas]', p0);
+        cv.innerHTML = '';
+        const step = async (html, why) => {
+          const b = document.createElement('div');
+          b.innerHTML = html + (why ? '<div class="muted mono" style="font-size:9.5px;margin:6px 0 10px;border-left:2px solid hsl(var(--accent));padding-left:8px;color:hsl(var(--accent))">✓ ' + why[0] + ' — ' + why[1] + '</div>' : '');
+          cv.appendChild(b.firstElementChild);
+          await sleep(420);
+        };
+        await step('<div style="display:flex;gap:8px"><div style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:10px"><div class="mono" style="font-size:9px;color:hsl(var(--muted-foreground))">设备在线率</div><b style="font-size:1.3em">97.4%</b><span class="mono" style="font-size:9px;color:hsl(var(--ok))"> ▲</span></div><div style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:10px"><div class="mono" style="font-size:9px;color:hsl(var(--muted-foreground))">报修单</div><b style="font-size:1.3em">3</b> <span class="mono" style="font-size:9px">今日</span></div></div>', reasons[0]);
+        await step('<div style="background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:8px 10px;font-size:11px">离心机 <span style="color:hsl(var(--warn))">●维修中</span> · 张工 &nbsp;|&nbsp; 光谱仪 <span style="color:hsl(var(--ok))">●在线</span> · 李研 &nbsp;|&nbsp; 烘箱 <span style="color:hsl(var(--ok))">●在线</span> · 王静</div>', reasons[1]);
+        await step('<div style="display:flex;gap:8px"><button style="flex:none;font-size:11px;padding:5px 10px;border-radius:6px;background:hsl(var(--accent));color:#fff">报 修</button><button style="flex:none;font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid hsl(var(--danger));color:hsl(var(--danger))">报废 ⚠</button><span class="muted" style="font-size:10px;align-self:center">报废触发确认门 → 理由留痕</span></div>', reasons[2]);
+        await step('<div class="mono" style="text-align:center;font-size:10px;color:hsl(var(--ok));border:1px dashed hsl(var(--ok));border-radius:6px;padding:6px">— 设计依据 4 条可追溯 · 调优已记入品味档案 —</div>', reasons[3]);
+        const btn = $('[data-gen]', p0);
+        if (btn) btn.textContent = '↻ 重新生成';
+        genPlayed = false;
+      }
+      $('[data-gen]', p0).addEventListener('click', () => { genPlayed = false; playGen(); });
+      playGen();
+
+      /* ---------- Pane 1：一键换肤 + 门禁 ---------- */
+      const p1 = panes[1];
+      const THEMES = {
+        ink:    { label: '墨韵赛博', bg:'#151719', surf:'#1e2226', ink:'#e8e6e1', acc:'#c0392b', bord:'#39404a', rad:'8px',  font:'serif',   extra:'' },
+        neubru: { label: '新野兽派', bg:'#FFFDF0', surf:'#ffffff', ink:'#111111', acc:'#F26100', bord:'#111111', rad:'0px',  font:'mono',    extra:'border:2px solid #111;box-shadow:3px 3px 0 #111;' },
+        glass:  { label: '琉璃空间', bg:'#0b1020', surf:'rgba(255,255,255,.07)', ink:'#eef2ff', acc:'#7aa8ff', bord:'rgba(255,255,255,.18)', rad:'14px', font:'sans', extra:'backdrop-filter:blur(8px);box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 8px 24px rgba(0,0,0,.35);' },
+        term:   { label: '终端行动', bg:'#0a0f0a', surf:'#101810', ink:'#c8f5c8', acc:'#4af04a', bord:'#2a3a2a', rad:'4px',  font:'mono',    extra:'' },
+      };
+      p1.innerHTML =
+        '<div class="chips" style="margin-bottom:12px" data-themes>' +
+          Object.entries(THEMES).map(([k, t], i) => '<span class="chip' + (i ? '' : ' on') + '" data-k="' + k + '">' + t.label + '</span>').join('') +
+        '</div>' +
+        '<div data-panel style="padding:14px;border-radius:12px;border:1px solid;transition:all .22s cubic-bezier(.2,.8,.2,1)">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center"><b data-t1 style="font-size:13px">设备总览 · 实验室</b><span data-t2 class="mono" style="font-size:9px;opacity:.65">intent: dashboard</span></div>' +
+          '<div style="display:flex;gap:8px;margin-top:10px">' +
+            '<div data-card style="flex:1;padding:9px 10px;border-radius:8px"><div data-l1 style="font-size:9px;opacity:.6">在线率</div><b data-v1 style="font-size:1.15em">97.4%</b></div>' +
+            '<div data-card style="flex:1;padding:9px 10px;border-radius:8px"><div data-l1 style="font-size:9px;opacity:.6">待报修</div><b data-v1 style="font-size:1.15em">3</b></div>' +
+          '</div>' +
+          '<div data-card style="margin-top:8px;padding:8px 10px;border-radius:8px;font-size:11px">离心机 · <span data-acc>维修中</span> ｜ 光谱仪 · 在线</div>' +
+          '<div style="margin-top:10px"><span data-btn style="display:inline-block;font-size:11px;padding:5px 12px;border-radius:6px">生成报修单</span></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px" data-gates>' +
+          ['AA 对比度 · 实算通过', '动效 120–240ms 政策带', '视觉回归 ≤1%', 'console 零泄漏', '553 项测试'].map((g, i) =>
+            '<span class="mono" data-gate style="font-size:9.5px;padding:4px 9px;border-radius:99px;border:1px solid hsl(var(--ok));color:hsl(var(--ok));opacity:' + (i === 0 ? 1 : 0) + ';transition:opacity .3s">✓ ' + g + '</span>').join('') +
+        '</div>' +
+        '<div class="demo-note">主题 ≠ 换颜色：三层 token 树（原始→语义→组件）整套切换 + 治理门禁——manifest 自检 AA 对 WCAG 实算、动效政策带、像素差回归；风格词路由「换成新野兽派风格」即换肤；token 出口反向导出五段式设计规范（口岸双通，回流验收 100% 抓漂移）</div>';
+
+      function applyTheme(k) {
+        const t = THEMES[k];
+        const P1 = $('[data-panel]', p1);
+        P1.style.cssText += ';background:' + t.bg + ';border-color:' + t.bord + ';border-radius:' + t.rad + ';' + t.extra;
+        $$('[data-card]', p1).forEach(c => { c.style.background = t.surf; c.style.border = '1px solid ' + t.bord; });
+        $$('[data-l1]', p1).forEach(x => x.style.color = t.ink);
+        $$('[data-v1]', p1).forEach(x => { x.style.color = t.ink; x.style.fontFamily = t.font === 'mono' ? 'var(--font-mono)' : t.font === 'serif' ? 'var(--font-display)' : 'inherit'; });
+        $('[data-t1]', p1).style.color = t.ink;
+        const btn = $('[data-btn]', p1);
+        btn.style.background = t.acc; btn.style.color = (k === 'neubru' ? '#fff' : '#0b0b0b');
+        if (k === 'neubru') { btn.style.border = '2px solid #111'; btn.style.boxShadow = '2px 2px 0 #111'; btn.style.borderRadius = '0'; } else { btn.style.border = 'none'; btn.style.boxShadow = 'none'; btn.style.borderRadius = '6px'; }
+        $('[data-acc]', p1).style.color = t.acc;
+        // 门禁徽章逐个点亮（模拟 manifest 自检）
+        const gates = $$('[data-gate]', p1);
+        gates.forEach(g => g.style.opacity = 0);
+        gates.forEach((g, i) => setTimeout(() => { g.style.opacity = 1; }, 160 * (i + 1)));
+      }
+      $$('[data-themes] .chip', p1).forEach(c => c.addEventListener('click', () => {
+        $$('[data-themes] .chip', p1).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        applyTheme(c.dataset.k);
+      }));
+      applyTheme('ink');
+
+      /* ---------- Pane 2：价值感知（原 demo 保留，微调结构） ---------- */
+      const p2 = panes[2];
+      p2.innerHTML =
         '<div class="demo-grid">' +
           '<div class="demo-card"><div class="t">价值因子</div>' +
             '<div class="demo-row"><label>数据层级</label><div class="chips" data-g="l"><span class="chip on" data-l="1.0">核心层 1.0</span><span class="chip" data-l="0.6">近期层 0.6</span><span class="chip" data-l="0.2">归档层 0.2</span></div></div>' +
@@ -1502,32 +1608,32 @@ const DEMOS = {
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="demo-note">论文依据：MemLens (2026) · Drillboards (2024) · LLM Adaptive Dashboard (2026) · X-ray 安全数据零适配直通消费，11 项测试全过，全量 171 零回退</div>';
+        '<div class="demo-note">五层架构的数据层：value = layer × recency × (1 + frequency × 0.1)（MemLens / Local-first 论文依据）· X-ray 安全数据零适配直通消费，171 测试零回退</div>';
       let layer = 1.0;
       const calc = () => {
-        const d = +$('[data-r-d]', stage).value, f = +$('[data-r-f]', stage).value;
+        const d = +$('[data-r-d]', p2).value, f = +$('[data-r-f]', p2).value;
         const rec = Math.exp(-d / 30);
         const v = layer * rec * (1 + f * 0.1);
-        $('[data-v-d]', stage).textContent = d;
-        $('[data-v-f]', stage).textContent = f;
-        $('[data-v-r]', stage).textContent = rec.toFixed(2);
-        $('[data-v-val]', stage).textContent = v.toFixed(2);
-        const card = $('[data-card]', stage), st = $('[data-state]', stage);
+        $('[data-v-d]', p2).textContent = d;
+        $('[data-v-f]', p2).textContent = f;
+        $('[data-v-r]', p2).textContent = rec.toFixed(2);
+        $('[data-v-val]', p2).textContent = v.toFixed(2);
+        const card = $('[data-card]', p2), st = $('[data-state]', p2);
         card.classList.remove('hot', 'dim');
         if (v > 0.8) { card.classList.add('hot'); st.textContent = '醒目展示'; }
         else if (v >= 0.3) { st.textContent = '正常展示'; }
         else { card.classList.add('dim'); st.textContent = '折叠隐藏'; }
       };
-      $$('.chips .chip', stage).forEach(c => c.addEventListener('click', () => {
+      $$('.chips .chip', p2).forEach(c => c.addEventListener('click', () => {
         $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
         c.classList.add('on');
         layer = +c.dataset.l;
         calc();
       }));
-      $('[data-r-d]', stage).addEventListener('input', calc);
-      $('[data-r-f]', stage).addEventListener('input', calc);
-      $('[data-card]', stage).addEventListener('click', () => {
-        const d = $('[data-drill]', stage);
+      $('[data-r-d]', p2).addEventListener('input', calc);
+      $('[data-r-f]', p2).addEventListener('input', calc);
+      $('[data-card]', p2).addEventListener('click', () => {
+        const d = $('[data-drill]', p2);
         d.style.display = d.style.display === 'none' ? 'block' : 'none';
       });
       calc();
