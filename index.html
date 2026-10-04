@@ -560,6 +560,18 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea li, #printArea .r-meta { color: #333; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
+
+/* ============ 案例卡片网格（多页跳转版） ============ */
+.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+.case-card { display: block; text-decoration: none; border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 22px 22px 18px; background: hsl(var(--surface) / .55); transition: all 180ms ease; position: relative; }
+.case-card:hover { border-color: hsl(var(--accent) / .55); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.case-card .case-title { font-size: 1.22rem; }
+.cc-go { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: hsl(var(--accent)); }
+@media (max-width: 760px) {
+  .case-grid { grid-template-columns: 1fr; gap: 12px; }
+  .case-card { padding: 16px 16px 14px; }
+  .case-nav { grid-template-columns: 1fr 1fr !important; }
+}
 </style>
 </head>
 <body>
@@ -685,8 +697,8 @@ html.cc, html.cc * { cursor: none !important; }
   <!-- ============ S3 旗舰案例（JS 渲染） ============ -->
   <section class="section" id="cases" style="padding-top:0">
     <p class="kicker rv">03 · 旗舰案例 · 全部可现场运行</p>
-    <h2 class="sec-title rv">不贴截图，<br>直接跑给你看。</h2>
-    <p class="sec-lede rv">五个舞台都能点，点坏了有重置。全是项目里真跑过的核心功能，口径页脚可查。</p>
+    <h2 class="sec-title rv">五个案例，<br>每案一页，直接跑给你看。</h2>
+    <p class="sec-lede rv">每个案例独立成页：进去就是可交互 DEMO + 完整口径，底部上一篇/下一篇连着逛。手机上不用再无尽下滑。</p>
     <div id="caseList"></div>
   </section>
 
@@ -827,12 +839,12 @@ const CONTENT = {
     { id: 'rag-pipeline', kicker: 'CASE 01 · RAG 检索', title: 'RAG 四模式对比 · 同一问题的两种命运', tag: '接上就灵的 RAG 只活在演示里。同一句话，纯向量答错，调优后答对，差距我一行一行调出来。',
       nav: ['RAG 四模式', '纯向量答错的题，调优后答对。点模式④，看它自己纠错。'],
       metrics: ['119 文件 → 1529 向量点', '724s CPU 建库', '实测 4/5 → 5/5', 'Agentic 2 轮自纠'] },
-    { id: 'huodai-mask', kicker: 'CASE 02 · 企业级隐私', title: '玲珑货代 RAG · 脱敏屏障', tag: '客户名和单号，永远到不了 LLM。脱敏屏障进，还原屏障出，中间只站得住占位符。',
-      nav: ['脱敏屏障', 'LLM 全程只见占位符。点场景③，看它敢转人工。'],
-      metrics: ['双库隔离 · 5 道边界', '代码消歧 70-80%', '人工兜底 <5%', '验收 7/7 全过'] },
-    { id: 'mirror-value', kicker: 'CASE 03 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，26 秒长出整个界面，每条决策带理由；14 套主题一键换肤带 AA 门禁；数据自带价值分层。三个核心切面都在里面。',
+    { id: 'mirror-value', kicker: 'CASE 02 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，26 秒长出整个界面，每条决策带理由；14 套主题一键换肤带 AA 门禁；数据自带价值分层。三个核心切面都在里面。',
       nav: ['价值感知', '数据分三档展示。拖滑块，看画像卡实时升降级。'],
       metrics: ['声明→界面 ≈26s', '14 套主题 · AA 门禁', '553 测试', '每条决策带理由'] },
+    { id: 'huodai-mask', kicker: 'CASE 03 · 企业级隐私', title: '玲珑货代 RAG · 脱敏屏障', tag: '客户名和单号，永远到不了 LLM。脱敏屏障进，还原屏障出，中间只站得住占位符。',
+      nav: ['脱敏屏障', 'LLM 全程只见占位符。点场景③，看它敢转人工。'],
+      metrics: ['双库隔离 · 5 道边界', '代码消歧 70-80%', '人工兜底 <5%', '验收 7/7 全过'] },
     { id: 'shiyang-solver', kicker: 'CASE 04 · 约束求解', title: '玲珑食养 · 约束求解体验', tag: '中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看，绝不装死。',
       nav: ['约束求解', '预算往下拖到 ¥20，看它回溯软化，绝不装死。'],
       metrics: ['L1-L4 四层约束', '单餐求解 <5s', '448 测试 94% 覆盖', 'V1-V12 符号否决'] },
@@ -1224,8 +1236,7 @@ document.addEventListener('pointermove', e => {
   cv.addEventListener('pointerleave', () => { hover = null; tip.style.display = 'none'; if (REDUCED) draw(); });
   cv.addEventListener('click', () => {
     if (!hover) return;
-    const target = hover.demo ? $('#case-' + hover.demo) : null;
-    if (target) target.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+    if (hover.demo && CASEFILE[hover.demo]) location.href = 'case/' + CASEFILE[hover.demo];
   });
 
   const io = new IntersectionObserver(en => {
@@ -1239,26 +1250,22 @@ document.addEventListener('pointermove', e => {
   window.addEventListener('resize', () => { size(); draw(); });
 })();
 
+const CASEFILE = {"rag-pipeline": "01-rag-pipeline.html", "mirror-value": "02-mirror-value.html", "huodai-mask": "03-huodai-mask.html", "shiyang-solver": "04-shiyang-solver.html", "longjob-pipeline": "05-longjob-pipeline.html"};
+
 /* ============================================================
-   S3 案例章节骨架（Demo 进入视口才挂载）
+   S3 案例章节骨架（卡片化 · 跳转独立案例页）
    ============================================================ */
 $('#caseList').innerHTML =
   '<div class="case-nav rv">' + CONTENT.cases.map((c, i) =>
-    '<a href="#case-' + c.id + '"><div class="cn-n">CASE 0' + (i + 1) + '</div><div class="cn-t">' + esc(c.nav[0]) + '</div><div class="cn-d">' + esc(c.nav[1]) + '</div></a>').join('') + '</div>' +
-  CONTENT.cases.map((c, i) =>
-  '<article class="case" id="case-' + c.id + '">' +
+    '<a href="case/' + CASEFILE[c.id] + '"><div class="cn-n">CASE 0' + (i + 1) + '</div><div class="cn-t">' + esc(c.nav[0]) + '</div><div class="cn-d">' + esc(c.nav[1]) + '</div></a>').join('') + '</div>' +
+  '<div class="case-grid">' + CONTENT.cases.map((c, i) =>
+  '<a class="case-card" href="case/' + CASEFILE[c.id] + '">' +
     '<p class="case-kicker rv">' + esc(c.kicker) + '</p>' +
     '<h3 class="case-title rv">' + esc(c.title) + '</h3>' +
     '<p class="case-tag rv">' + esc(c.tag) + '</p>' +
     '<div class="case-metrics rv">' + c.metrics.map(m => '<span class="chip acc">' + esc(m) + '</span>').join('') + '</div>' +
-    '<div class="demo-frame rv">' +
-      '<div class="df-bar"><span class="live-dot"></span> LIVE DEMO · 可直接交互 <button class="df-reset" data-reset="' + c.id + '">' + svgUse('i-refresh', 11) + ' 重置</button><span class="hint">录像式演示 · 口径在舞台下方</span></div>' +
-      '<div class="df-stage" data-stage="' + c.id + '"></div>' +
-    '</div>' +
-    (i < CONTENT.cases.length - 1
-      ? '<a class="case-next rv" href="#case-' + CONTENT.cases[i + 1].id + '">下一个 ↓ ' + esc(CONTENT.cases[i + 1].nav[0]) + '</a>'
-      : '<a class="case-next rv" href="#more">下一个 ↓ 矩阵的另一半</a>') +
-  '</article>').join('');
+    '<div class="cc-go">▶ 进入案例 · 可交互 DEMO</div>' +
+  '</a>').join('') + '</div>';
 
 /* ============================================================
    S4 其余在研 / S5 时间线 / S6 缺口
@@ -1753,24 +1760,7 @@ const DEMOS = {
   },
 };
 
-/* Demo 懒挂载：进入视口才初始化；重置按钮重挂 */
-(function mountDemos() {
-  const dio = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      dio.unobserve(e.target);
-      const id = e.target.dataset.stage;
-      try { DEMOS[id].mount(e.target); } catch (err) { e.target.innerHTML = '<p class="muted mono" style="font-size:12px">Demo 未响应，请刷新重试。</p>'; }
-    });
-  }, { threshold: 0.15, rootMargin: '200px' });
-  $$('[data-stage]').forEach(s => dio.observe(s));
-  $$('[data-reset]').forEach(b => b.addEventListener('click', () => {
-    const id = b.dataset.reset;
-    const stage = $('[data-stage="' + id + '"]');
-    try { DEMOS[id].mount(stage); } catch (err) { /* 保持现状 */ }
-    toast('Demo 已重置');
-  }));
-})();
+/* demo 已迁移至独立案例页 /case/ */
 
 /* ============================================================
    页间转场带 · 滚动驱动 --p（每段手法见 CSS 注释）
