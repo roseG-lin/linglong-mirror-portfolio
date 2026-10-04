@@ -527,6 +527,7 @@ body.hint-entry .desk-icon.is-entry::after { opacity: 1; transform: translate(-5
   background: linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(260 60% 30% / 0.5));
   border: 1px solid rgba(255,255,255,0.12);
   font-family: var(--font-display); font-size: 2rem; color: hsl(var(--foreground));
+  object-fit: cover; display: block;
 }
 .tl { position: relative; padding-left: 22px; }
 .tl::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: hsl(var(--border)); }
@@ -752,6 +753,22 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none;
 }
 
 /* ============ Reduced Motion ============ */
+
+/* ===== v2.6.1 移动端窗口全屏化 + 出界钳制（修复手机显示不全） ===== */
+@media (max-width: 768px) {
+  .window {
+    left: 2vw !important; top: 52px !important;
+    width: 96vw !important; max-width: 96vw !important;
+    height: calc(100vh - 140px) !important; max-height: calc(100vh - 140px) !important;
+    transform: none !important;
+  }
+  .window .win-body { font-size: 14px; }
+  #taskbar, #dock { max-width: 100vw; overflow-x: auto; }
+}
+@media (min-width: 769px) {
+  .window { max-width: calc(100vw - 24px); max-height: calc(100vh - 90px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: var(--dur-reduced) !important; animation-iteration-count: 1 !important; transition-duration: var(--dur-reduced) !important; }
   #desktop.ready .desk-icon { animation-name: fade-rise; }
@@ -1956,7 +1973,7 @@ APPS.about = {
     const page = $('[data-page]', body);
     const pages = [
       () =>
-        '<div class="about-hero"><div class="avatar">R</div><div>' +
+        '<div class="about-hero"><img class="avatar" src="../assets/avatar.png" alt="Remi 头像"><div>' +
           '<h2 class="app-h">' + CONTENT.name + ' · ' + CONTENT.realName + '</h2>' +
           '<p class="app-sub" style="margin-bottom:8px">' + CONTENT.slogan + '</p>' +
           '<div class="fm-tags" style="margin:0"><span class="chip acc">' + CONTENT.targetRole + '</span><span class="chip">' + CONTENT.city + '</span><span class="chip">' + CONTENT.availability + '</span></div>' +
@@ -2066,7 +2083,7 @@ APPS.contact = {
   render(body) {
     body.innerHTML =
       '<div class="contact-card liquid-glass" style="border-radius:var(--radius-2xl)">' +
-        '<div class="avatar">R</div>' +
+        '<img class="avatar" src="../assets/avatar.png" alt="Remi 头像">' +
         '<h2 class="app-h">' + CONTENT.name + '</h2>' +
         '<p class="app-sub" style="margin-bottom:0">' + CONTENT.slogan + '</p>' +
         '<p class="r-meta" style="margin-top:8px">' + CONTENT.city + ' · ' + CONTENT.availability + '</p>' +
