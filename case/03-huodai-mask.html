@@ -554,6 +554,16 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea li, #printArea .r-meta { color: #333; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
+
+/* ===== 皮肤：墨韵赛博 ink-cyber（镜面首套主题）· 隐私的暗色气质 ===== */
+:root{ --background: 222 16% 8%; --surface: 222 14% 12%; --surface-2: 222 11% 16%;
+  --foreground: 42 26% 87%; --muted-foreground: 42 14% 58%;
+  --accent: 6 64% 48%; --border: 222 11% 24%; --ok: 152 45% 42%; --danger: 6 64% 55%; --warn: 40 80% 55%; }
+body{ background: hsl(var(--background)); }
+.case-hero h1, .case-nav-bar .cn-mid{ font-family: var(--font-display); }
+.demo-frame{ border-color: hsl(var(--accent) / .35) }
+.pn-nav a:hover{ border-color: hsl(var(--accent) / .6) }
+.case-metrics .chip.acc{ border-color: hsl(var(--accent)/.5); color: hsl(var(--accent)) }
 </style>
 <style>
 /* 案例页专用补充 */

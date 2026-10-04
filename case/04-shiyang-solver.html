@@ -554,6 +554,18 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea li, #printArea .r-meta { color: #333; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
+
+/* ===== 皮肤：侘寂手账 wabi-journal（镜面主题#04）· 食养的温度感 ===== */
+:root{ --background: 38 28% 89%; --surface: 40 34% 95%; --surface-2: 38 22% 84%;
+  --foreground: 34 14% 20%; --muted-foreground: 34 9% 44%;
+  --accent: 28 40% 38%; --border: 34 16% 72%; --ok: 145 30% 34%; --danger: 6 55% 44%; --warn: 36 70% 40%; }
+body{ background: hsl(var(--background)); }
+#aurora{ display:none }
+.case-nav-bar{ background: hsl(38 28% 89% / .92) }
+.case-hero h1{ font-family: var(--font-display) }
+.demo-frame{ border-radius: 10px }
+.pn-nav a{ border-radius: 10px; background:hsl(var(--surface)) }
+.case-metrics .chip.acc{ background:hsl(var(--accent)/.1); border-color:hsl(var(--accent)/.4) }
 </style>
 <style>
 /* 案例页专用补充 */
