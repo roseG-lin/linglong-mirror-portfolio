@@ -15,7 +15,7 @@
   --surface-2:         210 38% 13%;
   --foreground:        210 20% 98%;
   --muted-foreground:  214 15% 65%;
-  --accent:            6 64% 62%;
+  --accent:            199 89% 48%;
   --border:            215 20% 22%;
   --danger:            0 72% 51%;
   --ok:                152 60% 45%;
@@ -316,8 +316,8 @@ footer a { color: hsl(var(--accent)); }
 #toast .icon { color: hsl(var(--accent)); }
 
 /* ============ 超宽屏：容器加宽 + 双轨 ============ */
-@media (min-width: 1600px) { :root { --container: 1340px; } }
-@media (min-width: 2100px) { :root { --container: 1520px; } }
+@media (min-width: 1600px) {  }
+@media (min-width: 2100px) {  }
 
 /* 左侧纵排轨（品牌竖文 + 滚动百分比） */
 #railL {
@@ -555,15 +555,28 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
 
-/* ===== 皮肤：墨韵赛博 ink-cyber（镜面首套主题）· 隐私的暗色气质 ===== */
-:root{ --background: 222 16% 8%; --surface: 222 14% 12%; --surface-2: 222 11% 16%;
-  --foreground: 42 26% 87%; --muted-foreground: 42 14% 58%;
-  --accent: 6 64% 62%; --border: 222 11% 24%; --ok: 152 45% 42%; --danger: 6 64% 55%; --warn: 40 80% 55%; }
+
 body{ background: hsl(var(--background)); }
 .case-hero h1, .case-nav-bar .cn-mid{ font-family: var(--font-display); }
 .demo-frame{ border-color: hsl(var(--accent) / .35) }
 .pn-nav a:hover{ border-color: hsl(var(--accent) / .6) }
 .case-metrics .chip.acc{ border-color: hsl(var(--accent)/.5); color: hsl(var(--accent)) }
+
+
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
+
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
+
+/* ===== 微差异皮肤：朱砂红 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 6 88% 59%; }
 </style>
 <style>
 /* 案例页专用补充 */

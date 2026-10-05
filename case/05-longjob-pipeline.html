@@ -316,8 +316,8 @@ footer a { color: hsl(var(--accent)); }
 #toast .icon { color: hsl(var(--accent)); }
 
 /* ============ 超宽屏：容器加宽 + 双轨 ============ */
-@media (min-width: 1600px) { :root { --container: 1340px; } }
-@media (min-width: 2100px) { :root { --container: 1520px; } }
+@media (min-width: 1600px) {  }
+@media (min-width: 2100px) {  }
 
 /* 左侧纵排轨（品牌竖文 + 滚动百分比） */
 #railL {
@@ -555,10 +555,7 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
 
-/* ===== 皮肤：终端行动 terminal-ops（镜面主题#03）· 流水线的命令行气质 ===== */
-:root{ --background: 132 22% 5%; --surface: 132 18% 8%; --surface-2: 130 14% 12%;
-  --foreground: 112 45% 82%; --muted-foreground: 112 25% 55%;
-  --accent: 120 85% 56%; --border: 130 16% 19%; --ok: 120 70% 50%; --danger: 0 70% 55%; --warn: 60 80% 55%; }
+
 body{ background: hsl(var(--background)); }
 .case-hero h1, .case-hero .kicker, .case-nav-bar .cn-mid, .case-metrics .chip, .pn-nav .dir { font-family: var(--font-mono); }
 .case-nav-bar{ background: hsl(132 22% 5% / .9); border-bottom:1px solid hsl(var(--accent)/.25) }
@@ -569,6 +566,22 @@ body{ background: hsl(var(--background)); }
 .pn-nav a{ border-radius: 6px }
 .pn-nav .ttl{ font-family: var(--font-mono) }
 .cc-go, .case-hero .kicker{ color: hsl(var(--accent)) }
+
+
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
+
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
+
+/* ===== 微差异皮肤：流水绿 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 150 88% 52%; }
 </style>
 <style>
 /* 案例页专用补充 */

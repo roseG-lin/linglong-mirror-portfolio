@@ -14,7 +14,7 @@
   --surface:           210 40% 10%;
   --surface-2:         210 38% 13%;
   --foreground:        210 20% 98%;
-  --muted-foreground:  40 10% 39%;
+  --muted-foreground:  214 15% 65%;
   --accent:            199 89% 48%;
   --border:            215 20% 22%;
   --danger:            0 72% 51%;
@@ -316,8 +316,8 @@ footer a { color: hsl(var(--accent)); }
 #toast .icon { color: hsl(var(--accent)); }
 
 /* ============ 超宽屏：容器加宽 + 双轨 ============ */
-@media (min-width: 1600px) { :root { --container: 1340px; } }
-@media (min-width: 2100px) { :root { --container: 1520px; } }
+@media (min-width: 1600px) {  }
+@media (min-width: 2100px) {  }
 
 /* 左侧纵排轨（品牌竖文 + 滚动百分比） */
 #railL {
@@ -555,16 +555,29 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
 
-/* ===== 皮肤：素纸 scandi-paper（镜面主题#05）· 研究笔记气质 ===== */
-:root{ --background: 42 32% 94%; --surface: 40 40% 98%; --surface-2: 42 25% 90%;
-  --foreground: 40 18% 16%; --muted-foreground: 40 10% 39%;
-  --accent: 16 58% 42%; --border: 40 14% 76%; --ok: 145 35% 36%; --danger: 6 58% 46%; --warn: 36 70% 42%; }
+
 body{ background: hsl(var(--background)); }
 #aurora{ display:none }
 .case-nav-bar{ background: hsl(42 32% 94% / .92); }
 .demo-frame{ box-shadow:none }
 .pn-nav a{ background:hsl(var(--surface)) }
 .case-metrics .chip.acc{ background:hsl(var(--accent)/.12) }
+
+
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
+
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
+
+/* ===== 微差异皮肤：数据青 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 190 88% 52%; }
 </style>
 <style>
 /* 案例页专用补充 */
