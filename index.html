@@ -697,7 +697,7 @@ html.cc, html.cc * { cursor: none !important; }
   <!-- ============ S3 旗舰案例（JS 渲染） ============ -->
   <section class="section" id="cases" style="padding-top:0">
     <p class="kicker rv">03 · 旗舰案例 · 全部可现场运行</p>
-    <h2 class="sec-title rv">五个案例，<br>每案一页，直接跑给你看。</h2>
+    <h2 class="sec-title rv">六个案例，<br>每案一页，直接跑给你看。</h2>
     <p class="sec-lede rv">每个案例独立成页：进去就是可交互 DEMO + 完整口径，底部上一篇/下一篇连着逛。手机上不用再无尽下滑。</p>
     <div id="caseList"></div>
   </section>
@@ -851,6 +851,7 @@ const CONTENT = {
     { id: 'longjob-pipeline', kicker: 'CASE 05 · 求职流水线', title: '玲珑职举 LongJob · 迷你流水线', tag: '真实 JD 进去，11 强 2 中 1 缺出来。缺的那条不编造，开条产线补。本站就是它的 L3 产物。',
       nav: ['求职流水线', '真实 JD 跑 L0→L2。11 强 2 中 1 缺，缺的不编。'],
       metrics: ['L0–L5 FSM', '40 纯标准库工具', '518 测试 · 96% 覆盖', 'guardrails 三查'] },
+    { id: 'novel-engine', kicker: 'CASE 06 · 创作工程化', title: '玲珑小说引擎 · 把小说生产做成工程', tag: '单一真相源+代码化校验+短上下文执行。2499 项测试守着一条有质量门的小说流水线——方法论 13 维 9 大能，百章压测 runner。', nav: ['小说生产工程化', '廉价翻转和半角标点在重写之前被拦下。点审校，现场跑同一套规则。'], metrics: ['2499 测试 · 228 文件', 'TDD 门槛 90%', '方法论 13 维 9 大能', '百章压测 runner'] },
   ],
   more: [
     { icon: 'i-terminal', name: '玲珑小说引擎', desc: '小说生产工程化：单一真相源+代码化校验+TDD 90% 门槛，2499 测试 · 228 文件；方法论 13 维 9 大能，百章压测 runner+语义记忆+合成读者面板。' },
@@ -1178,7 +1179,7 @@ document.addEventListener('pointermove', e => {
     { id: 'junji',   name: '军机处',         tag: '任务执行器 + 战报', x: 0.90, y: 0.48 },
     { id: 'voice',   name: '玲珑语',         tag: '全双工语音通道', x: 0.70, y: 0.82 },
     { id: 'secret',  name: '玲珑秘库',       tag: '企业 LLM 隐私隔离', x: 0.68, y: 0.13 },
-    { id: 'novel',   name: '玲珑小说引擎',   tag: '小说生产工程化 · 2499 测试', x: 0.90, y: 0.13 },
+    { id: 'novel',   name: '玲珑小说引擎',   tag: '2499 测试 · 单一真相源', x: 0.90, y: 0.13, live: true, demo: 'novel-engine' },
   ];
   const EDGES = [
     ['luban', 'brain'], ['luban', 'xuehai'], ['luban', 'xray'], ['luban', 'shiyang'], ['luban', 'mirror'], ['luban', 'secret'],
@@ -1251,7 +1252,7 @@ document.addEventListener('pointermove', e => {
   window.addEventListener('resize', () => { size(); draw(); });
 })();
 
-const CASEFILE = {"rag-pipeline": "01-rag-pipeline.html", "mirror-value": "02-mirror-value.html", "huodai-mask": "03-huodai-mask.html", "shiyang-solver": "04-shiyang-solver.html", "longjob-pipeline": "05-longjob-pipeline.html"};
+const CASEFILE = {"rag-pipeline": "01-rag-pipeline.html", "mirror-value": "02-mirror-value.html", "huodai-mask": "03-huodai-mask.html", "shiyang-solver": "04-shiyang-solver.html", "longjob-pipeline": "05-longjob-pipeline.html", "novel-engine": "06-novel-engine.html"};
 
 /* ============================================================
    S3 案例章节骨架（卡片化 · 跳转独立案例页）

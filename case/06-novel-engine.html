@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑货代 RAG · 脱敏屏障 · Remi 作品集</title>
+<title>玲珑小说引擎 · 把小说生产做成工程 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -316,8 +316,8 @@ footer a { color: hsl(var(--accent)); }
 #toast .icon { color: hsl(var(--accent)); }
 
 /* ============ 超宽屏：容器加宽 + 双轨 ============ */
-@media (min-width: 1600px) {  }
-@media (min-width: 2100px) {  }
+@media (min-width: 1600px) { :root { --container: 1340px; } }
+@media (min-width: 2100px) { :root { --container: 1520px; } }
 
 /* 左侧纵排轨（品牌竖文 + 滚动百分比） */
 #railL {
@@ -555,73 +555,59 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
 
-
-body{ background: hsl(var(--background)); }
-.case-hero h1, .case-nav-bar .cn-mid{ font-family: var(--font-display); }
-.demo-frame{ border-color: hsl(var(--accent) / .35) }
-.pn-nav a:hover{ border-color: hsl(var(--accent) / .6) }
-.case-metrics .chip.acc{ border-color: hsl(var(--accent)/.5); color: hsl(var(--accent)) }
-
-
-.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
-.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
-.demo-frame{ border-color: hsl(var(--accent)/.22) }
-.df-bar{ color: hsl(var(--accent)) }
-.cc-go{ color: hsl(var(--accent)) }
-
-.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
-.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
-.demo-frame{ border-color: hsl(var(--accent)/.22) }
-.df-bar{ color: hsl(var(--accent)) }
-.cc-go{ color: hsl(var(--accent)) }
-
-/* ===== 微差异皮肤：朱砂红 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 6 88% 59%; }
+/* ============ 案例卡片网格（多页跳转版） ============ */
+.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+.case-card { display: block; text-decoration: none; border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 22px 22px 18px; background: hsl(var(--surface) / .55); transition: all 180ms ease; position: relative; }
+.case-card:hover { border-color: hsl(var(--accent) / .55); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.case-card .case-title { font-size: 1.22rem; }
+.cc-go { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: hsl(var(--accent)); }
+@media (max-width: 760px) {
+  .case-grid { grid-template-columns: 1fr; gap: 12px; }
+  .case-card { padding: 16px 16px 14px; }
+  .case-nav { grid-template-columns: 1fr 1fr !important; }
+}
 </style>
 <style>
-/* 案例页专用补充 */
-.case-nav-bar{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;background:hsl(var(--background)/.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid hsl(var(--border)/.6)}
-.case-nav-bar a,.case-nav-bar span{font-size:13px;color:hsl(var(--muted-foreground));text-decoration:none}
-.case-nav-bar a:hover{color:hsl(var(--foreground))}
-.case-nav-bar .cn-mid{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:hsl(var(--accent))}
-.case-hero{max-width:960px;margin:0 auto;padding:96px 24px 8px}
-.case-hero h1{font-family:var(--font-display);font-size:clamp(1.6rem,4.6vw,2.4rem);line-height:1.2;margin-top:10px}
-.case-hero .kicker{margin-bottom:0}
-.case-hero .tag{font-size:15px;color:hsl(var(--muted-foreground));line-height:1.75;margin-top:12px}
-.case-metrics{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.case-body{max-width:960px;margin:0 auto;padding:12px 24px 80px}
-.pn-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px}
-.pn-nav a{text-decoration:none;border:1px solid hsl(var(--border));border-radius:12px;padding:14px 16px;background:hsl(var(--surface)/.5);transition:all .16s ease}
-.pn-nav a:hover{border-color:hsl(var(--accent)/.5);transform:translateY(-2px)}
-.pn-nav .dir{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;color:hsl(var(--muted-foreground))}
-.pn-nav .ttl{font-size:14px;margin-top:4px;color:hsl(var(--foreground))}
-.pn-nav a.next{text-align:right}
-.pn-nav .home{grid-column:1/-1;text-align:center;border-style:dashed}
-@media(max-width:640px){.case-nav-bar{padding:0 12px}.case-hero{padding-top:80px}.case-body{padding-bottom:60px}}
+/* ===== 微差异皮肤：创作绯 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 340 85% 61%; }
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
 </style>
 </head>
-<body><svg style="display:none"><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+<body>
 <div id="aurora"><canvas></canvas></div>
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 03 / 06 · 企业级隐私</span>
-  <a href="04-shiyang-solver.html">下一篇 →</a>
+  <span class="cn-mid">CASE 06 / 06 · 创作工程化</span>
+  <a href="../">回目录 ↗</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">企业级隐私</p>
-  <h1>玲珑货代 RAG · 脱敏屏障</h1>
-  <p class="tag">客户名和单号，永远到不了 LLM。脱敏屏障进，还原屏障出，中间只站得住占位符。</p>
-  <div class="case-metrics"><span class="chip acc">双库隔离 · 5 道边界</span><span class="chip acc">代码消歧 70-80%</span><span class="chip acc">人工兜底 <5%</span><span class="chip acc">验收 7/7 全过</span></div>
+  <p class="kicker">CASE 06 · 创作工程化</p>
+  <h1>玲珑小说引擎 · 把小说生产做成工程</h1>
+  <p class="tag">人物、伏笔、规则单一真相源；能用代码校验的绝不交给模型主观发挥；短上下文执行把幻觉和成本一起控——13 个玲珑产品里测试量最大的一个：2499 项测试守着一条有质量门的小说流水线。</p>
+  <div class="case-metrics">
+    <span class="chip acc">2499 测试 · 228 文件</span>
+    <span class="chip acc">TDD 覆盖率门槛 90%</span>
+    <span class="chip acc">方法论 13 维 · 9 大能</span>
+    <span class="chip acc">百章压测 runner</span>
+  </div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
     <div class="df-bar"><span class="live-dot"></span> LIVE DEMO · 可直接交互
       <button class="df-reset" id="resetBtn">↻ 重置</button>
-      <span class="hint">录像式演示 · 口径在本页下方</span></div>
+      <span class="hint">三个切面 · 审校规则与引擎同源</span></div>
     <div class="df-stage" id="stage"></div>
   </div>
-  <div class="pn-nav"><a href="02-mirror-value.html"><div class="dir">← 上一篇</div><div class="ttl">自适应界面引擎</div></a><a class="next" href="04-shiyang-solver.html"><div class="dir">下一篇 →</div><div class="ttl">约束求解</div></a><a class="home" href="../">↩ 返回作品集目录</a></div>
+  <div class="pn-nav">
+    <a href="05-longjob-pipeline.html"><div class="dir">← 上一篇</div><div class="ttl">求职流水线</div></a>
+    <a class="next" href="../"><div class="dir">读完整套</div><div class="ttl">回目录</div></a>
+    <a class="home" href="../">↩ 返回作品集目录</a>
+  </div>
 </main>
 <script>
 'use strict';
@@ -634,82 +620,118 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + '" height="' + (size || 20) + '"><use href="#' + id + '"/></svg>'; }
 
 
-function toast(){}
 const DEMOS = {
-  'huodai-mask': {
+  'novel-engine': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-card" style="margin-bottom:20px"><div class="t">三个验收场景 · 阶段1 验收 7/7 全过（2026-08-07）</div>' +
-          '<div class="chips" style="margin-top:10px">' +
-            '<span class="chip on" data-s="0">明确单号 · 代码层消歧</span><span class="chip" data-s="1">一单多号 · LLM 消歧</span><span class="chip" data-s="2">无法定位 · 转人工</span>' +
-          '</div>' +
-        '</div>' +
-        '<div data-flow></div>' +
-        '<div class="demo-card" style="margin-top:20px"><div class="t">消歧三段配比 · 真实架构口径</div>' +
-          '<div class="ratio"><i style="width:75%;background:hsl(var(--ok))"></i><i style="width:22%;background:hsl(var(--accent))"></i><i style="width:3%;background:hsl(var(--warn))"></i></div>' +
-          '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:hsl(var(--muted-foreground));margin-top:6px;flex-wrap:wrap;gap:6px"><span>代码层确定解析 70-80%</span><span>脱敏后 LLM 语义消歧 20-30%</span><span>人工兜底 &lt;5%</span></div>' +
-        '</div>' +
-        '<div class="demo-note">演示数据虚构 · 内核 freight_rag 六模块在册可跑 · 双库隔离 · 双键过滤防串单（kehu_id + order_id）</div>';
-      const SCENES = [
-        { mail: '<div style="font-family:var(--font-mono);font-size:11px;color:hsl(var(--muted-foreground));margin-bottom:10px;border-bottom:1px dashed hsl(var(--border));padding-bottom:8px">From <span class="mk">张伟（宏远货代）</span> · 主题：<span class="mk">SO-2026-0901</span> 到港时间确认 · 09-11 17:42</div>你好，我是<span class="mk">宏远货代的张伟</span>。<span class="mk">SO-2026-0901</span> 这票到洛杉矶的 ETA 麻烦确认下，客户催了。',
-          llm: '你好，我是 <span class="mk">KEHU0001</span>。<span class="mk">ORDER0001</span> 这票到洛杉矶的 ETA 麻烦确认下，客户催了。',
-          path: '代码层正则命中唯一单号 → 确定性消歧 · 不过 LLM',
-          replyLlm: '<span class="mk">KEHU0001</span> 您好：<span class="mk">ORDER0001</span> 已于 09-05 装船，预计 09-18 抵洛杉矶港，舱位状态正常。',
-          replyHuman: '<span class="mk">张伟</span> 您好：<span class="mk">SO-2026-0901</span> 已于 09-05 装船，预计 09-18 抵洛杉矶港，舱位状态正常。',
-          foot: '<span class="verdict ok">✓ 自动闭环 · 人工 0 分钟</span>' },
-        { mail: '<div style="font-family:var(--font-mono);font-size:11px;color:hsl(var(--muted-foreground));margin-bottom:10px;border-bottom:1px dashed hsl(var(--border));padding-bottom:8px">From <span class="mk">张伟（宏远货代）</span> · 主题：两票货进度 · 09-12 09:15</div>我是<span class="mk">张伟</span>，上周走的那两票货，现在到哪了？',
-          llm: '我是 <span class="mk">KEHU0001</span>，上周走的那两票货，现在到哪了？',
-          path: 'KEHU0001 名下在途 2 票 → 脱敏态交 LLM 按「上周」时间窗锁定 ORDER0001 / ORDER0002',
-          replyLlm: '<span class="mk">KEHU0001</span> 您好：<span class="mk">ORDER0001</span> 预计 09-18 抵洛杉矶；<span class="mk">ORDER0002</span> 已过苏伊士，预计 09-22 抵汉堡。',
-          replyHuman: '<span class="mk">张伟</span> 您好：<span class="mk">SO-2026-0901</span> 预计 09-18 抵洛杉矶；<span class="mk">SO-2026-0830</span> 已过苏伊士，预计 09-22 抵汉堡。',
-          foot: '<span class="verdict ok">✓ LLM 消歧闭环 · 占 20-30% 流量</span>' },
-        { mail: '<div style="font-family:var(--font-mono);font-size:11px;color:hsl(var(--muted-foreground));margin-bottom:10px;border-bottom:1px dashed hsl(var(--border));padding-bottom:8px">From <span class="mk">张伟（宏远货代）</span> · 主题：货怎么了？？ · 09-12 14:03</div><span class="mk">张伟</span>：我那票货到底怎么回事？',
-          llm: '<span class="mk">KEHU0001</span>：我那票货到底怎么回事？',
-          path: 'KEHU0001 名下在途 5 票 · 无单号无时间窗 → 置信度 0.42 < 阈值 0.70',
-          replyLlm: '（不猜。触发转人工。）',
-          replyHuman: '转跟单员处理，已附：<span class="mk">张伟</span> 档案 + 5 票在途清单 + 本次对话摘要。',
-          foot: '<span class="verdict warn">△ 转人工兜底 · 敢认不确定，才配叫生产级</span>' },
-      ];
-      const flow = $('[data-flow]', stage);
-      const wait = ms => new Promise(r => setTimeout(r, REDUCED ? 50 : ms));
-      let playing = 0;
-      const play = async si => {
-        const my = ++playing;
-        const s = SCENES[si];
-        flow.innerHTML = '';
-        const add = async html => {
-          if (my !== playing) return null;
-          const d = document.createElement('div');
-          d.innerHTML = html;
-          const el = d.firstElementChild;
-          flow.appendChild(el);
-          el.classList.add('view-in');
-          await wait(460);
-          return el;
-        };
-        await add('<div class="mask-view"><span class="mv-tag">人看到的 · 客户邮件原文</span>' + s.mail + '</div>');
-        await add('<div class="mask-line">脱敏屏障 · entity_mapping</div>');
-        await add('<div class="mask-view llm"><span class="mv-tag">LLM 看到的 · 只有占位符</span>' + s.llm + '</div>');
-        await add('<div class="demo-log" style="margin:4px 0 0">&gt; <span class="hl">' + s.path + '</span></div>');
-        await add('<div class="mask-view llm"><span class="mv-tag">LLM 回复 · 占位符态</span>' + s.replyLlm + '</div>');
-        await add('<div class="mask-line">还原屏障 · restore</div>');
-        await add('<div class="mask-view"><span class="mv-tag">客户收到的 · 真实数据还原</span>' + s.replyHuman + '</div>');
-        await add('<div style="margin-top:12px">' + s.foot + '</div>');
-      };
-      $$('.chip', stage).forEach(c => c.addEventListener('click', () => {
-        $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
+        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 单一真相源</span><span class="chip" data-t="1">② 执行包编译 · 短上下文</span><span class="chip" data-t="2">③ 审校拦截 · 现场可测</span></div>' +
+        '<div data-pane="0"></div><div data-pane="1" style="display:none"></div><div data-pane="2" style="display:none"></div>';
+      const panes = $$('[data-pane]', stage);
+      $$('[data-tabs] .chip', stage).forEach(c => c.addEventListener('click', () => {
+        $$('[data-tabs] .chip', stage).forEach(x => x.classList.remove('on'));
         c.classList.add('on');
-        play(+c.dataset.s);
+        panes.forEach(p => p.style.display = 'none');
+        panes[+c.dataset.t].style.display = '';
       }));
-      play(0);
+
+      /* ---------- Pane 0 单一真相源 ---------- */
+      const p0 = panes[0];
+      const SECRET_V1 = '她把母亲的手术费，偷偷换成了第一版手稿的打印费。';
+      const SECRET_V2 = '母亲至今以为那笔钱是医院退回来的——而她已经把收据烧了。';
+      p0.innerHTML =
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">真相源 · macro/characters.yaml</div>' +
+            '<div style="margin-top:8px;font-size:12px">林晚 · <span class="mono" style="font-size:10px;color:hsl(var(--muted-foreground))">CHAR.001</span></div>' +
+            '<div style="margin-top:6px;padding:9px 11px;border:1px solid hsl(var(--border));border-radius:8px;font-size:12px;background:hsl(var(--surface-2))"><span class="mono" style="font-size:9.5px;color:hsl(var(--accent))">secret:</span> <span data-src>' + SECRET_V1 + '</span></div>' +
+            '<button class="chip acc" data-edit style="margin-top:10px;width:100%;justify-content:center">✎ 修改真相源（只改这一处）</button></div>' +
+          '<div class="demo-card"><div class="t">其余文件 · 全部是 ID 引用</div>' +
+            '<div data-ref style="margin-top:8px;padding:9px 11px;border:1px dashed hsl(var(--border));border-radius:8px;font-size:11.5px">chapters/007.yaml → <span class="mono" style="color:hsl(var(--accent))">CHAR.001.secret</span><div class="muted" style="margin-top:3px">写作时看到的：「<span data-mir>' + SECRET_V1 + '</span>」</div></div>' +
+            '<div data-ref style="margin-top:8px;padding:9px 11px;border:1px dashed hsl(var(--border));border-radius:8px;font-size:11.5px">evolution/insights.yaml → <span class="mono" style="color:hsl(var(--accent))">CHAR.001.secret</span><div class="muted" style="margin-top:3px">揭底核对清单：「<span data-mir>' + SECRET_V1 + '</span>」</div></div>' +
+            '<div data-sync class="mono" style="margin-top:10px;font-size:10px;color:hsl(var(--ok));opacity:0;transition:opacity .3s">✓ 引用 ×2 已同步——伏笔永远不会前后打架</div></div>' +
+        '</div>' +
+        '<div class="demo-note">单一真相源：人物/世界/伏笔/规则只在归属文件维护，其余位置只做 ID 引用（compile 期按需展开）——这是 2499 项测试守着的第一原则</div>';
+      let flipped = false;
+      $('[data-edit]', p0).addEventListener('click', () => {
+        flipped = !flipped;
+        $('[data-src]', p0).textContent = flipped ? SECRET_V2 : SECRET_V1;
+        $$('[data-mir]', p0).forEach(x => x.textContent = flipped ? SECRET_V2 : SECRET_V1);
+        $('[data-sync]', p0).style.opacity = 1;
+      });
+
+      /* ---------- Pane 1 执行包编译 ---------- */
+      const p1 = panes[1];
+      p1.innerHTML =
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">工程输入</div>' +
+            '<div class="mono" style="font-size:10.5px;line-height:2;margin-top:6px">' +
+              'blueprint/007.yaml <span class="muted">content_structure · plot_lines</span><br>' +
+              'macro/style_rulebook.yaml <span class="muted">种子规则库（只增不改）</span><br>' +
+              'runtime/state.yaml <span class="muted">问题债 · 成长进度</span><br>' +
+              'evolution/insights.yaml <span class="muted">作者品味批注</span></div>' +
+            '<button class="chip acc" data-compile style="margin-top:12px;width:100%;justify-content:center">▶ 编译第 7 章执行包</button></div>' +
+          '<div class="demo-card"><div class="t">执行包 · 只装本章要用的</div><div data-cv style="margin-top:8px;min-height:210px"></div></div>' +
+        '</div>' +
+        '<div class="demo-note">短上下文执行：生效规则带「代价/unknown 信息边界」全文注入，出场人物按名单抽卡（method/policy/channel），品味记忆 cap 6——幻觉和成本一起控</div>';
+      const steps = [
+        ['<b>结构卡</b> · 起承转合 + 主线/支线/事件/情绪/逻辑', '蓝图 content_structure 编译期注入，写作代理不自由发挥结构'],
+        ['<b>生效规则 · 全文</b>', '只带本章激活的世界规则——含代价与 unknown 信息边界锁定清单'],
+        ['<b>人物卡 ×3</b> · method / policy / channel', '按出场名单以 ID 抽取，招牌路数与 if-then 政策随身携带'],
+        ['<b>压力面板</b> · 戏眼候选 / 上章钩子 / 到期债务 / 世界政策', '写作前四问——问题债台账逾期自动催收'],
+        ['<b>品味记忆</b> · 作者批注 ×6（cap 6）', 'absorbed 状态批注按置信度降序注入，带「严禁复制」约束'],
+      ];
+      let busy = false;
+      $('[data-compile]', p1).addEventListener('click', async () => {
+        if (busy) return; busy = true;
+        const cv = $('[data-cv]', p1); cv.innerHTML = '';
+        for (const [body, why] of steps) {
+          const d = document.createElement('div');
+          d.innerHTML = '<div style="padding:8px 11px;border:1px solid hsl(var(--border));border-radius:8px;margin-bottom:7px;font-size:11.5px">' + body +
+            '<div class="mono" style="font-size:9.5px;margin-top:4px;color:hsl(var(--accent))">✓ ' + why + '</div></div>';
+          cv.appendChild(d);
+          await new Promise(r => setTimeout(r, 430));
+        }
+        const fin = document.createElement('div');
+        fin.innerHTML = '<div class="mono" style="text-align:center;font-size:10px;color:hsl(var(--ok));border:1px dashed hsl(var(--ok));border-radius:6px;padding:6px">执行包就绪 · 生长式最小可写包（growth_basis 记录本章从哪条规则 × 哪个人物长出来）</div>';
+        cv.appendChild(fin);
+        busy = false;
+      });
+
+      /* ---------- Pane 2 审校拦截（真实规则现场跑） ---------- */
+      const p2 = panes[2];
+      const SAMPLE = '他不是运气好，而是把每一条退路都提前堵死了。台灯亮着,稿纸上写满批注——她数的不是字数，而是停顿。这份平静不是真相......而是一场排练。他说:"没事",然后转身走了。';
+      p2.innerHTML =
+        '<div class="demo-card"><div class="t">审校层 · 否定翻转句式 + 标点归一（与引擎同一套规则，浏览器实跑）</div>' +
+          '<textarea data-src style="width:100%;min-height:96px;margin-top:8px;border:1px solid hsl(var(--border));border-radius:8px;background:hsl(var(--surface-2));color:hsl(var(--foreground));padding:10px;font-size:12.5px;line-height:1.7;resize:vertical">' + SAMPLE + '</textarea>' +
+          '<button class="chip acc" data-run style="margin-top:10px;width:100%;justify-content:center">▶ 跑审校</button>' +
+          '<div data-out style="margin-top:10px"></div></div>' +
+        '<div class="demo-note">廉价翻转（「不是 A，而是 B」）与半角标点在重写之前拦下——审校 metrics 带平台侧重（番茄/起点 rubric），供卷级进化使用</div>';
+      const RULES = [
+        { re: /(不是|并非)[^，。；！？]{1,16}，\s*(而是|反倒|反而)/g, label: '否定翻转 · 廉价转折', tone: 'var(--danger)' },
+        { re: /[\u4e00-\u9fff],[\u4e00-\u9fff]/g, label: '半角逗号 · 应为，', tone: 'var(--warn)' },
+        { re: /\.{3,}/g, label: '西式省略号 · 应为……', tone: 'var(--warn)' },
+        { re: /[\u4e00-\u9fff]--|[\u4e00-\u9fff]"/g, label: '半角引号/连字符 · 归一化', tone: 'var(--warn)' },
+      ];
+      function review() {
+        const txt = $('[data-src]', p2).value;
+        const out = $('[data-out]', p2);
+        let hits = [];
+        RULES.forEach(r => { r.re.lastIndex = 0; let m; while ((m = r.re.exec(txt))) hits.push({ label: r.label, tone: r.tone, frag: m[0] }); });
+        const flips = hits.filter(x => x.label.indexOf('否定') === 0).length;
+        const punct = hits.length - flips;
+        out.innerHTML = hits.length
+          ? hits.map(x => '<div style="font-size:11.5px;margin:5px 0;padding:7px 10px;border-radius:7px;border:1px solid hsl(' + x.tone + '/.45)"><span class="mono" style="font-size:9.5px;color:hsl(' + x.tone + ')">' + x.label + '</span>　「' + esc(x.frag) + '」</div>').join('') +
+            '<div class="mono" style="margin-top:8px;font-size:10.5px;color:hsl(var(--danger))">判定：打回重写 · 句式 ' + flips + ' · 标点 ' + punct + '</div>'
+          : '<div class="mono" style="font-size:10.5px;color:hsl(var(--ok))">✓ 本段通过——无廉价翻转，标点归一</div>';
+      }
+      $('[data-run]', p2).addEventListener('click', review);
+      review();
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['huodai-mask'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['novel-engine'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
-/* 进度条 + aurora 静态降级 */
 addEventListener('scroll', () => { const p = document.getElementById('progress'); const d = document.documentElement; p.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%'; }, { passive: true });
 </script>
 </body>
