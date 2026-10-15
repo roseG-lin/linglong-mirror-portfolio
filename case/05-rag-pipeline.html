@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑货代 RAG · 脱敏屏障 · Remi 作品集</title>
+<title>RAG 四模式对比 · 同一问题的两种命运 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -557,10 +557,11 @@ html.cc, html.cc * { cursor: none !important; }
 
 
 body{ background: hsl(var(--background)); }
-.case-hero h1, .case-nav-bar .cn-mid{ font-family: var(--font-display); }
-.demo-frame{ border-color: hsl(var(--accent) / .35) }
-.pn-nav a:hover{ border-color: hsl(var(--accent) / .6) }
-.case-metrics .chip.acc{ border-color: hsl(var(--accent)/.5); color: hsl(var(--accent)) }
+#aurora{ display:none }
+.case-nav-bar{ background: hsl(42 32% 94% / .92); }
+.demo-frame{ box-shadow:none }
+.pn-nav a{ background:hsl(var(--surface)) }
+.case-metrics .chip.acc{ background:hsl(var(--accent)/.12) }
 
 
 .case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
@@ -575,8 +576,8 @@ body{ background: hsl(var(--background)); }
 .df-bar{ color: hsl(var(--accent)) }
 .cc-go{ color: hsl(var(--accent)) }
 
-/* ===== 微差异皮肤：朱砂红 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 6 88% 59%; }
+/* ===== 微差异皮肤：数据青 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 190 88% 52%; }
 </style>
 <style>
 /* 案例页专用补充 */
@@ -605,14 +606,14 @@ body{ background: hsl(var(--background)); }
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 03 / 06 · 企业级隐私</span>
-  <a href="04-shiyang-solver.html">下一篇 →</a>
+  <span class="cn-mid">CASE 05 / 08 · RAG 检索</span>
+  <a href="06-mirror-value.html">下一篇 →</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">企业级隐私</p>
-  <h1>玲珑货代 RAG · 脱敏屏障</h1>
-  <p class="tag">客户名和单号，永远到不了 LLM。脱敏屏障进，还原屏障出，中间只站得住占位符。</p>
-  <div class="case-metrics"><span class="chip acc">双库隔离 · 5 道边界</span><span class="chip acc">代码消歧 70-80%</span><span class="chip acc">人工兜底 <5%</span><span class="chip acc">验收 7/7 全过</span></div>
+  <p class="kicker">RAG 检索</p>
+  <h1>RAG 四模式对比 · 同一问题的两种命运</h1>
+  <p class="tag">接上就灵的 RAG 只活在演示里。同一句话，纯向量答错，调优后答对，差距我一行一行调出来。</p>
+  <div class="case-metrics"><span class="chip acc">119 文件 → 1529 向量点</span><span class="chip acc">724s CPU 建库</span><span class="chip acc">实测 4/5 → 5/5</span><span class="chip acc">Agentic 2 轮自纠</span></div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
@@ -621,7 +622,11 @@ body{ background: hsl(var(--background)); }
       <span class="hint">录像式演示 · 口径在本页下方</span></div>
     <div class="df-stage" id="stage"></div>
   </div>
-  <div class="pn-nav"><a href="02-mirror-value.html"><div class="dir">← 上一篇</div><div class="ttl">自适应界面引擎</div></a><a class="next" href="04-shiyang-solver.html"><div class="dir">下一篇 →</div><div class="ttl">约束求解</div></a><a class="home" href="../">↩ 返回作品集目录</a></div>
+  <div class="pn-nav">
+    <a href="04-reyes-video.html"><div class="dir">← 上一篇</div><div class="ttl">视频生产</div></a>
+    <a class="next" href="06-mirror-value.html"><div class="dir">下一篇 →</div><div class="ttl">自适应界面</div></a>
+    <a class="home" href="../">↩ 返回作品集目录</a>
+  </div>
 </main>
 <script>
 'use strict';
@@ -636,77 +641,81 @@ function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + 
 
 function toast(){}
 const DEMOS = {
-  'huodai-mask': {
+  'rag-pipeline': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-card" style="margin-bottom:20px"><div class="t">三个验收场景 · 阶段1 验收 7/7 全过（2026-08-07）</div>' +
-          '<div class="chips" style="margin-top:10px">' +
-            '<span class="chip on" data-s="0">明确单号 · 代码层消歧</span><span class="chip" data-s="1">一单多号 · LLM 消歧</span><span class="chip" data-s="2">无法定位 · 转人工</span>' +
+        '<div class="demo-card" style="margin-bottom:20px"><div class="t">同一问句 · search_test.py 第 5 问</div>' +
+          '<p style="font-size:15px;line-height:1.8;margin-top:4px">「用户做过哪些 AI 产品？」</p>' +
+          '<p class="muted" style="font-size:12px;margin-top:6px;line-height:1.7">语料里「想做的岗位」和「做过的作品」都写着 AI 产品四个字。分不分得清，看模式。点一个模式，现场跑一遍。</p>' +
+          '<div class="chips" style="margin-top:14px">' +
+            '<span class="chip on" data-m="0">① 纯向量</span><span class="chip" data-m="1">② +Query 改写</span><span class="chip" data-m="2">③ +混合检索（单用）</span><span class="chip" data-m="3">④ +Agentic 自评</span>' +
           '</div>' +
         '</div>' +
-        '<div data-flow></div>' +
-        '<div class="demo-card" style="margin-top:20px"><div class="t">消歧三段配比 · 真实架构口径</div>' +
-          '<div class="ratio"><i style="width:75%;background:hsl(var(--ok))"></i><i style="width:22%;background:hsl(var(--accent))"></i><i style="width:3%;background:hsl(var(--warn))"></i></div>' +
-          '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:hsl(var(--muted-foreground));margin-top:6px;flex-wrap:wrap;gap:6px"><span>代码层确定解析 70-80%</span><span>脱敏后 LLM 语义消歧 20-30%</span><span>人工兜底 &lt;5%</span></div>' +
+        '<div class="demo-card"><div class="t">检索实况</div><div data-out style="min-height:170px"><p class="muted" style="font-size:13px">默认正在跑① 纯向量。</p></div></div>' +
+        '<div class="demo-kpis">' +
+          '<div class="demo-kpi"><div class="v">119</div><div class="l">语料文件（第二大脑笔记）</div></div>' +
+          '<div class="demo-kpi"><div class="v">1527</div><div class="l">语义切块</div></div>' +
+          '<div class="demo-kpi"><div class="v">1529</div><div class="l">向量点 · BGE 768维</div></div>' +
+          '<div class="demo-kpi"><div class="v">724s</div><div class="l">CPU 建库 · 零外部依赖</div></div>' +
+          '<div class="demo-kpi"><div class="v">4/5→5/5</div><div class="l">baseline → 调优后</div></div>' +
         '</div>' +
-        '<div class="demo-note">演示数据虚构 · 内核 freight_rag 六模块在册可跑 · 双库隔离 · 双键过滤防串单（kehu_id + order_id）</div>';
-      const SCENES = [
-        { mail: '<div style="font-family:var(--font-mono);font-size:11px;color:hsl(var(--muted-foreground));margin-bottom:10px;border-bottom:1px dashed hsl(var(--border));padding-bottom:8px">From <span class="mk">张伟（宏远货代）</span> · 主题：<span class="mk">SO-2026-0901</span> 到港时间确认 · 09-11 17:42</div>你好，我是<span class="mk">宏远货代的张伟</span>。<span class="mk">SO-2026-0901</span> 这票到洛杉矶的 ETA 麻烦确认下，客户催了。',
-          llm: '你好，我是 <span class="mk">KEHU0001</span>。<span class="mk">ORDER0001</span> 这票到洛杉矶的 ETA 麻烦确认下，客户催了。',
-          path: '代码层正则命中唯一单号 → 确定性消歧 · 不过 LLM',
-          replyLlm: '<span class="mk">KEHU0001</span> 您好：<span class="mk">ORDER0001</span> 已于 09-05 装船，预计 09-18 抵洛杉矶港，舱位状态正常。',
-          replyHuman: '<span class="mk">张伟</span> 您好：<span class="mk">SO-2026-0901</span> 已于 09-05 装船，预计 09-18 抵洛杉矶港，舱位状态正常。',
-          foot: '<span class="verdict ok">✓ 自动闭环 · 人工 0 分钟</span>' },
-        { mail: '<div style="font-family:var(--font-mono);font-size:11px;color:hsl(var(--muted-foreground));margin-bottom:10px;border-bottom:1px dashed hsl(var(--border));padding-bottom:8px">From <span class="mk">张伟（宏远货代）</span> · 主题：两票货进度 · 09-12 09:15</div>我是<span class="mk">张伟</span>，上周走的那两票货，现在到哪了？',
-          llm: '我是 <span class="mk">KEHU0001</span>，上周走的那两票货，现在到哪了？',
-          path: 'KEHU0001 名下在途 2 票 → 脱敏态交 LLM 按「上周」时间窗锁定 ORDER0001 / ORDER0002',
-          replyLlm: '<span class="mk">KEHU0001</span> 您好：<span class="mk">ORDER0001</span> 预计 09-18 抵洛杉矶；<span class="mk">ORDER0002</span> 已过苏伊士，预计 09-22 抵汉堡。',
-          replyHuman: '<span class="mk">张伟</span> 您好：<span class="mk">SO-2026-0901</span> 预计 09-18 抵洛杉矶；<span class="mk">SO-2026-0830</span> 已过苏伊士，预计 09-22 抵汉堡。',
-          foot: '<span class="verdict ok">✓ LLM 消歧闭环 · 占 20-30% 流量</span>' },
-        { mail: '<div style="font-family:var(--font-mono);font-size:11px;color:hsl(var(--muted-foreground));margin-bottom:10px;border-bottom:1px dashed hsl(var(--border));padding-bottom:8px">From <span class="mk">张伟（宏远货代）</span> · 主题：货怎么了？？ · 09-12 14:03</div><span class="mk">张伟</span>：我那票货到底怎么回事？',
-          llm: '<span class="mk">KEHU0001</span>：我那票货到底怎么回事？',
-          path: 'KEHU0001 名下在途 5 票 · 无单号无时间窗 → 置信度 0.42 < 阈值 0.70',
-          replyLlm: '（不猜。触发转人工。）',
-          replyHuman: '转跟单员处理，已附：<span class="mk">张伟</span> 档案 + 5 票在途清单 + 本次对话摘要。',
-          foot: '<span class="verdict warn">△ 转人工兜底 · 敢认不确定，才配叫生产级</span>' },
+        '<div class="demo-note">口径：RAG学习/search_test.py + RAG检索调优实战.md · four_mode_compare.py 现场可复跑</div>';
+      const MODES = [
+        { steps: [['向量检索中…', 'cosine top-5 · embed ~0.5s CPU']],
+          hit: '00-画像/个人画像.md · 求职目标方向', score: '0.71',
+          verdict: 'bad', vt: '✗ 字面命中，语义跑偏',
+          why: '命中的是「想做 AI 产品岗」的画像页，没碰到「做过什么」的项目清单。baseline 成绩单：5 问 4 中。' },
+        { steps: [['Query 改写…', '「AI 产品」→「AI产品 作品 项目 构建 落地」 · +0.8s'], ['向量检索中…', '改写后 top-5 · embed ~0.5s']],
+          hit: '08-项目/内部项目 · 项目清单', score: '0.83',
+          verdict: 'ok', vt: '✓ 语义鸿沟修平',
+          why: '同一句话换个问法，答案就站在正确的文档上。实测 5/5。' },
+        { steps: [['BM25 索引接入…', '1529 文档 jieba 分词 · 建索引几十秒'], ['双路召回中…', '字面权重上调']],
+          hit: 'Top1 正确，Top5 混入 3 条字面噪音', score: '',
+          verdict: 'warn', vt: '△ 噪音被字面权重放大',
+          why: '混合检索单用反而退步到 4/5。它得和改写搭配（RRF 双路一致确认），才回到 5/5。' },
+        { steps: [['第 1 轮 · 纯向量', 'Top1 画像页 · embed ~0.5s'], ['LLM 自评…', 'NO · 答非所问 · +1-3s'], ['自造新 query…', '「AI产品 作品 项目 玲珑 LUBAN」'], ['第 2 轮 · 重检索', 'Top1 项目清单 · embed ~0.5s'], ['LLM 复评…', 'YES · 收敛']],
+          hit: '_项目MOC/内部项目 · 项目清单', score: '0.86',
+          verdict: 'ok', vt: '✓ 2 轮自纠收敛',
+          why: '检索错了，它自己知道，换句话再问一次。这就是 Agentic 和「接上就跑」的距离。' },
       ];
-      const flow = $('[data-flow]', stage);
+      const out = $('[data-out]', stage);
       const wait = ms => new Promise(r => setTimeout(r, REDUCED ? 50 : ms));
       let playing = 0;
-      const play = async si => {
+      const play = async mi => {
         const my = ++playing;
-        const s = SCENES[si];
-        flow.innerHTML = '';
-        const add = async html => {
-          if (my !== playing) return null;
-          const d = document.createElement('div');
-          d.innerHTML = html;
-          const el = d.firstElementChild;
-          flow.appendChild(el);
-          el.classList.add('view-in');
-          await wait(460);
-          return el;
-        };
-        await add('<div class="mask-view"><span class="mv-tag">人看到的 · 客户邮件原文</span>' + s.mail + '</div>');
-        await add('<div class="mask-line">脱敏屏障 · entity_mapping</div>');
-        await add('<div class="mask-view llm"><span class="mv-tag">LLM 看到的 · 只有占位符</span>' + s.llm + '</div>');
-        await add('<div class="demo-log" style="margin:4px 0 0">&gt; <span class="hl">' + s.path + '</span></div>');
-        await add('<div class="mask-view llm"><span class="mv-tag">LLM 回复 · 占位符态</span>' + s.replyLlm + '</div>');
-        await add('<div class="mask-line">还原屏障 · restore</div>');
-        await add('<div class="mask-view"><span class="mv-tag">客户收到的 · 真实数据还原</span>' + s.replyHuman + '</div>');
-        await add('<div style="margin-top:12px">' + s.foot + '</div>');
+        const m = MODES[mi];
+        out.innerHTML = '';
+        for (const [t, d] of m.steps) {
+          if (my !== playing) return;
+          const row = document.createElement('div');
+          row.className = 'rag-node run';
+          row.innerHTML = '<span class="st">▸</span><div class="bd"><div class="t">' + t + '</div><div class="d">' + d + '</div></div>';
+          out.appendChild(row);
+          await wait(420);
+          row.classList.remove('run'); row.classList.add('done');
+          row.querySelector('.st').textContent = '✓';
+        }
+        if (my !== playing) return;
+        const hit = document.createElement('div');
+        hit.className = 'rag-result on';
+        hit.style.borderColor = m.verdict === 'ok' ? '' : (m.verdict === 'warn' ? 'hsl(var(--warn) / 0.45)' : 'hsl(var(--danger) / 0.45)');
+        hit.style.background = m.verdict === 'ok' ? '' : (m.verdict === 'warn' ? 'hsl(var(--warn) / 0.06)' : 'hsl(var(--danger) / 0.06)');
+        hit.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><b>Top1 · ' + m.hit + '</b>' + (m.score ? '<span class="mono muted" style="font-size:11px">score ' + m.score + '</span>' : '') + '</div>' +
+          '<div style="margin-top:8px"><span class="verdict ' + m.verdict + '">' + m.vt + '</span></div>' +
+          '<p class="muted" style="font-size:12.5px;margin-top:8px;line-height:1.7">' + m.why + '</p>';
+        out.appendChild(hit);
       };
       $$('.chip', stage).forEach(c => c.addEventListener('click', () => {
         $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
         c.classList.add('on');
-        play(+c.dataset.s);
+        play(+c.dataset.m);
       }));
       play(0);
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['huodai-mask'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['rag-pipeline'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
 /* 进度条 + aurora 静态降级 */

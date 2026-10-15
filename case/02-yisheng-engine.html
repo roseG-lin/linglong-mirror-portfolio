@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑小说引擎 · 把小说生产做成工程 · Remi 作品集</title>
+<title>爻胜 · 赛事预测统计引擎 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -569,7 +569,7 @@ html.cc, html.cc * { cursor: none !important; }
 </style>
 <style>
 /* ===== 微差异皮肤：创作绯 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 340 85% 61%; }
+:root{ --accent: 42 92% 58% }
 .case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
 .pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
 .demo-frame{ border-color: hsl(var(--accent)/.22) }
@@ -577,35 +577,36 @@ html.cc, html.cc * { cursor: none !important; }
 .cc-go{ color: hsl(var(--accent)) }
 </style>
 </head>
+</head>
 <body>
 <div id="aurora"><canvas></canvas></div>
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 06 / 06 · 创作工程化</span>
+  <span class="cn-mid">CASE 02 / 08 · 统计建模</span>
   <a href="../">回目录 ↗</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">CASE 06 · 创作工程化</p>
-  <h1>玲珑小说引擎 · 把小说生产做成工程</h1>
-  <p class="tag">人物、伏笔、规则单一真相源；能用代码校验的绝不交给模型主观发挥；短上下文执行把幻觉和成本一起控——13 个玲珑产品里测试量最大的一个：2499 项测试守着一条有质量门的小说流水线。</p>
+<p class="kicker">CASE 02 · 统计建模</p>
+  <h1>爻胜 · 赛事预测统计引擎</h1>
+  <p class="tag">回答「这场谁赢」，并给出可验证的可信度：913 场国际赛事校准 Elo + Dixon-Coles 统计模型，763 场滚动回测检验——准确率 61.9%（均匀基线 33%），校准误差 2.3%。说七成把握的事，长期真发生约七成；Rust 引擎 + 桌面端开箱即用。</p>
   <div class="case-metrics">
-    <span class="chip acc">2499 测试 · 228 文件</span>
-    <span class="chip acc">TDD 覆盖率门槛 90%</span>
-    <span class="chip acc">方法论 13 维 · 9 大能</span>
-    <span class="chip acc">百章压测 runner</span>
+    <span class="chip acc">913 场校准</span>
+    <span class="chip acc">763 场回测 · 61.9%</span>
+    <span class="chip acc">ECE 校准误差 2.3%</span>
+    <span class="chip acc">Rust · 桌面端</span>
   </div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
     <div class="df-bar"><span class="live-dot"></span> LIVE DEMO · 可直接交互
       <button class="df-reset" id="resetBtn">↻ 重置</button>
-      <span class="hint">三个切面 · 审校规则与引擎同源</span></div>
+      <span class="hint">浏览器实跑 · 数据为真</span></div>
     <div class="df-stage" id="stage"></div>
   </div>
-  <div class="pn-nav">
-    <a href="05-longjob-pipeline.html"><div class="dir">← 上一篇</div><div class="ttl">求职流水线</div></a>
-    <a class="next" href="../"><div class="dir">读完整套</div><div class="ttl">回目录</div></a>
+<div class="pn-nav">
+    <a href="01-huodai-platform.html"><div class="dir">← 上一篇</div><div class="ttl">潮汛平台</div></a>
+    <a class="next" href="03-novel-engine.html"><div class="dir">下一篇 →</div><div class="ttl">小说引擎</div></a>
     <a class="home" href="../">↩ 返回作品集目录</a>
   </div>
 </main>
@@ -621,118 +622,104 @@ function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + 
 
 
 const DEMOS = {
-  'novel-engine': {
+  'yisheng-engine': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 单一真相源</span><span class="chip" data-t="1">② 执行包编译 · 短上下文</span><span class="chip" data-t="2">③ 审校拦截 · 现场可测</span></div>' +
+        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 对阵预测 · 真 Elo 实算</span><span class="chip" data-t="1">② 滚动回测 · 对基线</span><span class="chip" data-t="2">③ 融合决策 · 权重与冲突</span></div>' +
         '<div data-pane="0"></div><div data-pane="1" style="display:none"></div><div data-pane="2" style="display:none"></div>';
       const panes = $$('[data-pane]', stage);
       $$('[data-tabs] .chip', stage).forEach(c => c.addEventListener('click', () => {
         $$('[data-tabs] .chip', stage).forEach(x => x.classList.remove('on'));
-        c.classList.add('on');
-        panes.forEach(p => p.style.display = 'none');
-        panes[+c.dataset.t].style.display = '';
+        c.classList.add('on'); panes.forEach(p => p.style.display = 'none'); panes[+c.dataset.t].style.display = '';
       }));
 
-      /* ---------- Pane 0 单一真相源 ---------- */
+      /* ① 真 Elo 对阵 */
+      const ELO = { '西班牙': 2075, '法国': 2034, '阿根廷': 2064, '巴西': 1999, '英格兰': 1990, '葡萄牙': 1942, '荷兰': 1939, '德国': 1937, '意大利': 1915, '摩洛哥': 1877, '克罗地亚': 1869, '日本': 1852, '墨西哥': 1847, '美国': 1798 };
+      const opts = Object.keys(ELO).map(k => '<option>' + k + '</option>').join('');
       const p0 = panes[0];
-      const SECRET_V1 = '她把母亲的手术费，偷偷换成了第一版手稿的打印费。';
-      const SECRET_V2 = '母亲至今以为那笔钱是医院退回来的——而她已经把收据烧了。';
       p0.innerHTML =
         '<div class="demo-grid">' +
-          '<div class="demo-card"><div class="t">真相源 · macro/characters.yaml</div>' +
-            '<div style="margin-top:8px;font-size:12px">林晚 · <span class="mono" style="font-size:10px;color:hsl(var(--muted-foreground))">CHAR.001</span></div>' +
-            '<div style="margin-top:6px;padding:9px 11px;border:1px solid hsl(var(--border));border-radius:8px;font-size:12px;background:hsl(var(--surface-2))"><span class="mono" style="font-size:9.5px;color:hsl(var(--accent))">secret:</span> <span data-src>' + SECRET_V1 + '</span></div>' +
-            '<button class="chip acc" data-edit style="margin-top:10px;width:100%;justify-content:center">✎ 修改真相源（只改这一处）</button></div>' +
-          '<div class="demo-card"><div class="t">其余文件 · 全部是 ID 引用</div>' +
-            '<div data-ref style="margin-top:8px;padding:9px 11px;border:1px dashed hsl(var(--border));border-radius:8px;font-size:11.5px">chapters/007.yaml → <span class="mono" style="color:hsl(var(--accent))">CHAR.001.secret</span><div class="muted" style="margin-top:3px">写作时看到的：「<span data-mir>' + SECRET_V1 + '</span>」</div></div>' +
-            '<div data-ref style="margin-top:8px;padding:9px 11px;border:1px dashed hsl(var(--border));border-radius:8px;font-size:11.5px">evolution/insights.yaml → <span class="mono" style="color:hsl(var(--accent))">CHAR.001.secret</span><div class="muted" style="margin-top:3px">揭底核对清单：「<span data-mir>' + SECRET_V1 + '</span>」</div></div>' +
-            '<div data-sync class="mono" style="margin-top:10px;font-size:10px;color:hsl(var(--ok));opacity:0;transition:opacity .3s">✓ 引用 ×2 已同步——伏笔永远不会前后打架</div></div>' +
-        '</div>' +
-        '<div class="demo-note">单一真相源：人物/世界/伏笔/规则只在归属文件维护，其余位置只做 ID 引用（compile 期按需展开）——这是 2499 项测试守着的第一原则</div>';
-      let flipped = false;
-      $('[data-edit]', p0).addEventListener('click', () => {
-        flipped = !flipped;
-        $('[data-src]', p0).textContent = flipped ? SECRET_V2 : SECRET_V1;
-        $$('[data-mir]', p0).forEach(x => x.textContent = flipped ? SECRET_V2 : SECRET_V1);
-        $('[data-sync]', p0).style.opacity = 1;
-      });
-
-      /* ---------- Pane 1 执行包编译 ---------- */
-      const p1 = panes[1];
-      p1.innerHTML =
-        '<div class="demo-grid">' +
-          '<div class="demo-card"><div class="t">工程输入</div>' +
-            '<div class="mono" style="font-size:10.5px;line-height:2;margin-top:6px">' +
-              'blueprint/007.yaml <span class="muted">content_structure · plot_lines</span><br>' +
-              'macro/style_rulebook.yaml <span class="muted">种子规则库（只增不改）</span><br>' +
-              'runtime/state.yaml <span class="muted">问题债 · 成长进度</span><br>' +
-              'evolution/insights.yaml <span class="muted">作者品味批注</span></div>' +
-            '<button class="chip acc" data-compile style="margin-top:12px;width:100%;justify-content:center">▶ 编译第 7 章执行包</button></div>' +
-          '<div class="demo-card"><div class="t">执行包 · 只装本章要用的</div><div data-cv style="margin-top:8px;min-height:210px"></div></div>' +
-        '</div>' +
-        '<div class="demo-note">短上下文执行：生效规则带「代价/unknown 信息边界」全文注入，出场人物按名单抽卡（method/policy/channel），品味记忆 cap 6——幻觉和成本一起控</div>';
-      const steps = [
-        ['<b>结构卡</b> · 起承转合 + 主线/支线/事件/情绪/逻辑', '蓝图 content_structure 编译期注入，写作代理不自由发挥结构'],
-        ['<b>生效规则 · 全文</b>', '只带本章激活的世界规则——含代价与 unknown 信息边界锁定清单'],
-        ['<b>人物卡 ×3</b> · method / policy / channel', '按出场名单以 ID 抽取，招牌路数与 if-then 政策随身携带'],
-        ['<b>压力面板</b> · 戏眼候选 / 上章钩子 / 到期债务 / 世界政策', '写作前四问——问题债台账逾期自动催收'],
-        ['<b>品味记忆</b> · 作者批注 ×6（cap 6）', 'absorbed 状态批注按置信度降序注入，带「严禁复制」约束'],
-      ];
-      let busy = false;
-      $('[data-compile]', p1).addEventListener('click', async () => {
-        if (busy) return; busy = true;
-        const cv = $('[data-cv]', p1); cv.innerHTML = '';
-        for (const [body, why] of steps) {
-          const d = document.createElement('div');
-          d.innerHTML = '<div style="padding:8px 11px;border:1px solid hsl(var(--border));border-radius:8px;margin-bottom:7px;font-size:11.5px">' + body +
-            '<div class="mono" style="font-size:9.5px;margin-top:4px;color:hsl(var(--accent))">✓ ' + why + '</div></div>';
-          cv.appendChild(d);
-          await new Promise(r => setTimeout(r, 430));
-        }
-        const fin = document.createElement('div');
-        fin.innerHTML = '<div class="mono" style="text-align:center;font-size:10px;color:hsl(var(--ok));border:1px dashed hsl(var(--ok));border-radius:6px;padding:6px">执行包就绪 · 生长式最小可写包（growth_basis 记录本章从哪条规则 × 哪个人物长出来）</div>';
-        cv.appendChild(fin);
-        busy = false;
-      });
-
-      /* ---------- Pane 2 审校拦截（真实规则现场跑） ---------- */
-      const p2 = panes[2];
-      const SAMPLE = '他不是运气好，而是把每一条退路都提前堵死了。台灯亮着,稿纸上写满批注——她数的不是字数，而是停顿。这份平静不是真相......而是一场排练。他说:"没事",然后转身走了。';
-      p2.innerHTML =
-        '<div class="demo-card"><div class="t">审校层 · 否定翻转句式 + 标点归一（与引擎同一套规则，浏览器实跑）</div>' +
-          '<textarea data-src style="width:100%;min-height:96px;margin-top:8px;border:1px solid hsl(var(--border));border-radius:8px;background:hsl(var(--surface-2));color:hsl(var(--foreground));padding:10px;font-size:12.5px;line-height:1.7;resize:vertical">' + SAMPLE + '</textarea>' +
-          '<button class="chip acc" data-run style="margin-top:10px;width:100%;justify-content:center">▶ 跑审校</button>' +
-          '<div data-out style="margin-top:10px"></div></div>' +
-        '<div class="demo-note">廉价翻转（「不是 A，而是 B」）与半角标点在重写之前拦下——审校 metrics 带平台侧重（番茄/起点 rubric），供卷级进化使用</div>';
-      const RULES = [
-        { re: /(不是|并非)[^，。；！？]{1,16}，\s*(而是|反倒|反而)/g, label: '否定翻转 · 廉价转折', tone: 'var(--danger)' },
-        { re: /[\u4e00-\u9fff],[\u4e00-\u9fff]/g, label: '半角逗号 · 应为，', tone: 'var(--warn)' },
-        { re: /\.{3,}/g, label: '西式省略号 · 应为……', tone: 'var(--warn)' },
-        { re: /[\u4e00-\u9fff]--|[\u4e00-\u9fff]"/g, label: '半角引号/连字符 · 归一化', tone: 'var(--warn)' },
-      ];
-      function review() {
-        const txt = $('[data-src]', p2).value;
-        const out = $('[data-out]', p2);
-        let hits = [];
-        RULES.forEach(r => { r.re.lastIndex = 0; let m; while ((m = r.re.exec(txt))) hits.push({ label: r.label, tone: r.tone, frag: m[0] }); });
-        const flips = hits.filter(x => x.label.indexOf('否定') === 0).length;
-        const punct = hits.length - flips;
-        out.innerHTML = hits.length
-          ? hits.map(x => '<div style="font-size:11.5px;margin:5px 0;padding:7px 10px;border-radius:7px;border:1px solid hsl(' + x.tone + '/.45)"><span class="mono" style="font-size:9.5px;color:hsl(' + x.tone + ')">' + x.label + '</span>　「' + esc(x.frag) + '」</div>').join('') +
-            '<div class="mono" style="margin-top:8px;font-size:10.5px;color:hsl(var(--danger))">判定：打回重写 · 句式 ' + flips + ' · 标点 ' + punct + '</div>'
-          : '<div class="mono" style="font-size:10.5px;color:hsl(var(--ok))">✓ 本段通过——无廉价翻转，标点归一</div>';
+          '<div class="demo-card"><div class="t">选对阵（913 场校准后的真实 Elo）</div>' +
+            '<div style="display:flex;gap:8px;margin-top:10px;align-items:center">' +
+            '<select data-ha style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));color:inherit;border-radius:8px;padding:8px">' + opts + '</select>' +
+            '<span class="mono" style="font-size:11px;color:hsl(var(--muted-foreground))">VS</span>' +
+            '<select data-hb style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));color:inherit;border-radius:8px;padding:8px">' + opts + '</select></div>' +
+            '<div data-elo class="mono" style="margin-top:10px;font-size:10.5px;color:hsl(var(--muted-foreground))"></div>' +
+            '<button class="chip acc" data-pred style="margin-top:10px;width:100%;justify-content:center">▶ 算预期胜率（Elo 逻辑公式，浏览器实跑）</button></div>' +
+          '<div class="demo-card"><div class="t">Elo 预期得分</div><div data-bars style="margin-top:12px"></div>' +
+            '<div class="demo-note" style="margin-top:12px">完整模型再经 Dixon-Coles 双泊松分解胜/平/负——引擎实测示例：西班牙 vs 德国 → <b>51.4% / 27.2% / 21.4%</b>（README 原始输出）</div></div>' +
+        '</div>';
+      const ha = $('[data-ha]', p0), hb = $('[data-hb]', p0); hb.selectedIndex = 7;
+      function pred() {
+        const a = ELO[ha.value], b = ELO[hb.value], d = a - b;
+        const we = 1 / (1 + Math.pow(10, -d / 400));
+        $('[data-elo]', p0).textContent = ha.value + ' ' + a + '  −  ' + hb.value + ' ' + b + '  =  Δ' + (d > 0 ? '+' : '') + d;
+        $('[data-bars]', p0).innerHTML =
+          '<div style="display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid hsl(var(--border))">' +
+          '<div style="width:' + (we * 100).toFixed(1) + '%;background:hsl(var(--accent)/.75);display:flex;align-items:center;justify-content:center;font-size:12px">' + (we * 100).toFixed(1) + '%</div>' +
+          '<div style="flex:1;background:hsl(var(--surface-2));display:flex;align-items:center;justify-content:center;font-size:12px">' + ((1 - we) * 100).toFixed(1) + '%</div></div>' +
+          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:6px" class="muted"><span>' + ha.value + ' 胜</span><span>' + hb.value + ' 胜</span></div>';
       }
-      $('[data-run]', p2).addEventListener('click', review);
-      review();
+      ha.addEventListener('change', pred); hb.addEventListener('change', pred);
+      $('[data-pred]', p0).addEventListener('click', pred); pred();
+
+      /* ② 回测面板 */
+      const p1 = panes[1];
+      const METS = [
+        ['Accuracy（top-1）', 61.9, 33, false, '%', '越高越好'],
+        ['RPS 排名概率得分', 0.1746, 0.245, true, '', '越低越好'],
+        ['Brier 分数', 0.520, 0.667, true, '', '越低越好'],
+        ['ECE 校准误差', 2.3, 5.0, true, '%', '阈值 <5%'],
+      ];
+      p1.innerHTML =
+        '<div class="demo-card"><div class="t">763 场 walk-forward 回测 vs 均匀基线</div>' +
+        METS.map(m => {
+          const span = m[3] ? (m[2] + m[1]) : m[2];
+          const wModel = (m[3] ? (m[2] - m[1]) / span : m[1] / m[2]) * 100;
+          const wBase = (m[3] ? m[2] / span : m[2] / m[2]) * 100;
+          return '<div style="margin:16px 0 4px"><div style="display:flex;justify-content:space-between;font-size:12px"><span>' + m[0] + '</span><span class="mono"><b style="color:hsl(var(--accent))">' + m[1] + m[4] + '</b> <span class="muted">vs 基线 ' + m[2] + m[4] + '</span></span></div>' +
+            '<div style="height:9px;border-radius:99px;background:hsl(var(--surface-2));margin-top:6px;overflow:hidden"><div data-w style="width:0;height:100%;background:hsl(var(--accent));border-radius:99px;transition:width 1.1s cubic-bezier(.16,1,.3,1)" data-target="' + wModel.toFixed(1) + '"></div></div>' +
+            '<div class="mono" style="font-size:9.5px;color:hsl(var(--muted-foreground));margin-top:3px">walk-forward：只用过去预测未来，无数据穿越 · ' + m[5] + '</div></div>';
+        }).join('') +
+        '<div class="demo-note">模型预测 61.9% 的比赛结果正确且校准误差 2.3%——「说 70% 把握」的事，长期真发生约 70%：这是可解释、可验证，不是玄学</div></div>';
+      requestAnimationFrame(() => setTimeout(() => $$('[data-w]', p1).forEach(x => x.style.width = x.dataset.target + '%'), 300));
+
+      /* ③ 融合决策 */
+      const p2 = panes[2];
+      p2.innerHTML =
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">两路证据 · 你来配权</div>' +
+            '<div style="margin-top:10px;font-size:12px">统计模型胜率 <span class="mono" data-sv>62%</span><input type="range" min="40" max="85" value="62" data-stat style="width:100%;margin-top:4px;accent-color:hsl(var(--accent))"></div>' +
+            '<div style="margin-top:10px;font-size:12px">易学倾向 <select data-yi style="width:100%;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));color:inherit;border-radius:8px;padding:8px;margin-top:4px"><option>无明显倾向</option><option>利主队（强）</option><option>利客队（强）</option></select></div>' +
+            '<div style="margin-top:10px;font-size:12px">权重：统计 <span class="mono" data-wv>70</span>% ｜ 易学 <span class="mono">30</span>%<input type="range" min="50" max="90" value="70" data-wt style="width:100%;margin-top:4px;accent-color:hsl(var(--accent))"></div></div>' +
+          '<div class="demo-card"><div class="t">融合输出 · 含冲突规则</div><div data-fout style="margin-top:12px;min-height:150px"></div>' +
+            '<div class="demo-note">反向冲突即切观望——宁可不出手，不硬凑结论</div></div>' +
+        '</div>';
+      const st = $('[data-stat]', p2), yi = $('[data-yi]', p2), wt = $('[data-wt]', p2);
+      function fuse() {
+        $('[data-sv]', p2).textContent = st.value + '%'; $('[data-wv]', p2).textContent = wt.value;
+        const s = +st.value, w = +wt.value / 100, yRaw = yi.value;
+        let yProb = s; let conflict = false;
+        if (yRaw === '利主队（强）') { yProb = Math.min(90, s + 22); if (s < 50) conflict = true; }
+        if (yRaw === '利客队（强）') { yProb = Math.max(10, s - 22); if (s > 50) conflict = true; }
+        const f = s * w + yProb * (1 - w);
+        $('[data-fout]', p2).innerHTML = conflict
+          ? '<div style="padding:14px;border:1px solid hsl(var(--warn)/.5);border-radius:10px;font-size:13px;color:hsl(var(--warn))">⚠ 两路证据反向冲突（统计 ' + s + '% vs 易学倾向对侧）<br><b>决策：切观望 · 放弃本场</b><br><span class="muted" style="font-size:11px">融合值 ' + f.toFixed(1) + '% 被规则否决——规则优先于数字</span></div>'
+          : '<div style="font-size:13px;line-height:2">统计 ' + s + '% × ' + w.toFixed(2) + ' + 易学侧 ' + yProb + '% × ' + (1 - w).toFixed(2) + '<br><b style="font-size:22px;color:hsl(var(--accent))">→ 主队胜率 ' + f.toFixed(1) + '%</b><br><span class="muted">证据同向 · 正常输出，附 EV/Kelly 可选</span></div>';
+      }
+      [st, wt].forEach(x => x.addEventListener('input', fuse));
+      yi.addEventListener('change', fuse); fuse();
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['novel-engine'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['yisheng-engine'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
 addEventListener('scroll', () => { const p = document.getElementById('progress'); const d = document.documentElement; p.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%'; }, { passive: true });
 </script>
+</body>
+</html>
+
 </body>
 </html>

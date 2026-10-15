@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑食养 · 约束求解体验 · Remi 作品集</title>
+<title>玲珑之眼 · 视频生产线 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -316,8 +316,8 @@ footer a { color: hsl(var(--accent)); }
 #toast .icon { color: hsl(var(--accent)); }
 
 /* ============ 超宽屏：容器加宽 + 双轨 ============ */
-@media (min-width: 1600px) {  }
-@media (min-width: 2100px) {  }
+@media (min-width: 1600px) { :root { --container: 1340px; } }
+@media (min-width: 2100px) { :root { --container: 1520px; } }
 
 /* 左侧纵排轨（品牌竖文 + 滚动百分比） */
 #railL {
@@ -555,75 +555,60 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
 
-
-body{ background: hsl(var(--background)); }
-#aurora{ display:none }
-.case-nav-bar{ background: hsl(38 28% 89% / .92) }
-.case-hero h1{ font-family: var(--font-display) }
-.demo-frame{ border-radius: 10px }
-.pn-nav a{ border-radius: 10px; background:hsl(var(--surface)) }
-.case-metrics .chip.acc{ background:hsl(var(--accent)/.1); border-color:hsl(var(--accent)/.4) }
-
-
-.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
-.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
-.demo-frame{ border-color: hsl(var(--accent)/.22) }
-.df-bar{ color: hsl(var(--accent)) }
-.cc-go{ color: hsl(var(--accent)) }
-
-.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
-.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
-.demo-frame{ border-color: hsl(var(--accent)/.22) }
-.df-bar{ color: hsl(var(--accent)) }
-.cc-go{ color: hsl(var(--accent)) }
-
-/* ===== 微差异皮肤：食养金 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 36 88% 52%; }
+/* ============ 案例卡片网格（多页跳转版） ============ */
+.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+.case-card { display: block; text-decoration: none; border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 22px 22px 18px; background: hsl(var(--surface) / .55); transition: all 180ms ease; position: relative; }
+.case-card:hover { border-color: hsl(var(--accent) / .55); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.case-card .case-title { font-size: 1.22rem; }
+.cc-go { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: hsl(var(--accent)); }
+@media (max-width: 760px) {
+  .case-grid { grid-template-columns: 1fr; gap: 12px; }
+  .case-card { padding: 16px 16px 14px; }
+  .case-nav { grid-template-columns: 1fr 1fr !important; }
+}
 </style>
 <style>
-/* 案例页专用补充 */
-.case-nav-bar{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;background:hsl(var(--background)/.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid hsl(var(--border)/.6)}
-.case-nav-bar a,.case-nav-bar span{font-size:13px;color:hsl(var(--muted-foreground));text-decoration:none}
-.case-nav-bar a:hover{color:hsl(var(--foreground))}
-.case-nav-bar .cn-mid{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:hsl(var(--accent))}
-.case-hero{max-width:960px;margin:0 auto;padding:96px 24px 8px}
-.case-hero h1{font-family:var(--font-display);font-size:clamp(1.6rem,4.6vw,2.4rem);line-height:1.2;margin-top:10px}
-.case-hero .kicker{margin-bottom:0}
-.case-hero .tag{font-size:15px;color:hsl(var(--muted-foreground));line-height:1.75;margin-top:12px}
-.case-metrics{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.case-body{max-width:960px;margin:0 auto;padding:12px 24px 80px}
-.pn-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px}
-.pn-nav a{text-decoration:none;border:1px solid hsl(var(--border));border-radius:12px;padding:14px 16px;background:hsl(var(--surface)/.5);transition:all .16s ease}
-.pn-nav a:hover{border-color:hsl(var(--accent)/.5);transform:translateY(-2px)}
-.pn-nav .dir{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;color:hsl(var(--muted-foreground))}
-.pn-nav .ttl{font-size:14px;margin-top:4px;color:hsl(var(--foreground))}
-.pn-nav a.next{text-align:right}
-.pn-nav .home{grid-column:1/-1;text-align:center;border-style:dashed}
-@media(max-width:640px){.case-nav-bar{padding:0 12px}.case-hero{padding-top:80px}.case-body{padding-bottom:60px}}
+/* ===== 微差异皮肤：创作绯 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 280 84% 66% }
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
 </style>
 </head>
-<body><svg style="display:none"><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+</head>
+<body>
 <div id="aurora"><canvas></canvas></div>
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 04 / 06 · 约束求解</span>
-  <a href="05-longjob-pipeline.html">下一篇 →</a>
+  <span class="cn-mid">CASE 04 / 08 · 内容生产自动化</span>
+  <a href="../">回目录 ↗</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">约束求解</p>
-  <h1>玲珑食养 · 约束求解体验</h1>
-  <p class="tag">中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看，绝不装死。</p>
-  <div class="case-metrics"><span class="chip acc">L1-L4 四层约束</span><span class="chip acc">单餐求解 <5s</span><span class="chip acc">448 测试 94% 覆盖</span><span class="chip acc">V1-V12 符号否决</span></div>
+<p class="kicker">CASE 04 · 内容生产自动化</p>
+  <h1>玲珑之眼 · 视频生产线</h1>
+  <p class="tag">做一条讲解视频要几天？之眼把它压到小时级：讲稿进、成片出——白板动画、配音、字幕、合成全自动。产线迭代至 v8、222 项测试锁定；P0 第 1 课 166 秒成片即这条产线的实测产物。</p>
+  <div class="case-metrics">
+    <span class="chip acc">产线 v8 · 222 测试</span>
+    <span class="chip acc">讲稿 → 成片 全自动</span>
+    <span class="chip acc">166s 实测成片</span>
+    <span class="chip acc">五站 · 每站可测</span>
+  </div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
     <div class="df-bar"><span class="live-dot"></span> LIVE DEMO · 可直接交互
       <button class="df-reset" id="resetBtn">↻ 重置</button>
-      <span class="hint">录像式演示 · 口径在本页下方</span></div>
+      <span class="hint">浏览器实跑 · 数据为真</span></div>
     <div class="df-stage" id="stage"></div>
   </div>
-  <div class="pn-nav"><a href="03-huodai-mask.html"><div class="dir">← 上一篇</div><div class="ttl">企业级隐私</div></a><a class="next" href="05-longjob-pipeline.html"><div class="dir">下一篇 →</div><div class="ttl">求职流水线</div></a><a class="home" href="../">↩ 返回作品集目录</a></div>
+<div class="pn-nav">
+    <a href="03-novel-engine.html"><div class="dir">← 上一篇</div><div class="ttl">小说引擎</div></a>
+    <a class="next" href="05-rag-pipeline.html"><div class="dir">下一篇 →</div><div class="ttl">RAG 检索</div></a>
+    <a class="home" href="../">↩ 返回作品集目录</a>
+  </div>
 </main>
 <script>
 'use strict';
@@ -636,78 +621,83 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + '" height="' + (size || 20) + '"><use href="#' + id + '"/></svg>'; }
 
 
-function toast(){}
 const DEMOS = {
-  'shiyang-solver': {
+  'reyes-video': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-grid">' +
-          '<div class="demo-card"><div class="t">约束条件</div>' +
-            '<div class="demo-row"><label>每日预算 <b>¥<span data-v-b>60</span></b> <span class="muted" style="font-size:10px">（往下拖，砍到它不可行）</span></label><input type="range" min="15" max="150" value="60" data-r-b aria-label="每日预算"></div>' +
-            '<div class="demo-row"><label>忌口（可多选）</label><div class="chips" data-g="a"><span class="chip" data-a="辣">辣</span><span class="chip" data-a="海鲜">海鲜</span><span class="chip" data-a="香菜">香菜</span></div></div>' +
-            '<div class="demo-row"><label>目标</label><div class="chips" data-g="g"><span class="chip on">减脂</span><span class="chip">增肌</span><span class="chip">日常</span></div></div>' +
-            '<button class="btn btn-primary" data-run style="width:100%;margin-top:12px;justify-content:center">开始求解</button>' +
-          '</div>' +
-          '<div class="demo-card"><div class="t">求解输出 <span data-badge></span></div><div data-out><p class="muted" style="font-size:13px">设定约束后点「开始求解」。</p></div></div>' +
-        '</div>' +
-        '<div class="demo-note">演示数据 · 真实求解器在食养工程内 · 448 测试 94% 覆盖 · __post_init__ 构造即校验「必须有循证来源」· 单餐求解实测上限 &lt;5s</div>';
-      const PLANS = {
-        opt: { badge: ['ok', 'OPTIMAL'], steps: ['约束传播中…', '目标优化中…', '营养校验中…'],
-          meals: [['早餐', '燕麦鸡蛋杯 + 牛奶', '420 kcal · 蛋白 22g<br>¥9', '燕麦·鸡蛋·牛奶：《中国食物成分表》标准版 · SY-FOOD-017/041'], ['午餐', '香煎鸡胸糙米饭 + 时蔬', '610 kcal · 蛋白 45g<br>¥18', '鸡胸·糙米：食物成分表 · SY-FOOD-003/112'], ['晚餐', '番茄豆腐汤 + 杂粮馒头', '480 kcal · 蛋白 20g<br>¥12', '北豆腐：SY-FOOD-058 · 番茄 SY-FOOD-077']],
-          checks: ['✓ 预算 ¥39 达标', '✓ 热量缺口 -400 kcal（减脂）', '✓ 蛋白 87g 达标'] },
-        deg: { badge: ['warn', 'DEGRADED · L3 已软化'], steps: ['约束传播中…', 'L4 预算触顶', '回溯软化 L3 营养带…', '重解中…'],
-          meals: [['早餐', '燕麦鸡蛋杯', '320 kcal · 蛋白 14g<br>¥6', '燕麦·鸡蛋：《中国食物成分表》· SY-FOOD-017'], ['午餐', '香煎鸡腿饭 + 时蔬', '560 kcal · 蛋白 34g<br>¥14', '鸡腿：SY-FOOD-009（替代鸡胸，成本 -22%）'], ['晚餐', '白菜豆腐汤 + 馒头', '410 kcal · 蛋白 15g<br>¥8', '北豆腐：SY-FOOD-058 · 白菜 SY-FOOD-081']],
-          checks: ['✓ 预算 ¥28 达标', '△ 蛋白 68g（L3 软化 -15%）', '✓ L1 过敏 / L2 禁忌零降级'] },
-        inf: { badge: ['bad', 'INFEASIBLE → 已回溯'], steps: ['约束传播中…', 'L4 不可行', '回溯软化 L3…', '压至最低保障线…'],
-          meals: [['早餐', '燕麦 + 水煮蛋两个', '300 kcal · 蛋白 12g<br>¥5', '燕麦·鸡蛋：SY-FOOD-017'], ['午餐', '鸡腿饭', '520 kcal · 蛋白 26g<br>¥9', '鸡腿：SY-FOOD-009'], ['晚餐', '紫菜蛋花汤 + 馒头', '330 kcal · 蛋白 10g<br>¥4', '紫菜：SY-FOOD-096']],
-          checks: ['✓ 预算 ¥18 压线', '✓ L1 安全约束零让步', '△ 营养目标让位生存线'] },
-      };
-      const VETO = { '辣': '✓ V 系已过滤辛辣候选', '海鲜': '✓ V07 海鲜类禁忌：否决 2 道候选', '香菜': '✓ 香菜候选已排除' };
-      $$('.chips .chip', stage).forEach(c => c.addEventListener('click', () => {
-        const g = c.parentElement.dataset.g;
-        if (g !== 'a') { $$('.chip', c.parentElement).forEach(x => x.classList.remove('on')); c.classList.add('on'); }
-        else c.classList.toggle('on');
+        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 流水线演练 · 讲稿进成片出</span><span class="chip" data-t="1">② 时间轴对齐 · 真实系数</span><span class="chip" data-t="2">③ 产线版本 · v6 到 v8</span></div>' +
+        '<div data-pane="0"></div><div data-pane="1" style="display:none"></div><div data-pane="2" style="display:none"></div>';
+      const panes = $$('[data-pane]', stage);
+      $$('[data-tabs] .chip', stage).forEach(c => c.addEventListener('click', () => {
+        $$('[data-tabs] .chip', stage).forEach(x => x.classList.remove('on'));
+        c.classList.add('on'); panes.forEach(p => p.style.display = 'none'); panes[+c.dataset.t].style.display = '';
       }));
-      $('[data-r-b]', stage).addEventListener('input', e => { $('[data-v-b]', stage).textContent = e.target.value; });
-      $('[data-run]', stage).addEventListener('click', ev => {
-        ev.target.disabled = true;
-        const budget = +$('[data-r-b]', stage).value;
-        const plan = budget >= 39 ? PLANS.opt : budget >= 25 ? PLANS.deg : PLANS.inf;
-        const out = $('[data-out]', stage);
-        $('[data-badge]', stage).innerHTML = '';
-        let i = 0;
-        out.innerHTML = '<p class="demo-log" data-st></p>';
-        const tick = () => {
-          if (i < plan.steps.length) {
-            out.querySelector('[data-st]').textContent = plan.steps[i];
-            i++;
-            setTimeout(tick, REDUCED ? 60 : 340);
+
+      /* ① 流水线 */
+      const p0 = panes[0];
+      p0.innerHTML =
+        '<div class="demo-card"><div class="t">输入讲稿（可改）</div>' +
+          '<textarea data-src style="width:100%;min-height:60px;margin-top:8px;border:1px solid hsl(var(--border));border-radius:8px;background:hsl(var(--surface-2));color:hsl(var(--foreground));padding:10px;font-size:12.5px;line-height:1.7;resize:vertical">注意力机制的核心：让每个字都学会看全局。Query 去问，Key 去答，Value 把答案带回来。</textarea>' +
+          '<button class="chip acc" data-run style="margin-top:10px;width:100%;justify-content:center">▶ 跑一遍产线</button></div>' +
+        '<div class="demo-card"><div class="t">五站流水线</div><div data-line style="margin-top:10px;min-height:210px;font-family:var(--font-mono);font-size:11px;line-height:1.9"></div></div>';
+      const STAGES = [
+        ['讲稿解析', s => '12 句讲稿 → 7 个镜头单元 · 3 个强调点'],
+        ['白板标注', s => 'annotation.json 生成 · ' + (18 + (s.length % 9)) + ' 个书写/圈画动作'],
+        ['画面渲染', s => 'SSE 逐帧揭示 · 静态底图 + 动作序列'],
+        ['TTS 配音', s => '语音合成完成 · 实测时长 166.5s'],
+        ['字幕合成', s => 'SRT 时间轴缩放 ×0.648 对齐 → ffmpeg 合成'],
+      ];
+      $('[data-run]', p0).addEventListener('click', () => {
+        const src = $('[data-src]', p0).value, line = $('[data-line]', p0);
+        line.innerHTML = ''; let i = 0;
+        (function tick() {
+          if (i >= STAGES.length) {
+            line.innerHTML += '<div style="color:hsl(var(--ok));margin-top:8px">✓ 成片就绪 · mp4 ｜ P0 第 1 课 166s 实测成片同款产线</div>';
             return;
           }
-          $('[data-badge]', stage).innerHTML = ' <span class="verdict ' + plan.badge[0] + '">' + plan.badge[1] + '</span>';
-          const avoided = $$('.chip.on', $('[data-g="a"]', stage)).map(c => VETO[c.dataset.a]).filter(Boolean);
-          out.innerHTML =
-            plan.meals.map((m, mi) => '<div class="meal-row" data-meal="' + mi + '" style="cursor:pointer" title="点开看循证来源"><span class="mm">' + m[0] + '</span><span class="mn">' + m[1] + '</span><span class="mv">' + m[2] + '</span></div><div class="meal-src" data-src="' + mi + '" style="display:none;font-family:var(--font-mono);font-size:10.5px;color:hsl(var(--ok));padding:0 0 10px 44px;line-height:1.7">▸ 循证 · ' + m[3] + '</div>').join('') +
-            '<p class="muted mono" style="font-size:10px;margin-top:8px;letter-spacing:0.1em">点任意一道菜，看它的循证来源（__post_init__ 强制，空来源直接拒构造）</p>' +
-            '<div class="demo-checks">' + plan.checks.concat(avoided).map(c => '<span class="' + (c[0] === '△' ? 'verdict warn' : 'ok') + '" style="font-size:var(--text-xs);font-family:var(--font-mono)">' + c + '</span>').join('') + '</div>' +
-            '<p class="demo-log" style="margin-top:10px">求解耗时 1.8s（演示节奏）· 真实工程断言 &lt;5s</p>';
-          $$('.meal-row', out).forEach(r => r.addEventListener('click', () => {
-            const s = out.querySelector('[data-src="' + r.dataset.meal + '"]');
-            s.style.display = s.style.display === 'none' ? 'block' : 'none';
-          }));
-          ev.target.disabled = false;
-        };
-        tick();
+          const st = STAGES[i];
+          line.innerHTML += '<div><span style="color:hsl(var(--accent))">[' + (i + 1) + '/5 ' + st[0] + ']</span> ' + st[1](src) + '</div>';
+          i++; setTimeout(tick, 420);
+        })();
       });
+
+      /* ② 时间轴对齐 */
+      const p1 = panes[1];
+      p1.innerHTML =
+        '<div class="demo-card"><div class="t">问题：TTS 实际 166.5s，字幕脚本预估 257s——不齐</div>' +
+          '<div style="margin-top:12px;font-size:11px" class="muted">字幕轨（预估）</div>' +
+          '<div data-bar1 style="height:26px;border-radius:7px;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));position:relative;overflow:hidden"><div style="position:absolute;inset:0;width:100%;background:hsl(var(--accent)/.55);transition:width 1s cubic-bezier(.16,1,.3,1)"></div><span class="mono" style="position:absolute;right:8px;top:4px;font-size:10px">257s</span></div>' +
+          '<div style="margin-top:10px;font-size:11px" class="muted">配音轨（实测）</div>' +
+          '<div style="height:26px;border-radius:7px;background:hsl(var(--accent)/.55)"><span class="mono" style="float:right;margin:4px 8px;font-size:10px">166.5s</span></div>' +
+          '<button class="chip acc" data-align style="margin-top:12px;width:100%;justify-content:center">▶ 应用缩放系数 ×0.648</button></div>' +
+        '<div class="demo-card"><div class="t">对齐后</div>' +
+          '<div data-after style="margin-top:12px;font-size:12.5px;line-height:2">每条字幕的 startMs / durationMs 按实测时长等比缩放——字幕贴着声音走，不漂移。<br><span class="muted" style="font-size:11px">真实案例数字：P0 第 1 课白板课，TTS 166.5s vs SRT 预估 257s → ×0.648</span></div></div>';
+      $('[data-align]', p1).addEventListener('click', () => {
+        const b = $('[data-bar1] div', p1); if (b) b.style.width = '64.8%';
+      });
+
+      /* ③ 版本 */
+      const p2 = panes[2];
+      p2.innerHTML =
+        '<div class="demo-card"><div class="t">产线不是一次成型的</div>' +
+          '<div class="tl" style="margin-top:12px">' +
+          '<div class="tl-item"><div class="tl-ver">v6</div><div class="tl-title">白板课产线 v1</div><div class="tl-desc">标注驱动渲染跑通：annotation.json → 逐帧揭示 → ffmpeg 合成</div></div>' +
+          '<div class="tl-item"><div class="tl-ver">v7</div><div class="tl-title">样片四修</div><div class="tl-desc">卡镜头改生图素材、字幕下置用原稿、过程句不走素材站、实拍 30fps 不断流</div></div>' +
+          '<div class="tl-item now"><div class="tl-ver">v8</div><div class="tl-title">产线固化 · 222 项测试</div><div class="tl-desc">管线参数化 + 回归测试锁定——视频生产从手艺变成产线</div></div>' +
+          '</div></div>' +
+        '<div class="demo-card"><div class="t">为什么值得看</div>' +
+          '<div style="margin-top:12px;font-size:12.5px;line-height:2">讲解视频是内容生产里最费时的形态。之眼把它拆成可测试的五个阶段，每一站都是确定性代码——「LLM 写语义、代码干精细活」的完整示范。</div></div>';
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['shiyang-solver'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['reyes-video'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
-/* 进度条 + aurora 静态降级 */
 addEventListener('scroll', () => { const p = document.getElementById('progress'); const d = document.documentElement; p.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%'; }, { passive: true });
 </script>
+</body>
+</html>
+
 </body>
 </html>
