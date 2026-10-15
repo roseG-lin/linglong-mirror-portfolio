@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑食养 · 约束求解体验 · Remi 作品集</title>
+<title>RAG 四模式对比 · 同一问题的两种命运 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -558,11 +558,10 @@ html.cc, html.cc * { cursor: none !important; }
 
 body{ background: hsl(var(--background)); }
 #aurora{ display:none }
-.case-nav-bar{ background: hsl(38 28% 89% / .92) }
-.case-hero h1{ font-family: var(--font-display) }
-.demo-frame{ border-radius: 10px }
-.pn-nav a{ border-radius: 10px; background:hsl(var(--surface)) }
-.case-metrics .chip.acc{ background:hsl(var(--accent)/.1); border-color:hsl(var(--accent)/.4) }
+.case-nav-bar{ background: hsl(42 32% 94% / .92); }
+.demo-frame{ box-shadow:none }
+.pn-nav a{ background:hsl(var(--surface)) }
+.case-metrics .chip.acc{ background:hsl(var(--accent)/.12) }
 
 
 .case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
@@ -577,8 +576,8 @@ body{ background: hsl(var(--background)); }
 .df-bar{ color: hsl(var(--accent)) }
 .cc-go{ color: hsl(var(--accent)) }
 
-/* ===== 微差异皮肤：食养金 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 36 88% 52%; }
+/* ===== 微差异皮肤：数据青 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 190 88% 52%; }
 </style>
 <style>
 /* 案例页专用补充 */
@@ -607,14 +606,14 @@ body{ background: hsl(var(--background)); }
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 07 / 08 · 约束求解</span>
-  <a href="08-longjob-pipeline.html">下一篇 →</a>
+  <span class="cn-mid">CASE 02 / 09 · RAG 检索</span>
+  <a href="03-miku-privacy.html">下一篇 →</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">约束求解</p>
-  <h1>玲珑食养 · 约束求解体验</h1>
-  <p class="tag">中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看，绝不装死。</p>
-  <div class="case-metrics"><span class="chip acc">L1-L4 四层约束</span><span class="chip acc">单餐求解 <5s</span><span class="chip acc">448 测试 94% 覆盖</span><span class="chip acc">V1-V12 符号否决</span></div>
+  <p class="kicker">RAG 检索</p>
+  <h1>RAG 四模式对比 · 同一问题的两种命运</h1>
+  <p class="tag">接上就灵的 RAG 只活在演示里。同一句话，纯向量答错，调优后答对，差距我一行一行调出来。</p>
+  <div class="case-metrics"><span class="chip acc">119 文件 → 1529 向量点</span><span class="chip acc">724s CPU 建库</span><span class="chip acc">实测 4/5 → 5/5</span><span class="chip acc">Agentic 2 轮自纠</span></div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
@@ -624,8 +623,8 @@ body{ background: hsl(var(--background)); }
     <div class="df-stage" id="stage"></div>
   </div>
   <div class="pn-nav">
-    <a href="06-mirror-value.html"><div class="dir">← 上一篇</div><div class="ttl">自适应界面</div></a>
-    <a class="next" href="08-longjob-pipeline.html"><div class="dir">下一篇 →</div><div class="ttl">求职流水线</div></a>
+    <a href="01-huodai-platform.html"><div class="dir">← 上一篇</div><div class="ttl">潮汛平台</div></a>
+    <a class="next" href="03-miku-privacy.html"><div class="dir">下一篇 →</div><div class="ttl">玲珑秘库</div></a>
     <a class="home" href="../">↩ 返回作品集目录</a>
   </div>
 </main>
@@ -642,72 +641,81 @@ function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + 
 
 function toast(){}
 const DEMOS = {
-  'shiyang-solver': {
+  'rag-pipeline': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-grid">' +
-          '<div class="demo-card"><div class="t">约束条件</div>' +
-            '<div class="demo-row"><label>每日预算 <b>¥<span data-v-b>60</span></b> <span class="muted" style="font-size:10px">（往下拖，砍到它不可行）</span></label><input type="range" min="15" max="150" value="60" data-r-b aria-label="每日预算"></div>' +
-            '<div class="demo-row"><label>忌口（可多选）</label><div class="chips" data-g="a"><span class="chip" data-a="辣">辣</span><span class="chip" data-a="海鲜">海鲜</span><span class="chip" data-a="香菜">香菜</span></div></div>' +
-            '<div class="demo-row"><label>目标</label><div class="chips" data-g="g"><span class="chip on">减脂</span><span class="chip">增肌</span><span class="chip">日常</span></div></div>' +
-            '<button class="btn btn-primary" data-run style="width:100%;margin-top:12px;justify-content:center">开始求解</button>' +
+        '<div class="demo-card" style="margin-bottom:20px"><div class="t">同一问句 · search_test.py 第 5 问</div>' +
+          '<p style="font-size:15px;line-height:1.8;margin-top:4px">「用户做过哪些 AI 产品？」</p>' +
+          '<p class="muted" style="font-size:12px;margin-top:6px;line-height:1.7">语料里「想做的岗位」和「做过的作品」都写着 AI 产品四个字。分不分得清，看模式。点一个模式，现场跑一遍。</p>' +
+          '<div class="chips" style="margin-top:14px">' +
+            '<span class="chip on" data-m="0">① 纯向量</span><span class="chip" data-m="1">② +Query 改写</span><span class="chip" data-m="2">③ +混合检索（单用）</span><span class="chip" data-m="3">④ +Agentic 自评</span>' +
           '</div>' +
-          '<div class="demo-card"><div class="t">求解输出 <span data-badge></span></div><div data-out><p class="muted" style="font-size:13px">设定约束后点「开始求解」。</p></div></div>' +
         '</div>' +
-        '<div class="demo-note">演示数据 · 真实求解器在食养工程内 · 448 测试 94% 覆盖 · __post_init__ 构造即校验「必须有循证来源」· 单餐求解实测上限 &lt;5s</div>';
-      const PLANS = {
-        opt: { badge: ['ok', 'OPTIMAL'], steps: ['约束传播中…', '目标优化中…', '营养校验中…'],
-          meals: [['早餐', '燕麦鸡蛋杯 + 牛奶', '420 kcal · 蛋白 22g<br>¥9', '燕麦·鸡蛋·牛奶：《中国食物成分表》标准版 · SY-FOOD-017/041'], ['午餐', '香煎鸡胸糙米饭 + 时蔬', '610 kcal · 蛋白 45g<br>¥18', '鸡胸·糙米：食物成分表 · SY-FOOD-003/112'], ['晚餐', '番茄豆腐汤 + 杂粮馒头', '480 kcal · 蛋白 20g<br>¥12', '北豆腐：SY-FOOD-058 · 番茄 SY-FOOD-077']],
-          checks: ['✓ 预算 ¥39 达标', '✓ 热量缺口 -400 kcal（减脂）', '✓ 蛋白 87g 达标'] },
-        deg: { badge: ['warn', 'DEGRADED · L3 已软化'], steps: ['约束传播中…', 'L4 预算触顶', '回溯软化 L3 营养带…', '重解中…'],
-          meals: [['早餐', '燕麦鸡蛋杯', '320 kcal · 蛋白 14g<br>¥6', '燕麦·鸡蛋：《中国食物成分表》· SY-FOOD-017'], ['午餐', '香煎鸡腿饭 + 时蔬', '560 kcal · 蛋白 34g<br>¥14', '鸡腿：SY-FOOD-009（替代鸡胸，成本 -22%）'], ['晚餐', '白菜豆腐汤 + 馒头', '410 kcal · 蛋白 15g<br>¥8', '北豆腐：SY-FOOD-058 · 白菜 SY-FOOD-081']],
-          checks: ['✓ 预算 ¥28 达标', '△ 蛋白 68g（L3 软化 -15%）', '✓ L1 过敏 / L2 禁忌零降级'] },
-        inf: { badge: ['bad', 'INFEASIBLE → 已回溯'], steps: ['约束传播中…', 'L4 不可行', '回溯软化 L3…', '压至最低保障线…'],
-          meals: [['早餐', '燕麦 + 水煮蛋两个', '300 kcal · 蛋白 12g<br>¥5', '燕麦·鸡蛋：SY-FOOD-017'], ['午餐', '鸡腿饭', '520 kcal · 蛋白 26g<br>¥9', '鸡腿：SY-FOOD-009'], ['晚餐', '紫菜蛋花汤 + 馒头', '330 kcal · 蛋白 10g<br>¥4', '紫菜：SY-FOOD-096']],
-          checks: ['✓ 预算 ¥18 压线', '✓ L1 安全约束零让步', '△ 营养目标让位生存线'] },
+        '<div class="demo-card"><div class="t">检索实况</div><div data-out style="min-height:170px"><p class="muted" style="font-size:13px">默认正在跑① 纯向量。</p></div></div>' +
+        '<div class="demo-kpis">' +
+          '<div class="demo-kpi"><div class="v">119</div><div class="l">语料文件（第二大脑笔记）</div></div>' +
+          '<div class="demo-kpi"><div class="v">1527</div><div class="l">语义切块</div></div>' +
+          '<div class="demo-kpi"><div class="v">1529</div><div class="l">向量点 · BGE 768维</div></div>' +
+          '<div class="demo-kpi"><div class="v">724s</div><div class="l">CPU 建库 · 零外部依赖</div></div>' +
+          '<div class="demo-kpi"><div class="v">4/5→5/5</div><div class="l">baseline → 调优后</div></div>' +
+        '</div>' +
+        '<div class="demo-note">口径：RAG学习/search_test.py + RAG检索调优实战.md · four_mode_compare.py 现场可复跑</div>';
+      const MODES = [
+        { steps: [['向量检索中…', 'cosine top-5 · embed ~0.5s CPU']],
+          hit: '00-画像/个人画像.md · 求职目标方向', score: '0.71',
+          verdict: 'bad', vt: '✗ 字面命中，语义跑偏',
+          why: '命中的是「想做 AI 产品岗」的画像页，没碰到「做过什么」的项目清单。baseline 成绩单：5 问 4 中。' },
+        { steps: [['Query 改写…', '「AI 产品」→「AI产品 作品 项目 构建 落地」 · +0.8s'], ['向量检索中…', '改写后 top-5 · embed ~0.5s']],
+          hit: '08-项目/内部项目 · 项目清单', score: '0.83',
+          verdict: 'ok', vt: '✓ 语义鸿沟修平',
+          why: '同一句话换个问法，答案就站在正确的文档上。实测 5/5。' },
+        { steps: [['BM25 索引接入…', '1529 文档 jieba 分词 · 建索引几十秒'], ['双路召回中…', '字面权重上调']],
+          hit: 'Top1 正确，Top5 混入 3 条字面噪音', score: '',
+          verdict: 'warn', vt: '△ 噪音被字面权重放大',
+          why: '混合检索单用反而退步到 4/5。它得和改写搭配（RRF 双路一致确认），才回到 5/5。' },
+        { steps: [['第 1 轮 · 纯向量', 'Top1 画像页 · embed ~0.5s'], ['LLM 自评…', 'NO · 答非所问 · +1-3s'], ['自造新 query…', '「AI产品 作品 项目 玲珑 LUBAN」'], ['第 2 轮 · 重检索', 'Top1 项目清单 · embed ~0.5s'], ['LLM 复评…', 'YES · 收敛']],
+          hit: '_项目MOC/内部项目 · 项目清单', score: '0.86',
+          verdict: 'ok', vt: '✓ 2 轮自纠收敛',
+          why: '检索错了，它自己知道，换句话再问一次。这就是 Agentic 和「接上就跑」的距离。' },
+      ];
+      const out = $('[data-out]', stage);
+      const wait = ms => new Promise(r => setTimeout(r, REDUCED ? 50 : ms));
+      let playing = 0;
+      const play = async mi => {
+        const my = ++playing;
+        const m = MODES[mi];
+        out.innerHTML = '';
+        for (const [t, d] of m.steps) {
+          if (my !== playing) return;
+          const row = document.createElement('div');
+          row.className = 'rag-node run';
+          row.innerHTML = '<span class="st">▸</span><div class="bd"><div class="t">' + t + '</div><div class="d">' + d + '</div></div>';
+          out.appendChild(row);
+          await wait(420);
+          row.classList.remove('run'); row.classList.add('done');
+          row.querySelector('.st').textContent = '✓';
+        }
+        if (my !== playing) return;
+        const hit = document.createElement('div');
+        hit.className = 'rag-result on';
+        hit.style.borderColor = m.verdict === 'ok' ? '' : (m.verdict === 'warn' ? 'hsl(var(--warn) / 0.45)' : 'hsl(var(--danger) / 0.45)');
+        hit.style.background = m.verdict === 'ok' ? '' : (m.verdict === 'warn' ? 'hsl(var(--warn) / 0.06)' : 'hsl(var(--danger) / 0.06)');
+        hit.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><b>Top1 · ' + m.hit + '</b>' + (m.score ? '<span class="mono muted" style="font-size:11px">score ' + m.score + '</span>' : '') + '</div>' +
+          '<div style="margin-top:8px"><span class="verdict ' + m.verdict + '">' + m.vt + '</span></div>' +
+          '<p class="muted" style="font-size:12.5px;margin-top:8px;line-height:1.7">' + m.why + '</p>';
+        out.appendChild(hit);
       };
-      const VETO = { '辣': '✓ V 系已过滤辛辣候选', '海鲜': '✓ V07 海鲜类禁忌：否决 2 道候选', '香菜': '✓ 香菜候选已排除' };
-      $$('.chips .chip', stage).forEach(c => c.addEventListener('click', () => {
-        const g = c.parentElement.dataset.g;
-        if (g !== 'a') { $$('.chip', c.parentElement).forEach(x => x.classList.remove('on')); c.classList.add('on'); }
-        else c.classList.toggle('on');
+      $$('.chip', stage).forEach(c => c.addEventListener('click', () => {
+        $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        play(+c.dataset.m);
       }));
-      $('[data-r-b]', stage).addEventListener('input', e => { $('[data-v-b]', stage).textContent = e.target.value; });
-      $('[data-run]', stage).addEventListener('click', ev => {
-        ev.target.disabled = true;
-        const budget = +$('[data-r-b]', stage).value;
-        const plan = budget >= 39 ? PLANS.opt : budget >= 25 ? PLANS.deg : PLANS.inf;
-        const out = $('[data-out]', stage);
-        $('[data-badge]', stage).innerHTML = '';
-        let i = 0;
-        out.innerHTML = '<p class="demo-log" data-st></p>';
-        const tick = () => {
-          if (i < plan.steps.length) {
-            out.querySelector('[data-st]').textContent = plan.steps[i];
-            i++;
-            setTimeout(tick, REDUCED ? 60 : 340);
-            return;
-          }
-          $('[data-badge]', stage).innerHTML = ' <span class="verdict ' + plan.badge[0] + '">' + plan.badge[1] + '</span>';
-          const avoided = $$('.chip.on', $('[data-g="a"]', stage)).map(c => VETO[c.dataset.a]).filter(Boolean);
-          out.innerHTML =
-            plan.meals.map((m, mi) => '<div class="meal-row" data-meal="' + mi + '" style="cursor:pointer" title="点开看循证来源"><span class="mm">' + m[0] + '</span><span class="mn">' + m[1] + '</span><span class="mv">' + m[2] + '</span></div><div class="meal-src" data-src="' + mi + '" style="display:none;font-family:var(--font-mono);font-size:10.5px;color:hsl(var(--ok));padding:0 0 10px 44px;line-height:1.7">▸ 循证 · ' + m[3] + '</div>').join('') +
-            '<p class="muted mono" style="font-size:10px;margin-top:8px;letter-spacing:0.1em">点任意一道菜，看它的循证来源（__post_init__ 强制，空来源直接拒构造）</p>' +
-            '<div class="demo-checks">' + plan.checks.concat(avoided).map(c => '<span class="' + (c[0] === '△' ? 'verdict warn' : 'ok') + '" style="font-size:var(--text-xs);font-family:var(--font-mono)">' + c + '</span>').join('') + '</div>' +
-            '<p class="demo-log" style="margin-top:10px">求解耗时 1.8s（演示节奏）· 真实工程断言 &lt;5s</p>';
-          $$('.meal-row', out).forEach(r => r.addEventListener('click', () => {
-            const s = out.querySelector('[data-src="' + r.dataset.meal + '"]');
-            s.style.display = s.style.display === 'none' ? 'block' : 'none';
-          }));
-          ev.target.disabled = false;
-        };
-        tick();
-      });
+      play(0);
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['shiyang-solver'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['rag-pipeline'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
 /* 进度条 + aurora 静态降级 */

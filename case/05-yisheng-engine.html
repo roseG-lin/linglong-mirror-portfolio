@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑镜面 Mirror · 声明即界面 · Remi 作品集</title>
+<title>爻胜 · 赛事预测统计引擎 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -316,8 +316,8 @@ footer a { color: hsl(var(--accent)); }
 #toast .icon { color: hsl(var(--accent)); }
 
 /* ============ 超宽屏：容器加宽 + 双轨 ============ */
-@media (min-width: 1600px) {  }
-@media (min-width: 2100px) {  }
+@media (min-width: 1600px) { :root { --container: 1340px; } }
+@media (min-width: 2100px) { :root { --container: 1520px; } }
 
 /* 左侧纵排轨（品牌竖文 + 滚动百分比） */
 #railL {
@@ -555,81 +555,58 @@ html.cc, html.cc * { cursor: none !important; }
   #printArea h4 { color: #666; border-color: #ccc; }
 }
 
-
-body{ background: hsl(var(--background)); }
-#aurora{ display:none }
-.case-nav-bar{ background: hsl(48 100% 96% / .94); border-bottom: 2px solid #111; }
-.case-hero h1{ letter-spacing:-.01em }
-.case-hero .kicker{ font-weight:700 }
-.demo-frame, .pn-nav a{ border:2px solid #111; border-radius:0; box-shadow: 3px 3px 0 #111; }
-.df-bar{ border-bottom:2px solid #111 }
-.case-metrics .chip{ border:1.5px solid #111; border-radius:0 }
-.case-metrics .chip.acc{ box-shadow:2px 2px 0 #111; font-weight:700 }
-.pn-nav a:hover{ box-shadow: 5px 5px 0 #111 }
-.case-nav-bar .cn-mid{ color:hsl(var(--accent)); font-weight:700 }
-
-
-.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
-.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
-.demo-frame{ border-color: hsl(var(--accent)/.22) }
-.df-bar{ color: hsl(var(--accent)) }
-.cc-go{ color: hsl(var(--accent)) }
-
-.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
-.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
-.demo-frame{ border-color: hsl(var(--accent)/.22) }
-.df-bar{ color: hsl(var(--accent)) }
-.cc-go{ color: hsl(var(--accent)) }
-
-/* ===== 微差异皮肤：引擎紫 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 262 88% 69%; }
+/* ============ 案例卡片网格（多页跳转版） ============ */
+.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+.case-card { display: block; text-decoration: none; border: 1px solid hsl(var(--border)); border-radius: 14px; padding: 22px 22px 18px; background: hsl(var(--surface) / .55); transition: all 180ms ease; position: relative; }
+.case-card:hover { border-color: hsl(var(--accent) / .55); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.case-card .case-title { font-size: 1.22rem; }
+.cc-go { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: hsl(var(--accent)); }
+@media (max-width: 760px) {
+  .case-grid { grid-template-columns: 1fr; gap: 12px; }
+  .case-card { padding: 16px 16px 14px; }
+  .case-nav { grid-template-columns: 1fr 1fr !important; }
+}
 </style>
 <style>
-/* 案例页专用补充 */
-.case-nav-bar{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;background:hsl(var(--background)/.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid hsl(var(--border)/.6)}
-.case-nav-bar a,.case-nav-bar span{font-size:13px;color:hsl(var(--muted-foreground));text-decoration:none}
-.case-nav-bar a:hover{color:hsl(var(--foreground))}
-.case-nav-bar .cn-mid{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:hsl(var(--accent))}
-.case-hero{max-width:960px;margin:0 auto;padding:96px 24px 8px}
-.case-hero h1{font-family:var(--font-display);font-size:clamp(1.6rem,4.6vw,2.4rem);line-height:1.2;margin-top:10px}
-.case-hero .kicker{margin-bottom:0}
-.case-hero .tag{font-size:15px;color:hsl(var(--muted-foreground));line-height:1.75;margin-top:12px}
-.case-metrics{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.case-body{max-width:960px;margin:0 auto;padding:12px 24px 80px}
-.pn-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px}
-.pn-nav a{text-decoration:none;border:1px solid hsl(var(--border));border-radius:12px;padding:14px 16px;background:hsl(var(--surface)/.5);transition:all .16s ease}
-.pn-nav a:hover{border-color:hsl(var(--accent)/.5);transform:translateY(-2px)}
-.pn-nav .dir{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;color:hsl(var(--muted-foreground))}
-.pn-nav .ttl{font-size:14px;margin-top:4px;color:hsl(var(--foreground))}
-.pn-nav a.next{text-align:right}
-.pn-nav .home{grid-column:1/-1;text-align:center;border-style:dashed}
-@media(max-width:640px){.case-nav-bar{padding:0 12px}.case-hero{padding-top:80px}.case-body{padding-bottom:60px}}
+/* ===== 微差异皮肤：创作绯 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 42 92% 58% }
+.case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
+.pn-nav a:hover{ border-color: hsl(var(--accent)/.55) }
+.demo-frame{ border-color: hsl(var(--accent)/.22) }
+.df-bar{ color: hsl(var(--accent)) }
+.cc-go{ color: hsl(var(--accent)) }
 </style>
 </head>
-<body><svg style="display:none"><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+</head>
+<body>
 <div id="aurora"><canvas></canvas></div>
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 06 / 08 · 自适应界面</span>
-  <a href="07-shiyang-solver.html">下一篇 →</a>
+  <span class="cn-mid">CASE 05 / 09 · 统计建模</span>
+  <a href="../">回目录 ↗</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">自适应界面引擎</p>
-  <h1>玲珑镜面 Mirror · 声明即界面</h1>
-  <p class="tag">写一段功能意图声明，26 秒长出整个界面，每条决策带理由；14 套主题一键换肤带 AA 门禁；数据自带价值分层。三个核心切面都在里面。</p>
-  <div class="case-metrics"><span class="chip acc">声明→界面 ≈26s</span><span class="chip acc">14 套主题 · AA 门禁</span><span class="chip acc">553 测试</span><span class="chip acc">每条决策带理由</span></div>
+<p class="kicker">CASE 05 · 统计建模</p>
+  <h1>爻胜 · 赛事预测统计引擎</h1>
+  <p class="tag">回答「这场谁赢」，并给出可验证的可信度：913 场国际赛事校准 Elo + Dixon-Coles 统计模型，763 场滚动回测检验——准确率 61.9%（均匀基线 33%），校准误差 2.3%。说七成把握的事，长期真发生约七成；Rust 引擎 + 桌面端开箱即用。</p>
+  <div class="case-metrics">
+    <span class="chip acc">913 场校准</span>
+    <span class="chip acc">763 场回测 · 61.9%</span>
+    <span class="chip acc">ECE 校准误差 2.3%</span>
+    <span class="chip acc">Rust · 桌面端</span>
+  </div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
     <div class="df-bar"><span class="live-dot"></span> LIVE DEMO · 可直接交互
       <button class="df-reset" id="resetBtn">↻ 重置</button>
-      <span class="hint">录像式演示 · 口径在本页下方</span></div>
+      <span class="hint">浏览器实跑 · 数据为真</span></div>
     <div class="df-stage" id="stage"></div>
   </div>
-  <div class="pn-nav">
-    <a href="05-rag-pipeline.html"><div class="dir">← 上一篇</div><div class="ttl">RAG 检索</div></a>
-    <a class="next" href="07-shiyang-solver.html"><div class="dir">下一篇 →</div><div class="ttl">约束求解</div></a>
+<div class="pn-nav">
+    <a href="04-reyes-video.html"><div class="dir">← 上一篇</div><div class="ttl">视频生产</div></a>
+    <a class="next" href="06-novel-engine.html"><div class="dir">下一篇 →</div><div class="ttl">小说引擎</div></a>
     <a class="home" href="../">↩ 返回作品集目录</a>
   </div>
 </main>
@@ -644,180 +621,105 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + '" height="' + (size || 20) + '"><use href="#' + id + '"/></svg>'; }
 
 
-function toast(){}
 const DEMOS = {
-  'mirror-value': {
+  'yisheng-engine': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-head"><p>镜面 = 自适应界面设计引擎：Skill 只声明功能意图与数据，自动获得界面——每条设计决策带人话理由，换肤带门禁。三个核心切面 ↓</p></div>' +
-        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 声明 → 界面</span><span class="chip" data-t="1">② 一键换肤 · 门禁</span><span class="chip" data-t="2">③ 价值感知数据层</span></div>' +
+        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 对阵预测 · 真 Elo 实算</span><span class="chip" data-t="1">② 滚动回测 · 对基线</span><span class="chip" data-t="2">③ 融合决策 · 权重与冲突</span></div>' +
         '<div data-pane="0"></div><div data-pane="1" style="display:none"></div><div data-pane="2" style="display:none"></div>';
-
       const panes = $$('[data-pane]', stage);
       $$('[data-tabs] .chip', stage).forEach(c => c.addEventListener('click', () => {
         $$('[data-tabs] .chip', stage).forEach(x => x.classList.remove('on'));
-        c.classList.add('on');
-        panes.forEach(p => p.style.display = 'none');
-        panes[+c.dataset.t].style.display = '';
-        if (+c.dataset.t === 0) playGen();
+        c.classList.add('on'); panes.forEach(p => p.style.display = 'none'); panes[+c.dataset.t].style.display = '';
       }));
 
-      /* ---------- Pane 0：声明 → 界面（26 秒实测） ---------- */
+      /* ① 真 Elo 对阵 */
+      const ELO = { '西班牙': 2075, '法国': 2034, '阿根廷': 2064, '巴西': 1999, '英格兰': 1990, '葡萄牙': 1942, '荷兰': 1939, '德国': 1937, '意大利': 1915, '摩洛哥': 1877, '克罗地亚': 1869, '日本': 1852, '墨西哥': 1847, '美国': 1798 };
+      const opts = Object.keys(ELO).map(k => '<option>' + k + '</option>').join('');
       const p0 = panes[0];
       p0.innerHTML =
         '<div class="demo-grid">' +
-          '<div class="demo-card"><div class="t">module.yaml · 功能意图声明</div>' +
-            '<pre class="mono" style="font-size:11px;line-height:1.75;margin:8px 0;white-space:pre-wrap">intent:<br>  type: dashboard<br>  role: 实验室设备管理<br>views:<br>  - stat: { 设备在线率, 在线/总数 }<br>  - table: { 台账, 字段: [设备,状态,负责人] }<br>actions:<br>  - { 报修, confirm: true }<br>  - { 报废, danger: true }</pre>' +
-            '<button class="chip acc" data-gen style="width:100%;justify-content:center">▶ 生成界面（实测 26 秒）</button></div>' +
-          '<div class="demo-card" data-out><div class="t">自动生成的界面 <span class="muted" style="font-size:10px;font-family:var(--font-mono)">零前端代码</span></div><div data-canvas style="margin-top:8px;min-height:230px"></div></div>' +
-        '</div>' +
-        '<div class="demo-note">验收标准①端到端实测：全新 Skill「实验室报修」从手写声明到界面可用+调优闭环 <b>≈26 秒</b>（声明 199ms + 启动 25.5s + 调优 384ms）——已固化为回归资产 standard1-e2e</div>';
-
-      const reasons = [
-        ['检测到 intent.type = dashboard', '指标卡置顶，主数据表居中——六类布局模板自动匹配'],
-        ['台账字段含 状态/负责人', '表格主区渲染，类型感知单元格（状态色点）'],
-        ['「报废」声明 danger: true', '危险行动自动设防——二次确认门，理由留痕入 audit.jsonl'],
-        ['方案生成完毕', '每条决策可展开追溯；人工调优写入品味档案，下次生成自动反映'],
-      ];
-      const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-      let genPlayed = false;
-      async function playGen() {
-        if (genPlayed) return; genPlayed = true;
-        const cv = $('[data-canvas]', p0);
-        cv.innerHTML = '';
-        const step = async (html, why) => {
-          const b = document.createElement('div');
-          b.innerHTML = html + (why ? '<div class="muted mono" style="font-size:9.5px;margin:6px 0 10px;border-left:2px solid hsl(var(--accent));padding-left:8px;color:hsl(var(--accent))">✓ ' + why[0] + ' — ' + why[1] + '</div>' : '');
-          cv.appendChild(b.firstElementChild);
-          await sleep(420);
-        };
-        await step('<div style="display:flex;gap:8px"><div style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:10px"><div class="mono" style="font-size:9px;color:hsl(var(--muted-foreground))">设备在线率</div><b style="font-size:1.3em">97.4%</b><span class="mono" style="font-size:9px;color:hsl(var(--ok))"> ▲</span></div><div style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:10px"><div class="mono" style="font-size:9px;color:hsl(var(--muted-foreground))">报修单</div><b style="font-size:1.3em">3</b> <span class="mono" style="font-size:9px">今日</span></div></div>', reasons[0]);
-        await step('<div style="background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:8px 10px;font-size:11px">离心机 <span style="color:hsl(var(--warn))">●维修中</span> · 张工 &nbsp;|&nbsp; 光谱仪 <span style="color:hsl(var(--ok))">●在线</span> · 李研 &nbsp;|&nbsp; 烘箱 <span style="color:hsl(var(--ok))">●在线</span> · 王静</div>', reasons[1]);
-        await step('<div style="display:flex;gap:8px"><button style="flex:none;font-size:11px;padding:5px 10px;border-radius:6px;background:hsl(var(--accent));color:#fff">报 修</button><button style="flex:none;font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid hsl(var(--danger));color:hsl(var(--danger))">报废 ⚠</button><span class="muted" style="font-size:10px;align-self:center">报废触发确认门 → 理由留痕</span></div>', reasons[2]);
-        await step('<div class="mono" style="text-align:center;font-size:10px;color:hsl(var(--ok));border:1px dashed hsl(var(--ok));border-radius:6px;padding:6px">— 设计依据 4 条可追溯 · 调优已记入品味档案 —</div>', reasons[3]);
-        const btn = $('[data-gen]', p0);
-        if (btn) btn.textContent = '↻ 重新生成';
-        genPlayed = false;
+          '<div class="demo-card"><div class="t">选对阵（913 场校准后的真实 Elo）</div>' +
+            '<div style="display:flex;gap:8px;margin-top:10px;align-items:center">' +
+            '<select data-ha style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));color:inherit;border-radius:8px;padding:8px">' + opts + '</select>' +
+            '<span class="mono" style="font-size:11px;color:hsl(var(--muted-foreground))">VS</span>' +
+            '<select data-hb style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));color:inherit;border-radius:8px;padding:8px">' + opts + '</select></div>' +
+            '<div data-elo class="mono" style="margin-top:10px;font-size:10.5px;color:hsl(var(--muted-foreground))"></div>' +
+            '<button class="chip acc" data-pred style="margin-top:10px;width:100%;justify-content:center">▶ 算预期胜率（Elo 逻辑公式，浏览器实跑）</button></div>' +
+          '<div class="demo-card"><div class="t">Elo 预期得分</div><div data-bars style="margin-top:12px"></div>' +
+            '<div class="demo-note" style="margin-top:12px">完整模型再经 Dixon-Coles 双泊松分解胜/平/负——引擎实测示例：西班牙 vs 德国 → <b>51.4% / 27.2% / 21.4%</b>（README 原始输出）</div></div>' +
+        '</div>';
+      const ha = $('[data-ha]', p0), hb = $('[data-hb]', p0); hb.selectedIndex = 7;
+      function pred() {
+        const a = ELO[ha.value], b = ELO[hb.value], d = a - b;
+        const we = 1 / (1 + Math.pow(10, -d / 400));
+        $('[data-elo]', p0).textContent = ha.value + ' ' + a + '  −  ' + hb.value + ' ' + b + '  =  Δ' + (d > 0 ? '+' : '') + d;
+        $('[data-bars]', p0).innerHTML =
+          '<div style="display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid hsl(var(--border))">' +
+          '<div style="width:' + (we * 100).toFixed(1) + '%;background:hsl(var(--accent)/.75);display:flex;align-items:center;justify-content:center;font-size:12px">' + (we * 100).toFixed(1) + '%</div>' +
+          '<div style="flex:1;background:hsl(var(--surface-2));display:flex;align-items:center;justify-content:center;font-size:12px">' + ((1 - we) * 100).toFixed(1) + '%</div></div>' +
+          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:6px" class="muted"><span>' + ha.value + ' 胜</span><span>' + hb.value + ' 胜</span></div>';
       }
-      $('[data-gen]', p0).addEventListener('click', () => { genPlayed = false; playGen(); });
-      playGen();
+      ha.addEventListener('change', pred); hb.addEventListener('change', pred);
+      $('[data-pred]', p0).addEventListener('click', pred); pred();
 
-      /* ---------- Pane 1：一键换肤 + 门禁 ---------- */
+      /* ② 回测面板 */
       const p1 = panes[1];
-      const THEMES = {
-        ink:    { label: '墨韵赛博', bg:'#151719', surf:'#1e2226', ink:'#e8e6e1', acc:'#c0392b', bord:'#39404a', rad:'8px',  font:'serif',   extra:'' },
-        neubru: { label: '新野兽派', bg:'#FFFDF0', surf:'#ffffff', ink:'#111111', acc:'#F26100', bord:'#111111', rad:'0px',  font:'mono',    extra:'border:2px solid #111;box-shadow:3px 3px 0 #111;' },
-        glass:  { label: '琉璃空间', bg:'#0b1020', surf:'rgba(255,255,255,.07)', ink:'#eef2ff', acc:'#7aa8ff', bord:'rgba(255,255,255,.18)', rad:'14px', font:'sans', extra:'backdrop-filter:blur(8px);box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 8px 24px rgba(0,0,0,.35);' },
-        term:   { label: '终端行动', bg:'#0a0f0a', surf:'#101810', ink:'#c8f5c8', acc:'#4af04a', bord:'#2a3a2a', rad:'4px',  font:'mono',    extra:'' },
-      };
+      const METS = [
+        ['Accuracy（top-1）', 61.9, 33, false, '%', '越高越好'],
+        ['RPS 排名概率得分', 0.1746, 0.245, true, '', '越低越好'],
+        ['Brier 分数', 0.520, 0.667, true, '', '越低越好'],
+        ['ECE 校准误差', 2.3, 5.0, true, '%', '阈值 <5%'],
+      ];
       p1.innerHTML =
-        '<div class="chips" style="margin-bottom:12px" data-themes>' +
-          Object.entries(THEMES).map(([k, t], i) => '<span class="chip' + (i ? '' : ' on') + '" data-k="' + k + '">' + t.label + '</span>').join('') +
-        '</div>' +
-        '<div data-panel style="padding:14px;border-radius:12px;border:1px solid;transition:all .22s cubic-bezier(.2,.8,.2,1)">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center"><b data-t1 style="font-size:13px">设备总览 · 实验室</b><span data-t2 class="mono" style="font-size:9px;opacity:.65">intent: dashboard</span></div>' +
-          '<div style="display:flex;gap:8px;margin-top:10px">' +
-            '<div data-card style="flex:1;padding:9px 10px;border-radius:8px"><div data-l1 style="font-size:9px;opacity:.6">在线率</div><b data-v1 style="font-size:1.15em">97.4%</b></div>' +
-            '<div data-card style="flex:1;padding:9px 10px;border-radius:8px"><div data-l1 style="font-size:9px;opacity:.6">待报修</div><b data-v1 style="font-size:1.15em">3</b></div>' +
-          '</div>' +
-          '<div data-card style="margin-top:8px;padding:8px 10px;border-radius:8px;font-size:11px">离心机 · <span data-acc>维修中</span> ｜ 光谱仪 · 在线</div>' +
-          '<div style="margin-top:10px"><span data-btn style="display:inline-block;font-size:11px;padding:5px 12px;border-radius:6px">生成报修单</span></div>' +
-        '</div>' +
-        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px" data-gates>' +
-          ['AA 对比度 · 实算通过', '动效 120–240ms 政策带', '视觉回归 ≤1%', 'console 零泄漏', '553 项测试'].map((g, i) =>
-            '<span class="mono" data-gate style="font-size:9.5px;padding:4px 9px;border-radius:99px;border:1px solid hsl(var(--ok));color:hsl(var(--ok));opacity:' + (i === 0 ? 1 : 0) + ';transition:opacity .3s">✓ ' + g + '</span>').join('') +
-        '</div>' +
-        '<div class="demo-note">主题 ≠ 换颜色：三层 token 树（原始→语义→组件）整套切换 + 治理门禁——manifest 自检 AA 对 WCAG 实算、动效政策带、像素差回归；风格词路由「换成新野兽派风格」即换肤；token 出口反向导出五段式设计规范（口岸双通，回流验收 100% 抓漂移）</div>';
+        '<div class="demo-card"><div class="t">763 场 walk-forward 回测 vs 均匀基线</div>' +
+        METS.map(m => {
+          const span = m[3] ? (m[2] + m[1]) : m[2];
+          const wModel = (m[3] ? (m[2] - m[1]) / span : m[1] / m[2]) * 100;
+          const wBase = (m[3] ? m[2] / span : m[2] / m[2]) * 100;
+          return '<div style="margin:16px 0 4px"><div style="display:flex;justify-content:space-between;font-size:12px"><span>' + m[0] + '</span><span class="mono"><b style="color:hsl(var(--accent))">' + m[1] + m[4] + '</b> <span class="muted">vs 基线 ' + m[2] + m[4] + '</span></span></div>' +
+            '<div style="height:9px;border-radius:99px;background:hsl(var(--surface-2));margin-top:6px;overflow:hidden"><div data-w style="width:0;height:100%;background:hsl(var(--accent));border-radius:99px;transition:width 1.1s cubic-bezier(.16,1,.3,1)" data-target="' + wModel.toFixed(1) + '"></div></div>' +
+            '<div class="mono" style="font-size:9.5px;color:hsl(var(--muted-foreground));margin-top:3px">walk-forward：只用过去预测未来，无数据穿越 · ' + m[5] + '</div></div>';
+        }).join('') +
+        '<div class="demo-note">模型预测 61.9% 的比赛结果正确且校准误差 2.3%——「说 70% 把握」的事，长期真发生约 70%：这是可解释、可验证，不是玄学</div></div>';
+      requestAnimationFrame(() => setTimeout(() => $$('[data-w]', p1).forEach(x => x.style.width = x.dataset.target + '%'), 300));
 
-      function applyTheme(k) {
-        const t = THEMES[k];
-        const P1 = $('[data-panel]', p1);
-        P1.style.cssText += ';background:' + t.bg + ';border-color:' + t.bord + ';border-radius:' + t.rad + ';' + t.extra;
-        $$('[data-card]', p1).forEach(c => { c.style.background = t.surf; c.style.border = '1px solid ' + t.bord; });
-        $$('[data-l1]', p1).forEach(x => x.style.color = t.ink);
-        $$('[data-v1]', p1).forEach(x => { x.style.color = t.ink; x.style.fontFamily = t.font === 'mono' ? 'var(--font-mono)' : t.font === 'serif' ? 'var(--font-display)' : 'inherit'; });
-        $('[data-t1]', p1).style.color = t.ink;
-        const btn = $('[data-btn]', p1);
-        btn.style.background = t.acc; btn.style.color = (k === 'neubru' ? '#fff' : '#0b0b0b');
-        if (k === 'neubru') { btn.style.border = '2px solid #111'; btn.style.boxShadow = '2px 2px 0 #111'; btn.style.borderRadius = '0'; } else { btn.style.border = 'none'; btn.style.boxShadow = 'none'; btn.style.borderRadius = '6px'; }
-        $('[data-acc]', p1).style.color = t.acc;
-        // 门禁徽章逐个点亮（模拟 manifest 自检）
-        const gates = $$('[data-gate]', p1);
-        gates.forEach(g => g.style.opacity = 0);
-        gates.forEach((g, i) => setTimeout(() => { g.style.opacity = 1; }, 160 * (i + 1)));
-      }
-      $$('[data-themes] .chip', p1).forEach(c => c.addEventListener('click', () => {
-        $$('[data-themes] .chip', p1).forEach(x => x.classList.remove('on'));
-        c.classList.add('on');
-        applyTheme(c.dataset.k);
-      }));
-      applyTheme('ink');
-
-      /* ---------- Pane 2：价值感知（原 demo 保留，微调结构） ---------- */
+      /* ③ 融合决策 */
       const p2 = panes[2];
       p2.innerHTML =
         '<div class="demo-grid">' +
-          '<div class="demo-card"><div class="t">价值因子</div>' +
-            '<div class="demo-row"><label>数据层级</label><div class="chips" data-g="l"><span class="chip on" data-l="1.0">核心层 1.0</span><span class="chip" data-l="0.6">近期层 0.6</span><span class="chip" data-l="0.2">归档层 0.2</span></div></div>' +
-            '<div class="demo-row"><label>更新于 <b><span data-v-d>1</span> 天前</b></label><input type="range" min="0" max="60" value="1" data-r-d aria-label="天数"><div class="muted mono" style="font-size:10px;margin-top:4px">recency = e^(-days/30) ≈ <span data-v-r>0.97</span></div></div>' +
-            '<div class="demo-row"><label>被钻取 <b><span data-v-f>3</span> 次</b></label><input type="range" min="0" max="10" value="3" data-r-f aria-label="钻取次数"></div>' +
-            '<div style="margin-top:20px"><div class="muted" style="font-size:11px;font-family:var(--font-mono);letter-spacing:0.1em">VALUE</div><div class="val-big" data-v-val>1.26</div></div>' +
-          '</div>' +
-          '<div>' +
-            '<div class="val-card hot" data-card style="cursor:pointer" title="点击钻取">' +
-              '<div style="display:flex;justify-content:space-between;align-items:baseline"><b>系统性框架思维</b><span class="chip acc" data-state>醒目展示</span></div>' +
-              '<p class="muted" style="font-size:13px;margin-top:8px">置信度 0.8 · 来源：第二大脑核心层<br>「自主提出四阶段 Skill 框架」 <span class="mono" style="font-size:10px;color:hsl(var(--accent))">点击钻取 ▾</span></p>' +
-              '<div data-drill style="display:none;margin-top:12px;border-top:1px dashed hsl(var(--border));padding-top:10px">' +
-                '<div class="muted mono" style="font-size:10px;letter-spacing:0.14em;margin-bottom:6px">钻取 · 置信度演化时间线</div>' +
-                '<svg viewBox="0 0 220 44" style="width:100%;height:44px;display:block"><polyline points="2,36 75,27 148,11 218,6" fill="none" stroke="hsl(var(--accent))" stroke-width="1.5"/><circle cx="2" cy="36" r="2.5" fill="hsl(var(--muted-foreground))"/><circle cx="75" cy="27" r="2.5" fill="hsl(var(--muted-foreground))"/><circle cx="148" cy="11" r="2.5" fill="hsl(var(--accent))"/><circle cx="218" cy="6" r="2.5" fill="hsl(var(--accent))"/></svg>' +
-                '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:hsl(var(--muted-foreground))"><span>0.2 · 初判</span><span>0.4 · 复谈</span><span>0.8 · 多源确认</span></div>' +
-              '</div>' +
-            '</div>' +
-            '<div class="demo-kpis" style="margin-top:16px">' +
-              '<div class="demo-kpi"><div class="v" style="font-size:1rem">&gt; 0.8</div><div class="l">醒目：大图置顶默认展开</div></div>' +
-              '<div class="demo-kpi"><div class="v" style="font-size:1rem">0.3 – 0.8</div><div class="l">正常：标准尺寸</div></div>' +
-              '<div class="demo-kpi"><div class="v" style="font-size:1rem">&lt; 0.3</div><div class="l">折叠：灰化默认隐藏</div></div>' +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="demo-note">五层架构的数据层：value = layer × recency × (1 + frequency × 0.1)（MemLens / Local-first 论文依据）· X-ray 安全数据零适配直通消费，171 测试零回退</div>';
-      let layer = 1.0;
-      const calc = () => {
-        const d = +$('[data-r-d]', p2).value, f = +$('[data-r-f]', p2).value;
-        const rec = Math.exp(-d / 30);
-        const v = layer * rec * (1 + f * 0.1);
-        $('[data-v-d]', p2).textContent = d;
-        $('[data-v-f]', p2).textContent = f;
-        $('[data-v-r]', p2).textContent = rec.toFixed(2);
-        $('[data-v-val]', p2).textContent = v.toFixed(2);
-        const card = $('[data-card]', p2), st = $('[data-state]', p2);
-        card.classList.remove('hot', 'dim');
-        if (v > 0.8) { card.classList.add('hot'); st.textContent = '醒目展示'; }
-        else if (v >= 0.3) { st.textContent = '正常展示'; }
-        else { card.classList.add('dim'); st.textContent = '折叠隐藏'; }
-      };
-      $$('.chips .chip', p2).forEach(c => c.addEventListener('click', () => {
-        $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
-        c.classList.add('on');
-        layer = +c.dataset.l;
-        calc();
-      }));
-      $('[data-r-d]', p2).addEventListener('input', calc);
-      $('[data-r-f]', p2).addEventListener('input', calc);
-      $('[data-card]', p2).addEventListener('click', () => {
-        const d = $('[data-drill]', p2);
-        d.style.display = d.style.display === 'none' ? 'block' : 'none';
-      });
-      calc();
+          '<div class="demo-card"><div class="t">两路证据 · 你来配权</div>' +
+            '<div style="margin-top:10px;font-size:12px">统计模型胜率 <span class="mono" data-sv>62%</span><input type="range" min="40" max="85" value="62" data-stat style="width:100%;margin-top:4px;accent-color:hsl(var(--accent))"></div>' +
+            '<div style="margin-top:10px;font-size:12px">易学倾向 <select data-yi style="width:100%;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));color:inherit;border-radius:8px;padding:8px;margin-top:4px"><option>无明显倾向</option><option>利主队（强）</option><option>利客队（强）</option></select></div>' +
+            '<div style="margin-top:10px;font-size:12px">权重：统计 <span class="mono" data-wv>70</span>% ｜ 易学 <span class="mono">30</span>%<input type="range" min="50" max="90" value="70" data-wt style="width:100%;margin-top:4px;accent-color:hsl(var(--accent))"></div></div>' +
+          '<div class="demo-card"><div class="t">融合输出 · 含冲突规则</div><div data-fout style="margin-top:12px;min-height:150px"></div>' +
+            '<div class="demo-note">反向冲突即切观望——宁可不出手，不硬凑结论</div></div>' +
+        '</div>';
+      const st = $('[data-stat]', p2), yi = $('[data-yi]', p2), wt = $('[data-wt]', p2);
+      function fuse() {
+        $('[data-sv]', p2).textContent = st.value + '%'; $('[data-wv]', p2).textContent = wt.value;
+        const s = +st.value, w = +wt.value / 100, yRaw = yi.value;
+        let yProb = s; let conflict = false;
+        if (yRaw === '利主队（强）') { yProb = Math.min(90, s + 22); if (s < 50) conflict = true; }
+        if (yRaw === '利客队（强）') { yProb = Math.max(10, s - 22); if (s > 50) conflict = true; }
+        const f = s * w + yProb * (1 - w);
+        $('[data-fout]', p2).innerHTML = conflict
+          ? '<div style="padding:14px;border:1px solid hsl(var(--warn)/.5);border-radius:10px;font-size:13px;color:hsl(var(--warn))">⚠ 两路证据反向冲突（统计 ' + s + '% vs 易学倾向对侧）<br><b>决策：切观望 · 放弃本场</b><br><span class="muted" style="font-size:11px">融合值 ' + f.toFixed(1) + '% 被规则否决——规则优先于数字</span></div>'
+          : '<div style="font-size:13px;line-height:2">统计 ' + s + '% × ' + w.toFixed(2) + ' + 易学侧 ' + yProb + '% × ' + (1 - w).toFixed(2) + '<br><b style="font-size:22px;color:hsl(var(--accent))">→ 主队胜率 ' + f.toFixed(1) + '%</b><br><span class="muted">证据同向 · 正常输出，附 EV/Kelly 可选</span></div>';
+      }
+      [st, wt].forEach(x => x.addEventListener('input', fuse));
+      yi.addEventListener('change', fuse); fuse();
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['mirror-value'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['yisheng-engine'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
-/* 进度条 + aurora 静态降级 */
 addEventListener('scroll', () => { const p = document.getElementById('progress'); const d = document.documentElement; p.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%'; }, { passive: true });
 </script>
+</body>
+</html>
+
 </body>
 </html>

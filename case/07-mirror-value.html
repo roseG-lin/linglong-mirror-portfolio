@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>玲珑职举 LongJob · 迷你流水线 · Remi 作品集</title>
+<title>玲珑镜面 Mirror · 声明即界面 · Remi 作品集</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <style>
 /* ============================================================
@@ -557,15 +557,16 @@ html.cc, html.cc * { cursor: none !important; }
 
 
 body{ background: hsl(var(--background)); }
-.case-hero h1, .case-hero .kicker, .case-nav-bar .cn-mid, .case-metrics .chip, .pn-nav .dir { font-family: var(--font-mono); }
-.case-nav-bar{ background: hsl(132 22% 5% / .9); border-bottom:1px solid hsl(var(--accent)/.25) }
-.case-nav-bar .cn-mid{ color:hsl(var(--accent)); letter-spacing:.22em }
-.demo-frame{ border-radius: 6px }
-.df-bar{ font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: hsl(var(--accent)) }
-.case-metrics .chip.acc{ border-color: hsl(var(--accent)/.5); color:hsl(var(--accent)); box-shadow: inset 0 0 12px hsl(var(--accent)/.08) }
-.pn-nav a{ border-radius: 6px }
-.pn-nav .ttl{ font-family: var(--font-mono) }
-.cc-go, .case-hero .kicker{ color: hsl(var(--accent)) }
+#aurora{ display:none }
+.case-nav-bar{ background: hsl(48 100% 96% / .94); border-bottom: 2px solid #111; }
+.case-hero h1{ letter-spacing:-.01em }
+.case-hero .kicker{ font-weight:700 }
+.demo-frame, .pn-nav a{ border:2px solid #111; border-radius:0; box-shadow: 3px 3px 0 #111; }
+.df-bar{ border-bottom:2px solid #111 }
+.case-metrics .chip{ border:1.5px solid #111; border-radius:0 }
+.case-metrics .chip.acc{ box-shadow:2px 2px 0 #111; font-weight:700 }
+.pn-nav a:hover{ box-shadow: 5px 5px 0 #111 }
+.case-nav-bar .cn-mid{ color:hsl(var(--accent)); font-weight:700 }
 
 
 .case-hero .kicker::after{ background: hsl(var(--accent)/.4) }
@@ -580,8 +581,8 @@ body{ background: hsl(var(--background)); }
 .df-bar{ color: hsl(var(--accent)) }
 .cc-go{ color: hsl(var(--accent)) }
 
-/* ===== 微差异皮肤：流水绿 · 仅 accent 色相专属（基础深空体系统一） ===== */
-:root{ --accent: 150 88% 52%; }
+/* ===== 微差异皮肤：引擎紫 · 仅 accent 色相专属（基础深空体系统一） ===== */
+:root{ --accent: 262 88% 69%; }
 </style>
 <style>
 /* 案例页专用补充 */
@@ -610,14 +611,14 @@ body{ background: hsl(var(--background)); }
 <div id="progress"></div>
 <nav class="case-nav-bar">
   <a href="../">← 目录</a>
-  <span class="cn-mid">CASE 08 / 08 · 求职流水线</span>
-  <a href="../">下一篇 →</a>
+  <span class="cn-mid">CASE 07 / 09 · 自适应界面</span>
+  <a href="08-shiyang-solver.html">下一篇 →</a>
 </nav>
 <header class="case-hero">
-  <p class="kicker">求职流水线</p>
-  <h1>玲珑职举 LongJob · 迷你流水线</h1>
-  <p class="tag">真实 JD 进去，11 强 2 中 1 缺出来。缺的那条不编造，开条产线补。本站就是它的 L3 产物。</p>
-  <div class="case-metrics"><span class="chip acc">L0–L5 FSM</span><span class="chip acc">40 纯标准库工具</span><span class="chip acc">518 测试 · 96% 覆盖</span><span class="chip acc">guardrails 三查</span></div>
+  <p class="kicker">自适应界面引擎</p>
+  <h1>玲珑镜面 Mirror · 声明即界面</h1>
+  <p class="tag">写一段功能意图声明，26 秒长出整个界面，每条决策带理由；14 套主题一键换肤带 AA 门禁；数据自带价值分层。三个核心切面都在里面。</p>
+  <div class="case-metrics"><span class="chip acc">声明→界面 ≈26s</span><span class="chip acc">14 套主题 · AA 门禁</span><span class="chip acc">553 测试</span><span class="chip acc">每条决策带理由</span></div>
 </header>
 <main class="case-body">
   <div class="demo-frame" style="margin-top:18px">
@@ -627,8 +628,8 @@ body{ background: hsl(var(--background)); }
     <div class="df-stage" id="stage"></div>
   </div>
   <div class="pn-nav">
-    <a href="07-shiyang-solver.html"><div class="dir">← 上一篇</div><div class="ttl">约束求解</div></a>
-    <a class="next" href="../"><div class="dir">读完整套 →</div><div class="ttl">回目录</div></a>
+    <a href="06-novel-engine.html"><div class="dir">← 上一篇</div><div class="ttl">小说引擎</div></a>
+    <a class="next" href="08-shiyang-solver.html"><div class="dir">下一篇 →</div><div class="ttl">约束求解</div></a>
     <a class="home" href="../">↩ 返回作品集目录</a>
   </div>
 </main>
@@ -645,56 +646,174 @@ function svgUse(id, size) { return '<svg class="icon" width="' + (size || 20) + 
 
 function toast(){}
 const DEMOS = {
-  'longjob-pipeline': {
+  'mirror-value': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-card" style="margin-bottom:20px"><div class="t">输入 · 真实 JD（公司在册，名称脱敏）</div>' +
-          '<p style="font-size:13px;line-height:1.8" class="muted">某 AI 科技公司 · AI 业务解决方案顾问（FDE）· 深圳 · 15-30K × 13薪 · 3-5 年。<br>客户业务场景拆解，输出可演示 AI 方案。要求 RAG / Agent 实战，ToB 汇报经验，电商语境加分。</p>' +
-          '<button class="btn btn-primary" data-run style="margin-top:16px">运行 L0 → L2</button>' +
+        '<div class="demo-head"><p>镜面 = 自适应界面设计引擎：Skill 只声明功能意图与数据，自动获得界面——每条设计决策带人话理由，换肤带门禁。三个核心切面 ↓</p></div>' +
+        '<div class="chips" style="margin-bottom:14px" data-tabs><span class="chip on" data-t="0">① 声明 → 界面</span><span class="chip" data-t="1">② 一键换肤 · 门禁</span><span class="chip" data-t="2">③ 价值感知数据层</span></div>' +
+        '<div data-pane="0"></div><div data-pane="1" style="display:none"></div><div data-pane="2" style="display:none"></div>';
+
+      const panes = $$('[data-pane]', stage);
+      $$('[data-tabs] .chip', stage).forEach(c => c.addEventListener('click', () => {
+        $$('[data-tabs] .chip', stage).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        panes.forEach(p => p.style.display = 'none');
+        panes[+c.dataset.t].style.display = '';
+        if (+c.dataset.t === 0) playGen();
+      }));
+
+      /* ---------- Pane 0：声明 → 界面（26 秒实测） ---------- */
+      const p0 = panes[0];
+      p0.innerHTML =
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">module.yaml · 功能意图声明</div>' +
+            '<pre class="mono" style="font-size:11px;line-height:1.75;margin:8px 0;white-space:pre-wrap">intent:<br>  type: dashboard<br>  role: 实验室设备管理<br>views:<br>  - stat: { 设备在线率, 在线/总数 }<br>  - table: { 台账, 字段: [设备,状态,负责人] }<br>actions:<br>  - { 报修, confirm: true }<br>  - { 报废, danger: true }</pre>' +
+            '<button class="chip acc" data-gen style="width:100%;justify-content:center">▶ 生成界面（实测 26 秒）</button></div>' +
+          '<div class="demo-card" data-out><div class="t">自动生成的界面 <span class="muted" style="font-size:10px;font-family:var(--font-mono)">零前端代码</span></div><div data-canvas style="margin-top:8px;min-height:230px"></div></div>' +
         '</div>' +
-        '<div class="rag-pipe" style="max-width:none">' +
-          '<div class="rag-node"><span class="st">L0</span><div class="bd"><div class="t">JD 解析</div><div class="d">提取能力词 + 硬门槛 + 隐性信号</div></div><span class="n"></span></div>' +
-          '<div data-o0></div>' +
-          '<div class="rag-node"><span class="st">L1</span><div class="bd"><div class="t">命中映射</div><div class="d">能力词 × J0 画像 × J1 矩阵 → 逐条评级</div></div><span class="n"></span></div>' +
-          '<div data-o1></div>' +
-          '<div class="rag-node"><span class="st">L2</span><div class="bd"><div class="t">简历定制</div><div class="d">量化句动词开头 · guardrails 三查</div></div><span class="n"></span></div>' +
-          '<div data-o2></div>' +
+        '<div class="demo-note">验收标准①端到端实测：全新 Skill「实验室报修」从手写声明到界面可用+调优闭环 <b>≈26 秒</b>（声明 199ms + 启动 25.5s + 调优 384ms）——已固化为回归资产 standard1-e2e</div>';
+
+      const reasons = [
+        ['检测到 intent.type = dashboard', '指标卡置顶，主数据表居中——六类布局模板自动匹配'],
+        ['台账字段含 状态/负责人', '表格主区渲染，类型感知单元格（状态色点）'],
+        ['「报废」声明 danger: true', '危险行动自动设防——二次确认门，理由留痕入 audit.jsonl'],
+        ['方案生成完毕', '每条决策可展开追溯；人工调优写入品味档案，下次生成自动反映'],
+      ];
+      const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+      let genPlayed = false;
+      async function playGen() {
+        if (genPlayed) return; genPlayed = true;
+        const cv = $('[data-canvas]', p0);
+        cv.innerHTML = '';
+        const step = async (html, why) => {
+          const b = document.createElement('div');
+          b.innerHTML = html + (why ? '<div class="muted mono" style="font-size:9.5px;margin:6px 0 10px;border-left:2px solid hsl(var(--accent));padding-left:8px;color:hsl(var(--accent))">✓ ' + why[0] + ' — ' + why[1] + '</div>' : '');
+          cv.appendChild(b.firstElementChild);
+          await sleep(420);
+        };
+        await step('<div style="display:flex;gap:8px"><div style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:10px"><div class="mono" style="font-size:9px;color:hsl(var(--muted-foreground))">设备在线率</div><b style="font-size:1.3em">97.4%</b><span class="mono" style="font-size:9px;color:hsl(var(--ok))"> ▲</span></div><div style="flex:1;background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:10px"><div class="mono" style="font-size:9px;color:hsl(var(--muted-foreground))">报修单</div><b style="font-size:1.3em">3</b> <span class="mono" style="font-size:9px">今日</span></div></div>', reasons[0]);
+        await step('<div style="background:hsl(var(--surface-2));border:1px solid hsl(var(--border));border-radius:8px;padding:8px 10px;font-size:11px">离心机 <span style="color:hsl(var(--warn))">●维修中</span> · 张工 &nbsp;|&nbsp; 光谱仪 <span style="color:hsl(var(--ok))">●在线</span> · 李研 &nbsp;|&nbsp; 烘箱 <span style="color:hsl(var(--ok))">●在线</span> · 王静</div>', reasons[1]);
+        await step('<div style="display:flex;gap:8px"><button style="flex:none;font-size:11px;padding:5px 10px;border-radius:6px;background:hsl(var(--accent));color:#fff">报 修</button><button style="flex:none;font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid hsl(var(--danger));color:hsl(var(--danger))">报废 ⚠</button><span class="muted" style="font-size:10px;align-self:center">报废触发确认门 → 理由留痕</span></div>', reasons[2]);
+        await step('<div class="mono" style="text-align:center;font-size:10px;color:hsl(var(--ok));border:1px dashed hsl(var(--ok));border-radius:6px;padding:6px">— 设计依据 4 条可追溯 · 调优已记入品味档案 —</div>', reasons[3]);
+        const btn = $('[data-gen]', p0);
+        if (btn) btn.textContent = '↻ 重新生成';
+        genPlayed = false;
+      }
+      $('[data-gen]', p0).addEventListener('click', () => { genPlayed = false; playGen(); });
+      playGen();
+
+      /* ---------- Pane 1：一键换肤 + 门禁 ---------- */
+      const p1 = panes[1];
+      const THEMES = {
+        ink:    { label: '墨韵赛博', bg:'#151719', surf:'#1e2226', ink:'#e8e6e1', acc:'#c0392b', bord:'#39404a', rad:'8px',  font:'serif',   extra:'' },
+        neubru: { label: '新野兽派', bg:'#FFFDF0', surf:'#ffffff', ink:'#111111', acc:'#F26100', bord:'#111111', rad:'0px',  font:'mono',    extra:'border:2px solid #111;box-shadow:3px 3px 0 #111;' },
+        glass:  { label: '琉璃空间', bg:'#0b1020', surf:'rgba(255,255,255,.07)', ink:'#eef2ff', acc:'#7aa8ff', bord:'rgba(255,255,255,.18)', rad:'14px', font:'sans', extra:'backdrop-filter:blur(8px);box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 8px 24px rgba(0,0,0,.35);' },
+        term:   { label: '终端行动', bg:'#0a0f0a', surf:'#101810', ink:'#c8f5c8', acc:'#4af04a', bord:'#2a3a2a', rad:'4px',  font:'mono',    extra:'' },
+      };
+      p1.innerHTML =
+        '<div class="chips" style="margin-bottom:12px" data-themes>' +
+          Object.entries(THEMES).map(([k, t], i) => '<span class="chip' + (i ? '' : ' on') + '" data-k="' + k + '">' + t.label + '</span>').join('') +
         '</div>' +
-        '<div class="demo-note">真实链路产物 9 个文件在册（托举/云阁-AISolFDE-20260905）· 40 个纯标准库工具 · 368 测试 · 本站 = 它的 L3 产物</div>';
-      $('[data-run]', stage).addEventListener('click', ev => {
-        ev.target.disabled = true;
-        const nodes = $$('.rag-node', stage);
-        const wait = ms => new Promise(r => setTimeout(r, REDUCED ? 60 : ms));
-        const done = (n, txt) => { nodes[n].classList.remove('run'); nodes[n].classList.add('done'); nodes[n].querySelector('.st').textContent = '✓'; nodes[n].querySelector('.n').textContent = txt; };
-        (async () => {
-          nodes[0].classList.add('run');
-          await wait(500);
-          done(0, '6 个能力词');
-          $('[data-o0]', stage).innerHTML = '<div class="chips" style="margin:4px 0 12px 44px"><span class="chip">业务场景拆解</span><span class="chip">可演示方案</span><span class="chip">RAG 实战</span><span class="chip">Agent 实战</span><span class="chip">ToB 汇报</span><span class="chip">电商语境</span></div>';
-          nodes[1].classList.add('run');
-          await wait(650);
-          done(1, '11 ✅ · 2 🟡 · 1 ✗');
-          $('[data-o1]', stage).innerHTML =
-            '<div style="margin:4px 0 12px 44px;font-size:13px;line-height:2">' +
-            '<div><span class="verdict ok">✅ 强</span> 业务场景拆解 ← 90 万项目全链</div>' +
-            '<div><span class="verdict ok">✅ 强</span> ToB 汇报 ← 80+ 场项目汇报</div>' +
-            '<div><span class="verdict ok">✅ 强</span> Agent 实战 ← 玲珑矩阵 12+ 产品</div>' +
-            '<div><span class="verdict ok">✅ 命中</span> RAG 实战 ← 1529 向量点实测</div>' +
-            '<div><span class="verdict warn">🟡 中</span> 可演示方案 ← Demo 在，补包装话术</div>' +
-            '<div><span class="verdict bad">✗ 缺</span> 电商语境 ← 不编造，L4 开条电商 Demo 产线补语境</div></div>';
-          nodes[2].classList.add('run');
-          await wait(650);
-          done(2, '三查全过');
-          $('[data-o2]', stage).innerHTML =
-            '<div class="rag-result on" style="margin:4px 0 12px 44px"><b>简历 bullet：</b>主导 <b>90 万级</b>指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。' +
-            '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><span class="verdict ok">✓ 红线查</span><span class="verdict ok">✓ 不编造查</span><span class="verdict ok">✓ 防堆砌查</span></div></div>';
-        })();
+        '<div data-panel style="padding:14px;border-radius:12px;border:1px solid;transition:all .22s cubic-bezier(.2,.8,.2,1)">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center"><b data-t1 style="font-size:13px">设备总览 · 实验室</b><span data-t2 class="mono" style="font-size:9px;opacity:.65">intent: dashboard</span></div>' +
+          '<div style="display:flex;gap:8px;margin-top:10px">' +
+            '<div data-card style="flex:1;padding:9px 10px;border-radius:8px"><div data-l1 style="font-size:9px;opacity:.6">在线率</div><b data-v1 style="font-size:1.15em">97.4%</b></div>' +
+            '<div data-card style="flex:1;padding:9px 10px;border-radius:8px"><div data-l1 style="font-size:9px;opacity:.6">待报修</div><b data-v1 style="font-size:1.15em">3</b></div>' +
+          '</div>' +
+          '<div data-card style="margin-top:8px;padding:8px 10px;border-radius:8px;font-size:11px">离心机 · <span data-acc>维修中</span> ｜ 光谱仪 · 在线</div>' +
+          '<div style="margin-top:10px"><span data-btn style="display:inline-block;font-size:11px;padding:5px 12px;border-radius:6px">生成报修单</span></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px" data-gates>' +
+          ['AA 对比度 · 实算通过', '动效 120–240ms 政策带', '视觉回归 ≤1%', 'console 零泄漏', '553 项测试'].map((g, i) =>
+            '<span class="mono" data-gate style="font-size:9.5px;padding:4px 9px;border-radius:99px;border:1px solid hsl(var(--ok));color:hsl(var(--ok));opacity:' + (i === 0 ? 1 : 0) + ';transition:opacity .3s">✓ ' + g + '</span>').join('') +
+        '</div>' +
+        '<div class="demo-note">主题 ≠ 换颜色：三层 token 树（原始→语义→组件）整套切换 + 治理门禁——manifest 自检 AA 对 WCAG 实算、动效政策带、像素差回归；风格词路由「换成新野兽派风格」即换肤；token 出口反向导出五段式设计规范（口岸双通，回流验收 100% 抓漂移）</div>';
+
+      function applyTheme(k) {
+        const t = THEMES[k];
+        const P1 = $('[data-panel]', p1);
+        P1.style.cssText += ';background:' + t.bg + ';border-color:' + t.bord + ';border-radius:' + t.rad + ';' + t.extra;
+        $$('[data-card]', p1).forEach(c => { c.style.background = t.surf; c.style.border = '1px solid ' + t.bord; });
+        $$('[data-l1]', p1).forEach(x => x.style.color = t.ink);
+        $$('[data-v1]', p1).forEach(x => { x.style.color = t.ink; x.style.fontFamily = t.font === 'mono' ? 'var(--font-mono)' : t.font === 'serif' ? 'var(--font-display)' : 'inherit'; });
+        $('[data-t1]', p1).style.color = t.ink;
+        const btn = $('[data-btn]', p1);
+        btn.style.background = t.acc; btn.style.color = (k === 'neubru' ? '#fff' : '#0b0b0b');
+        if (k === 'neubru') { btn.style.border = '2px solid #111'; btn.style.boxShadow = '2px 2px 0 #111'; btn.style.borderRadius = '0'; } else { btn.style.border = 'none'; btn.style.boxShadow = 'none'; btn.style.borderRadius = '6px'; }
+        $('[data-acc]', p1).style.color = t.acc;
+        // 门禁徽章逐个点亮（模拟 manifest 自检）
+        const gates = $$('[data-gate]', p1);
+        gates.forEach(g => g.style.opacity = 0);
+        gates.forEach((g, i) => setTimeout(() => { g.style.opacity = 1; }, 160 * (i + 1)));
+      }
+      $$('[data-themes] .chip', p1).forEach(c => c.addEventListener('click', () => {
+        $$('[data-themes] .chip', p1).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        applyTheme(c.dataset.k);
+      }));
+      applyTheme('ink');
+
+      /* ---------- Pane 2：价值感知（原 demo 保留，微调结构） ---------- */
+      const p2 = panes[2];
+      p2.innerHTML =
+        '<div class="demo-grid">' +
+          '<div class="demo-card"><div class="t">价值因子</div>' +
+            '<div class="demo-row"><label>数据层级</label><div class="chips" data-g="l"><span class="chip on" data-l="1.0">核心层 1.0</span><span class="chip" data-l="0.6">近期层 0.6</span><span class="chip" data-l="0.2">归档层 0.2</span></div></div>' +
+            '<div class="demo-row"><label>更新于 <b><span data-v-d>1</span> 天前</b></label><input type="range" min="0" max="60" value="1" data-r-d aria-label="天数"><div class="muted mono" style="font-size:10px;margin-top:4px">recency = e^(-days/30) ≈ <span data-v-r>0.97</span></div></div>' +
+            '<div class="demo-row"><label>被钻取 <b><span data-v-f>3</span> 次</b></label><input type="range" min="0" max="10" value="3" data-r-f aria-label="钻取次数"></div>' +
+            '<div style="margin-top:20px"><div class="muted" style="font-size:11px;font-family:var(--font-mono);letter-spacing:0.1em">VALUE</div><div class="val-big" data-v-val>1.26</div></div>' +
+          '</div>' +
+          '<div>' +
+            '<div class="val-card hot" data-card style="cursor:pointer" title="点击钻取">' +
+              '<div style="display:flex;justify-content:space-between;align-items:baseline"><b>系统性框架思维</b><span class="chip acc" data-state>醒目展示</span></div>' +
+              '<p class="muted" style="font-size:13px;margin-top:8px">置信度 0.8 · 来源：第二大脑核心层<br>「自主提出四阶段 Skill 框架」 <span class="mono" style="font-size:10px;color:hsl(var(--accent))">点击钻取 ▾</span></p>' +
+              '<div data-drill style="display:none;margin-top:12px;border-top:1px dashed hsl(var(--border));padding-top:10px">' +
+                '<div class="muted mono" style="font-size:10px;letter-spacing:0.14em;margin-bottom:6px">钻取 · 置信度演化时间线</div>' +
+                '<svg viewBox="0 0 220 44" style="width:100%;height:44px;display:block"><polyline points="2,36 75,27 148,11 218,6" fill="none" stroke="hsl(var(--accent))" stroke-width="1.5"/><circle cx="2" cy="36" r="2.5" fill="hsl(var(--muted-foreground))"/><circle cx="75" cy="27" r="2.5" fill="hsl(var(--muted-foreground))"/><circle cx="148" cy="11" r="2.5" fill="hsl(var(--accent))"/><circle cx="218" cy="6" r="2.5" fill="hsl(var(--accent))"/></svg>' +
+                '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:hsl(var(--muted-foreground))"><span>0.2 · 初判</span><span>0.4 · 复谈</span><span>0.8 · 多源确认</span></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="demo-kpis" style="margin-top:16px">' +
+              '<div class="demo-kpi"><div class="v" style="font-size:1rem">&gt; 0.8</div><div class="l">醒目：大图置顶默认展开</div></div>' +
+              '<div class="demo-kpi"><div class="v" style="font-size:1rem">0.3 – 0.8</div><div class="l">正常：标准尺寸</div></div>' +
+              '<div class="demo-kpi"><div class="v" style="font-size:1rem">&lt; 0.3</div><div class="l">折叠：灰化默认隐藏</div></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="demo-note">五层架构的数据层：value = layer × recency × (1 + frequency × 0.1)（MemLens / Local-first 论文依据）· X-ray 安全数据零适配直通消费，171 测试零回退</div>';
+      let layer = 1.0;
+      const calc = () => {
+        const d = +$('[data-r-d]', p2).value, f = +$('[data-r-f]', p2).value;
+        const rec = Math.exp(-d / 30);
+        const v = layer * rec * (1 + f * 0.1);
+        $('[data-v-d]', p2).textContent = d;
+        $('[data-v-f]', p2).textContent = f;
+        $('[data-v-r]', p2).textContent = rec.toFixed(2);
+        $('[data-v-val]', p2).textContent = v.toFixed(2);
+        const card = $('[data-card]', p2), st = $('[data-state]', p2);
+        card.classList.remove('hot', 'dim');
+        if (v > 0.8) { card.classList.add('hot'); st.textContent = '醒目展示'; }
+        else if (v >= 0.3) { st.textContent = '正常展示'; }
+        else { card.classList.add('dim'); st.textContent = '折叠隐藏'; }
+      };
+      $$('.chips .chip', p2).forEach(c => c.addEventListener('click', () => {
+        $$('.chip', c.parentElement).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        layer = +c.dataset.l;
+        calc();
+      }));
+      $('[data-r-d]', p2).addEventListener('input', calc);
+      $('[data-r-f]', p2).addEventListener('input', calc);
+      $('[data-card]', p2).addEventListener('click', () => {
+        const d = $('[data-drill]', p2);
+        d.style.display = d.style.display === 'none' ? 'block' : 'none';
       });
+      calc();
     },
   },
 };
 const stage = document.getElementById('stage');
-const run = () => { stage.innerHTML = ''; try { DEMOS['longjob-pipeline'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+const run = () => { stage.innerHTML = ''; try { DEMOS['mirror-value'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
 document.getElementById('resetBtn').addEventListener('click', run);
 run();
 /* 进度条 + aurora 静态降级 */
