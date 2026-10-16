@@ -8,9 +8,9 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:#e8e4de}
 body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Liberation Sans",Arial,sans-serif;
-color:#232019;font-size:13px;line-height:1.7;background:#e8e4de;
+color:#232019;font-size:12.5px;line-height:1.55;background:#e8e4de;
 -webkit-print-color-adjust:exact;print-color-adjust:exact}
-.sheet{width:210mm;min-height:296mm;margin:6mm auto;background:#fdfcf9;
+.sheet{width:210mm;min-height:290mm;margin:6mm auto;background:#fdfcf9;
 display:flex;box-shadow:0 2px 18px rgba(35,32,25,.14)}
 @media print{html,body{background:#fff}.sheet{margin:0;box-shadow:none}}
 .side{width:66mm;flex:none;background:#132e2b;color:#eceadf;
@@ -38,39 +38,39 @@ text-align:center}
 .side-foot{margin-top:7mm;padding-top:4mm;border-top:1px dashed #25443f;
 font-size:9.5px;color:#8b968c;line-height:1.6}
 .main{flex:1;padding:12mm 11mm 9mm;position:relative}
-h1{font-size:31px;font-weight:700;line-height:1.15}
+h1{font-size:28px;font-weight:700;line-height:1.1}
 .role{font-size:13.5px;color:#2a8f80;font-weight:600;margin-top:3px}
-.tagline{font-size:12px;color:#6e6759;margin-top:6px}
-.contact-row{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;
-padding-top:8px;border-top:1px solid #e6e1d4}
+.tagline{font-size:11.5px;color:#6e6759;margin-top:4px}
+.contact-row{display:flex;flex-wrap:wrap;gap:3px 14px;margin-top:6px;
+padding-top:6px;border-top:1px solid #e6e1d4}
 .contact-row span{font-size:10.5px;color:#6e6755}
-section{margin-top:8.5mm}
+section{margin-top:5.5mm}
 h2{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
 h2::before{content:"";width:9px;height:9px;background:#2a8f80}
 h2::after{content:"";flex:1;height:1px;background:#e2ddcd}
-.job{margin-top:7px}
+.job{margin-top:5px}
 .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .job-head h3{font-size:13.5px;font-weight:700}
 .job-head h3 em{font-style:normal;font-weight:400;color:#6e6759}
 .job-head .d{font-size:11px;color:#2a8f80;font-weight:600;white-space:nowrap}
-ul.pts{list-style:none;margin-top:4px}
-ul.pts li{padding-left:13px;position:relative;margin:4.5px 0;font-size:12.5px}
-ul.pts li::before{content:"";position:absolute;left:0;top:8px;width:5px;
+ul.pts{list-style:none;margin-top:3px}
+ul.pts li{padding-left:12px;position:relative;margin:2.5px 0;font-size:11.8px}
+ul.pts li::before{content:"";position:absolute;left:0;top:6px;width:5px;
 height:5px;background:#2a8f80}
 ul.pts li b{color:#232019}
-.works{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
-.work{border:1px solid #e2ddcd;border-radius:5px;padding:8px 10px;background:#faf8f2}
+.works{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:5px}
+.work{border:1px solid #e2ddcd;border-radius:5px;padding:6px 9px;background:#faf8f2}
 .work b{font-size:12px;display:block}
 .work span{font-size:10.5px;color:#6e6759;line-height:1.5;display:block;margin-top:2px}
-.work-link{margin-top:8px;background:#eaf5f2;border:1px solid #c2e0da;border-radius:6px;
+.work-link{margin-top:6px;background:#eaf5f2;border:1px solid #c2e0da;border-radius:6px;
 padding:8px 12px;font-size:11.5px;color:#207064;display:flex;align-items:center;gap:8px}
 .work-link b{font-weight:700}
 .work-link .u{font-family:Consolas,Menlo,monospace;font-size:10.5px;color:#2a8f80;
 word-break:break-all}
-.edu{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;
-font-size:12.5px}
+.edu{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px;
+font-size:11.8px}
 .edu .d{font-size:11px;color:#6e6759}
-.traits{margin-top:5px;font-size:12px;color:#454136}
+.traits{margin-top:4px;font-size:11.5px;color:#454136}
 .traits b{color:#2a8f80;font-weight:600}
 </style>
 </head>
@@ -113,11 +113,11 @@ font-size:12.5px}
     <section>
       <h2>核心技能</h2>
       <ul class="pts">
-        <li><b>RAG 检索全链路</b>：Qdrant 二进制 + BGE 本地模型自建栈，解析切片 → 混合检索重排 → Agentic 自纠错，配自动化评测管线（Eval Pipeline）</li>
-        <li><b>Agent 与 MCP 协议封装</b>：MCP 统一接入外部工具；Agent / Workflow / 知识库 / 自动化全栈</li>
-        <li><b>Python / TypeScript 全栈</b>：后端 → 前端 → 可交互 DEMO → 部署上线，一人全链交付</li>
-        <li><b>TDD 自动化测试</b>：职举 <b>518 测试 / 96% 覆盖</b>，食养 <b>448 测试 / 94% 覆盖</b>，镜面 <b>171 测试零回退</b></li>
-        <li><b>大模型脱敏与幻觉抑制</b>：LLM 内核 + 三道确定性护栏，电商评测风险漏网 <b>0/8</b>、误拦 <b>0</b></li>
+        <li><b>RAG 检索全链路</b>：Qdrant + BGE 本地自建栈，混合重排 + Agentic 自纠错 + 评测管线</li>
+        <li><b>Agent 与 MCP 封装</b>：统一协议接入工具；Agent / Workflow / 知识库全栈</li>
+        <li><b>Python / TS 全栈</b>：后端 → 前端 → DEMO → 部署，一人全链交付</li>
+        <li><b>TDD 自动化测试</b>：职举 <b>518 / 96%</b>，食养 <b>448 / 94%</b>，镜面 <b>171 零回退</b></li>
+        <li><b>脱敏与幻觉抑制</b>：三道确定性护栏，评测风险漏网 <b>0/8</b>、误拦 <b>0</b></li>
       </ul>
     </section>
     <section>
