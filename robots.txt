@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+
+# 显式放行主流 AI 搜索与大模型检索爬虫 (GEO 关键配置)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+Sitemap: https://www.remifei.cn/sitemap.xml

@@ -3,9 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Remi · AI 售前 / 解决方案工程师。会造 AI 产品，也会卖方案。1300+ 家公司培训 · 90 万级项目 · 13 款玲珑系列产品 · 全部战绩可溯源。">
-<title>Remi · 会造 AI 产品，也会卖方案</title>
+<meta name="description" content="林润基(Remi Lin)个人作品集：18个月B端政企售前经验(1300+家客户交付)，独立交付20+套企业级AI系统原型（潮汛跨境货代Agent平台、119份文件RAG全链路、玲珑秘库隐私安全隔离、玲珑之眼视频产线），4000+项自动化测试保障。">
+<meta name="keywords" content="林润基, Remi Lin, 玲珑AI, remifei, AI解决方案工程师, 售前工程师, 前线AI交付工程师, FDE, 潮汛货代平台, 玲珑秘库, 企业级RAG, MCP Agent, 深圳AI求职">
+<meta name="author" content="林润基 (Remi Lin)">
+<title>林润基 | AI 解决方案工程师 · 政企售前与可交互作品集</title>
+<link rel="canonical" href="https://www.remifei.cn/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.remifei.cn/">
+<meta property="og:title" content="林润基 | AI 解决方案工程师 · 在线可交互作品集">
+<meta property="og:description" content="18个月政企大客户售前 × 20+套企业级AI原型交付（货代Agent提效60% / 119文件RAG实测 / 隐私安全零外泄），点击直达实机演示。">
+<meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="林润基 | AI 解决方案工程师 · 在线可交互作品集">
+<meta name="twitter:description" content="18个月政企大客户售前 × 20+套企业级AI原型交付，点击直达实机演示。">
+<meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<!-- GEO 核心：JSON-LD 结构化知识图谱，供 AI 搜索引擎直接提取实体关系 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "林润基",
+    "alternateName": "Remi Lin",
+    "jobTitle": "AI 解决方案工程师 / 技术售前专家",
+    "url": "https://www.remifei.cn",
+    "email": "2782084545@qq.com",
+    "telephone": "+86-13538851689",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "深圳市",
+      "addressRegion": "广东省",
+      "addressCountry": "CN"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "全日制本科 · 通信工程"
+    },
+    "worksFor": [
+      {
+        "@type": "Organization",
+        "name": "玲珑 AI 行业应用工作室",
+        "description": "AI 解决方案顾问与独立交付工程师，交付 20+ 套企业级 AI 原型系统，覆盖 4000+ 项自动化测试"
+      },
+      {
+        "@type": "Organization",
+        "name": "广东保伦电子 (ITC)",
+        "description": "音视频行业售前工程师，负责 90 万级政企指挥大厅与 60 万级企业大楼智能化项目，累计 80+ 场汇报与 1300+ 家客户培训"
+      }
+    ],
+    "knowsAbout": ["AI 解决方案售前", "政企招投标答辩", "Enterprise Agent", "MCP 协议", "RAG 全链路优化", "大模型隐私安全脱敏", "AI Coding TDD 交付"]
+  }
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -572,6 +625,28 @@ html.cc, html.cc * { cursor: none !important; }
   .case-card { padding: 16px 16px 14px; }
   .case-nav { grid-template-columns: 1fr 1fr !important; }
 }
+.case-fold { margin-top: 18px; border: 1px dashed hsl(var(--border)); border-radius: 14px; background: hsl(var(--surface) / .3); }
+.case-fold summary { cursor: pointer; padding: 16px 22px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: hsl(var(--muted-foreground)); list-style: none; display: flex; align-items: center; gap: 10px; }
+.case-fold summary::-webkit-details-marker { display: none; }
+.case-fold summary::before { content: '＋'; color: hsl(var(--accent)); font-size: 14px; }
+.case-fold[open] summary::before { content: '－'; }
+.case-fold summary:hover { color: hsl(var(--foreground)); }
+.case-fold .case-grid { padding: 4px 22px 20px; margin-top: 0; }
+.case-fold .case-card { background: hsl(var(--surface) / .4); }
+.case-fold .case-card .case-title { font-size: 1.05rem; }
+
+/* ============ 极速索引（静态语义层） ============ */
+.qi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.qi-card { border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 18px 20px 14px; background: hsl(var(--surface) / .45); }
+.qi-card h3 { font-size: 1.05rem; }
+.qi-card h3 a { color: hsl(var(--foreground)); border-bottom: 1px solid hsl(var(--accent) / .4); }
+.qi-card h3 a:hover { color: hsl(var(--accent)); }
+.qi-card p { font-size: 13px; line-height: 1.75; color: hsl(var(--muted-foreground)); margin-top: 6px; }
+.qi-card p a { color: hsl(var(--foreground) / .85); border-bottom: 1px dotted hsl(var(--border)); }
+.qi-card p a:hover { color: hsl(var(--accent)); }
+.qi-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: hsl(var(--accent) / .85); text-transform: uppercase; }
+.qi-card.qi-more { grid-column: 1 / -1; }
+@media (max-width: 720px) { .qi-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -694,11 +769,11 @@ html.cc, html.cc * { cursor: none !important; }
   <!-- T3 转场 · 星光掠屏（星座发光节点 → Demo LIVE 圆点） -->
   <div class="xf" aria-hidden="true"><div class="xf-comet"></div></div>
 
-  <!-- ============ S3 旗舰案例（JS 渲染） ============ -->
+  <!-- ============ S3 旗舰案例（JS 渲染 · 四大 B 端旗舰优先 + 工程样本折叠） ============ -->
   <section class="section" id="cases" style="padding-top:0">
-    <p class="kicker rv">03 · 旗舰案例 · 全部可现场运行</p>
-    <h2 class="sec-title rv">六个案例，<br>每案一页，直接跑给你看。</h2>
-    <p class="sec-lede rv">每个案例独立成页：进去就是可交互 DEMO + 完整口径，底部上一篇/下一篇连着逛。手机上不用再无尽下滑。</p>
+    <p class="kicker rv">03 · B 端旗舰案例 · 全部可现场运行</p>
+    <h2 class="sec-title rv">四大 B 端旗舰，<br>每案一页，直接跑给你看。</h2>
+    <p class="sec-lede rv">潮汛货代自动化 · 企业级 RAG · 大模型隐私隔离 · AIGC 视频产线——每案独立成页：进去就是可交互 DEMO + 完整口径。另有 5 个工程样本折叠在后，供深挖。</p>
     <div id="caseList"></div>
   </section>
 
@@ -710,6 +785,44 @@ html.cc, html.cc * { cursor: none !important; }
     <p class="kicker rv">04 · 其余在研</p>
     <h2 class="sec-title rv">矩阵的另一半。</h2>
     <div class="more-grid" id="moreGrid"></div>
+  </section>
+
+  <!-- ============ S4b 极速索引（静态语义层 · 供 AI 检索引擎与无 JS 访客直达全站） ============ -->
+  <section class="section" id="quickindex" style="padding-top:0">
+    <p class="kicker rv">04b · QUICK INDEX</p>
+    <h2 class="sec-title rv">一屏索引，全站直达。</h2>
+    <p class="sec-lede rv">林润基（Remi Lin）· AI 解决方案工程师 / 技术售前专家 · 现居深圳。给赶时间的访客，也给 AI 检索引擎：以下每行都是真实可跑的工程，点击直达实机演示。</p>
+    <div class="qi-grid">
+      <article class="qi-card">
+        <h3><a href="case/01-huodai-platform.html">潮汛 · 跨境货代自动化平台</a></h3>
+        <p class="qi-tag">行业落地 · MCP Agent · 2800+ 测试</p>
+        <p>订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 AI Agent 调用；单封业务邮件处理 5 分钟 → 1–2 分钟（提效约 60%），发送环节人工确认（Human-in-the-loop）。</p>
+      </article>
+      <article class="qi-card">
+        <h3><a href="case/02-rag-pipeline.html">企业级 RAG 全链路 · 四模式对比</a></h3>
+        <p class="qi-tag">检索增强 · 119 文件实测 · 评测管线</p>
+        <p>119 份真实业务文件建库实测：文档解析切片 → 向量检索 → 混合检索重排 → Agentic 自纠错，配套自动化评测管线，实测命中率 4/5 → 5/5。</p>
+      </article>
+      <article class="qi-card">
+        <h3><a href="case/03-miku-privacy.html">玲珑秘库 · 大模型隐私安全隔离</a></h3>
+        <p class="qi-tag">政企合规 · 端到端脱敏 · 外泄 0</p>
+        <p>使用端与接收端可见真实业务数据，云端大模型仅见加密占位符——政企安全使用公有云大模型的零泄密前提，7/7 场景验收通过。</p>
+      </article>
+      <article class="qi-card">
+        <h3><a href="case/04-reyes-video.html">玲珑之眼 · AIGC 视频自动化产线</a></h3>
+        <p class="qi-tag">内容生产自动化 · v8 · 222 测试</p>
+        <p>讲稿进、成片出：白板动画、配音、字幕、合成全自动流水线，迭代至 v8，166 秒实测成片，五站每站可测。</p>
+      </article>
+      <article class="qi-card qi-more">
+        <h3>更多工程样本（点开「旗舰案例」折叠区，或直接直达）</h3>
+        <p><a href="case/05-yisheng-engine.html">爻胜 · 赛事预测统计引擎</a>（913 场校准 · 回测 61.9%）· <a href="case/06-novel-engine.html">玲珑小说引擎</a>（2499 测试质量门）· <a href="case/07-mirror-value.html">玲珑镜面</a>（声明即界面 · 14 主题）· <a href="case/08-shiyang-solver.html">玲珑食养</a>（约束求解 · 448 测试）· <a href="case/09-longjob-pipeline.html">玲珑职举</a>（求职流水线 · 518 测试）</p>
+      </article>
+      <article class="qi-card">
+        <h3><a href="./os/">RemiOS 桌面宇宙 · 关于我</a></h3>
+        <p class="qi-tag">交互式履历 · 真实生活相册 · 频道</p>
+        <p>可拖窗口、可敲命令的桌面级交互履历：简介、工作经历、频道与真实生活相册。联系方式：135 3885 1689 · 2782084545@qq.com。</p>
+      </article>
+    </div>
   </section>
 
   <!-- T5 转场 · 散字成句（卡片关键词 → 宣言） -->
@@ -809,10 +922,17 @@ html.cc, html.cc * { cursor: none !important; }
 
 <noscript>
   <div style="position:fixed;inset:0;background:#060F18;color:#F9FAFB;padding:40px;font-family:sans-serif;overflow:auto;z-index:999;">
-    <h1>Remi · AI 售前 / 解决方案工程师</h1>
-    <p>深圳/广州 · 一周内到岗 · 2 年售前 × AI Coding 实战</p>
-    <ul><li>培训 1300+ 家公司 · 80+ 项目汇报 · 20+ 验收答辩 · 90 万级项目主导</li>
-    <li>独立构建 13+ 玲珑系列产品 · RAG 全链路 119 文件 724s 建库 5 问 4 中</li></ul>
+    <h1>林润基 (Remi Lin) · AI 解决方案工程师 / 技术售前专家</h1>
+    <p>深圳 · 一周内到岗 · 18 个月 B 端政企售前 × AI 应用工程化独立交付</p>
+    <ul>
+      <li>培训 1300+ 家公司 · 80+ 场项目汇报 · 20+ 场验收答辩 · 90 万级政企项目主导</li>
+      <li>独立交付 20+ 套企业级 AI 原型（POC），全线 TDD 验收，累计 4000+ 项自动化测试</li>
+      <li><a style="color:#0DA2E7" href="case/01-huodai-platform.html">潮汛 · 跨境货代自动化平台</a>（MCP Agent · 提效约 60% · 2800+ 测试）</li>
+      <li><a style="color:#0DA2E7" href="case/02-rag-pipeline.html">企业级 RAG 全链路</a>（119 文件实测 · 命中 4/5 → 5/5）</li>
+      <li><a style="color:#0DA2E7" href="case/03-miku-privacy.html">玲珑秘库 · 大模型隐私安全隔离</a>（外泄风险 0 · 验收 7/7）</li>
+      <li><a style="color:#0DA2E7" href="case/04-reyes-video.html">玲珑之眼 · AIGC 视频产线</a>（v8 · 222 测试 · 166s 成片）</li>
+      <li>联系：13538851689 · 2782084545@qq.com</li>
+    </ul>
     <p>（启用 JavaScript 查看完整发布会现场）</p>
   </div>
 </noscript>
@@ -1273,14 +1393,23 @@ const CASEFILE = {"huodai-mask": "01-huodai-platform.html", "rag-pipeline": "02-
 $('#caseList').innerHTML =
   '<div class="case-nav rv">' + CONTENT.cases.map((c, i) =>
     '<a href="case/' + CASEFILE[c.id] + '"><div class="cn-n">CASE 0' + (i + 1) + '</div><div class="cn-t">' + esc(c.nav[0]) + '</div><div class="cn-d">' + esc(c.nav[1]) + '</div></a>').join('') + '</div>' +
-  '<div class="case-grid">' + CONTENT.cases.map((c, i) =>
+  '<div class="case-grid">' + CONTENT.cases.slice(0, 4).map(c =>
   '<a class="case-card" href="case/' + CASEFILE[c.id] + '">' +
     '<p class="case-kicker rv">' + esc(c.kicker) + '</p>' +
     '<h3 class="case-title rv">' + esc(c.title) + '</h3>' +
     '<p class="case-tag rv">' + esc(c.tag) + '</p>' +
     '<div class="case-metrics rv">' + c.metrics.map(m => '<span class="chip acc">' + esc(m) + '</span>').join('') + '</div>' +
     '<div class="cc-go">▶ 进入案例 · 可交互 DEMO</div>' +
-  '</a>').join('') + '</div>';
+  '</a>').join('') + '</div>' +
+  '<details class="case-fold"><summary>展开其余 5 个工程样本 · 爻胜赛事预测 / 玲珑小说引擎 / 玲珑镜面 / 玲珑食养 / 玲珑职举</summary>' +
+  '<div class="case-grid">' + CONTENT.cases.slice(4).map(c =>
+  '<a class="case-card" href="case/' + CASEFILE[c.id] + '">' +
+    '<p class="case-kicker">' + esc(c.kicker) + '</p>' +
+    '<h3 class="case-title">' + esc(c.title) + '</h3>' +
+    '<p class="case-tag">' + esc(c.tag) + '</p>' +
+    '<div class="case-metrics">' + c.metrics.map(m => '<span class="chip acc">' + esc(m) + '</span>').join('') + '</div>' +
+    '<div class="cc-go">▶ 进入案例 · 可交互 DEMO</div>' +
+  '</a>').join('') + '</div></details>';
 
 /* ============================================================
    S4 其余在研 / S5 时间线 / S6 缺口

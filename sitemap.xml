@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.remifei.cn/</loc><lastmod>2026-10-16</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.remifei.cn/llms.txt</loc><lastmod>2026-10-16</lastmod><priority>1.0</priority></url>
+  <url><loc>https://www.remifei.cn/os/</loc><lastmod>2026-10-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.remifei.cn/case/01-huodai-platform.html</loc><lastmod>2026-10-16</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.remifei.cn/case/02-rag-pipeline.html</loc><lastmod>2026-10-16</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.remifei.cn/case/03-miku-privacy.html</loc><lastmod>2026-10-16</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.remifei.cn/case/04-reyes-video.html</loc><lastmod>2026-10-16</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.remifei.cn/case/05-yisheng-engine.html</loc><lastmod>2026-10-16</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.remifei.cn/case/06-novel-engine.html</loc><lastmod>2026-10-16</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.remifei.cn/case/07-mirror-value.html</loc><lastmod>2026-10-16</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.remifei.cn/case/08-shiyang-solver.html</loc><lastmod>2026-10-16</lastmod><priority>0.6</priority></url>
+  <url><loc>https://www.remifei.cn/case/09-longjob-pipeline.html</loc><lastmod>2026-10-16</lastmod><priority>0.6</priority></url>
+</urlset>
