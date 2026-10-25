@@ -42,7 +42,7 @@
 - **玲珑小说引擎 · 创作工程化** — https://www.remifei.cn/case/06-novel-engine.html （单一真相源 + 代码化校验，2499 项测试守质量门）
 - **玲珑镜面 Mirror · 声明即界面** — https://www.remifei.cn/case/07-mirror-value.html （功能意图声明 26 秒生成界面，14 套主题 AA 无障碍门禁，553 测试）
 - **玲珑食养 · 约束求解** — https://www.remifei.cn/case/08-shiyang-solver.html （中医食疗 × 营养学 × CP-SAT，L1-L4 四层约束，448 测试 94% 覆盖）
-- **玲珑职举 LongJob · 求职流水线** — https://www.remifei.cn/case/09-longjob-pipeline.html （真实 JD 进 L0-L5 FSM，979 测试 96% 覆盖；本作品集网站即其 L3 产物）
+- **玲珑职举 LongJob · 求职流水线** — https://www.remifei.cn/case/09-longjob-pipeline.html （真实 JD 进 L0-L5 FSM，997 测试 96% 覆盖；本作品集网站即其 L3 产物）
 
 ## 五、技术栈
 
