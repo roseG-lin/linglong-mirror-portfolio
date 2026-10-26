@@ -36,13 +36,8 @@ export const SITE = {
     { k: "PROOF", v: "全部战绩可复现" },
   ],
 
-  /* 社交账号 */
-  socials: [
-    { label: "GitHub", handle: "@raymood-lin", url: "https://github.com/" },
-    { label: "X / Twitter", handle: "@raymood_lin", url: "https://x.com/" },
-    { label: "Bilibili", handle: "玲珑镜面", url: "https://www.bilibili.com/" },
-    { label: "Juejin", handle: "@raymood", url: "https://juejin.cn/" },
-  ],
+  /* 社交账号：暂无真实账号，留空（曾有 4 条占位链接均指向平台首页，已撤） */
+  socials: [],
 
   /* 六个作品项目
      tape: red | yellow | blue   frame: 手绘装饰框 id   art: 程序化插画 id */
