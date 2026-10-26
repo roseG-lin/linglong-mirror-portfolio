@@ -57,7 +57,6 @@ export const SITE = {
         "通用性已被实证：玲珑 X 光导出的安全审查数据被镜面提取器零适配改动直接消费，全量 171 项测试零回退。",
       ],
       tags: ["TypeScript", "Vega-Lite", "Local-first", "Design Engine"],
-      link: { label: "仓库 README", url: "https://github.com/" },
     },
     {
       id: "longjob",
@@ -74,7 +73,6 @@ export const SITE = {
         "学习闭环：岗位差距倒推课程（10 位教育专家心智模型），面试复盘缺口回流为课程——面试 → 复盘 → 课程 → 再面试，首尾相接。",
       ],
       tags: ["Python", "TDD", "Pipeline", "1011 Tests"],
-      link: { label: "了解更多", url: "https://github.com/" },
     },
     {
       id: "rag",
@@ -91,7 +89,6 @@ export const SITE = {
         "这套链路后来成为玲珑职举 Demo 工厂的第一个候选产线——学习成果直接转化为可演示的作品集素材。",
       ],
       tags: ["RAG", "Qdrant", "BGE", "可复现证据"],
-      link: { label: "了解更多", url: "https://github.com/" },
     },
     {
       id: "agent",
@@ -108,7 +105,6 @@ export const SITE = {
         "这正是企业落地 Agent 的核心工程叙事：让 LLM 做它擅长的，让确定性逻辑守住底线。",
       ],
       tags: ["Agent", "LLM 护栏", "Eval", "客服场景"],
-      link: { label: "了解更多", url: "https://github.com/" },
     },
     {
       id: "luban",
@@ -124,7 +120,6 @@ export const SITE = {
         "玲珑系列 20+ 工程都遵循 LUBAN 规范统一命名与架构；它产出结构化数据，镜面负责渲染界面——造 Skill 和看 Skill 数据形成闭环。",
       ],
       tags: ["Skill Design", "Meta-skill", "玲珑生态"],
-      link: { label: "了解更多", url: "https://github.com/" },
     },
     {
       id: "workbench",
@@ -140,7 +135,6 @@ export const SITE = {
         "裸 Node CLI 单文件零依赖即可承载完整工作台，一行命令启动；纸上手作、墨韵赛博等九套主题经注册表治理，不合格的主题无法上线。",
       ],
       tags: ["Workbench", "CLI", "Design Pipeline"],
-      link: { label: "了解更多", url: "https://github.com/" },
     },
   ],
 

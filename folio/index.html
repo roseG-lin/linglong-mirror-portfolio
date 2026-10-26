@@ -969,9 +969,9 @@ function openWin(i) {
     </svg>
     ${w.desc.map(p => `<p class="win-p">${p}</p>`).join('')}
     <div class="win-tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
-    <a class="win-link" href="${w.link.url}" target="_blank" rel="noopener" data-cursor="point">${w.link.label}
+    ${w.link ? `<a class="win-link" href="${w.link.url}" target="_blank" rel="noopener" data-cursor="point">${w.link.label}
       <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 12 L 12 2 M5 2 L 12 2 L 12 9" fill="none" stroke="${INK}" stroke-width="2"/></svg>
-    </a>`;
+    </a>` : ''}`;
   winOpen = true;
   winBack.classList.add('on');
   lockScroll(true);
