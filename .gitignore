@@ -1,3 +1,6 @@
 server.js
 start.bat
 downloads/_pdf/
+__pycache__/
+*.pyc
+.pytest_cache/

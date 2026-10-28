@@ -29,7 +29,7 @@
     "@type": "Person",
     "name": "林润基",
     "alternateName": "Remi Lin",
-    "jobTitle": "AI 解决方案工程师 / 技术售前专家",
+    "jobTitle": "AI 解决方案工程师 / 技术售前",
     "url": "https://www.remifei.cn",
     "email": "2782084545@qq.com",
     "telephone": "+86-13538851689",
@@ -59,10 +59,6 @@
   }
 }
 </script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -406,7 +402,7 @@ footer a { color: hsl(var(--accent)); }
 }
 .console-card {
   border-radius: var(--radius-2xl);
-  background: hsl(var(--surface) / 0.55);
+  background: hsl(var(--surface) / 0.78);
   border: 1px solid rgba(255,255,255,0.09);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   padding: var(--space-5) var(--space-6);
@@ -647,7 +643,17 @@ html.cc, html.cc * { cursor: none !important; }
 .qi-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: hsl(var(--accent) / .85); text-transform: uppercase; }
 .qi-card.qi-more { grid-column: 1 / -1; }
 @media (max-width: 720px) { .qi-grid { grid-template-columns: 1fr; } }
+.hero-cases{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.hero-cases a{display:flex;align-items:center;gap:6px;padding:7px 8px;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:rgba(255,255,255,.03);font-size:11.5px;color:hsl(var(--muted-foreground));text-decoration:none;transition:border-color .15s,color .15s,background .15s}
+.hero-cases a:hover{border-color:hsl(var(--accent)/.45);color:hsl(var(--accent));background:hsl(var(--accent)/.06)}
+.hero-cases b{font-family:var(--font-mono);font-size:10px;color:hsl(var(--accent));flex:none}
+.hero-cases i{margin-left:auto;font-style:normal;opacity:.5;flex:none}
+.hero-cases a span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero-cases.mobile-only{display:none}
+@media (max-width:1199px){.hero-cases.mobile-only{display:grid;margin-top:18px}}
+.case-thumb { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; border:1px solid rgba(255,255,255,.07); margin-bottom:14px; background:hsl(var(--surface-2)); }
 </style>
+<link rel="stylesheet" href="css/fonts.css">
 </head>
 <body>
 
@@ -695,8 +701,8 @@ html.cc, html.cc * { cursor: none !important; }
   <!-- ============ S0 HERO ============ -->
   <header id="hero">
     <div class="hero-id rv">
-      <img class="hero-avatar" src="assets/avatar.png" alt="Remi 证件照" width="72" height="72">
-      <p class="hero-kicker">REMI · <b>PORTFOLIO 2026</b> · 深圳 / 广州 · 一周内到岗</p>
+      <img class="hero-avatar" src="assets/avatar-240.jpg" alt="Remi 证件照" width="72" height="72">
+      <p class="hero-kicker">REMI · <b>PORTFOLIO 2026</b> · 深圳 / 广州 · 一周内到岗 · 12-15K</p>
     </div>
     <div class="hero-grid">
       <div class="hero-main">
@@ -704,16 +710,30 @@ html.cc, html.cc * { cursor: none !important; }
           <span class="line"><span>会造 AI 产品，</span></span>
           <span class="line"><span>也<em>卖方案</em>。</span></span>
         </h1>
-        <p class="hero-sub rv">18 个月政企售前，方案讲进 1300+ 家公司。AI Coding 落地验证，一个人主导设计、编排 AI 把 20+ 套企业级 AI 原型从想法推到落地。客户要什么我当面听过，东西怎么做我亲手会。现在找 AI 售前 / 解决方案的岗位，把这套组合拳带过去。</p>
+        <p class="hero-sub rv">18 个月政企售前，方案讲进上千家公司。AI Coding 落地验证，一个人主导设计、编排 AI 把二十余套企业级 AI 原型从想法推到落地。客户要什么我当面听过，东西怎么落地我讲得清、卡得住验收。现在找 AI 售前 / 解决方案的岗位，把这套组合拳带过去。</p>
         <div class="hero-ctas rv">
           <a class="btn btn-primary" href="#cases">看项目实况 ↓</a>
           <button class="btn btn-ghost" data-print>打印简历</button>
+        </div>
+        <div class="hero-cases mobile-only" aria-label="四个可点开的案例">
+          <a href="case/01-huodai-platform.html"><b>01</b><span>潮汛 · 货代自动化</span><i>→</i></a>
+          <a href="case/02-rag-pipeline.html"><b>02</b><span>企业级 RAG</span><i>→</i></a>
+          <a href="case/03-miku-privacy.html"><b>03</b><span>玲珑秘库</span><i>→</i></a>
+          <a href="case/04-reyes-video.html"><b>04</b><span>玲珑之眼</span><i>→</i></a>
+        </div>
+        <div class="hero-ctas rv" style="margin-top:10px">
           <span class="scroll-cue" aria-hidden="true"><span class="cue-line"></span>SCROLL</span>
         </div>
       </div>
       <div class="console-card rv" id="heroConsole">
         <div class="console-top"><span>remi@keynote</span><span class="live">● LIVE</span></div>
         <div id="consoleBody"></div>
+        <div class="hero-cases">
+          <a href="case/01-huodai-platform.html"><b>01</b><span>潮汛 · 货代自动化</span><i>→</i></a>
+          <a href="case/02-rag-pipeline.html"><b>02</b><span>企业级 RAG</span><i>→</i></a>
+          <a href="case/03-miku-privacy.html"><b>03</b><span>玲珑秘库</span><i>→</i></a>
+          <a href="case/04-reyes-video.html"><b>04</b><span>玲珑之眼</span><i>→</i></a>
+        </div>
         <p class="os-hint">这台控制台只是前台。后面还有个能拖窗、能敲命令、能解锁成就的 <a href="./os/">桌面宇宙 →</a></p>
       </div>
     </div>
@@ -721,7 +741,7 @@ html.cc, html.cc * { cursor: none !important; }
       <div class="hero-kpi rv"><div class="v"><span data-count="1300">0</span><small>+</small></div><div class="l">家公司方案培训</div></div>
       <div class="hero-kpi rv"><div class="v"><span data-count="80">0</span><small>+</small></div><div class="l">项目汇报</div></div>
       <div class="hero-kpi rv"><div class="v"><span data-count="20">0</span><small>+</small></div><div class="l">项目验收答辩</div></div>
-      <div class="hero-kpi rv"><div class="v"><span data-count="12">0</span><small>+</small></div><div class="l">玲珑系列产品</div></div>
+      <div class="hero-kpi rv"><div class="v"><span data-count="15">0</span><small>+</small></div><div class="l">玲珑系列产品</div></div>
     </div>
   </header>
 
@@ -729,10 +749,10 @@ html.cc, html.cc * { cursor: none !important; }
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
       <div class="mq-group">
-        <span><b>1300+</b> 家公司方案培训</span><i>◆</i><span><b>90 万级</b>指挥大厅项目主导</span><i>◆</i><span><b>80+</b> 场项目汇报</span><i>◆</i><span><b>20+</b> 验收答辩</span><i>◆</i><span><b>1529</b> 向量点 · CPU 建库 724s</span><i>◆</i><span>检索 <b>4/5 → 5/5</b></span><i>◆</i><span><b>15</b> 款玲珑系列产品</span><i>◆</i><span><b>448</b> 测试 · 94% 覆盖</span><i>◆</i><span><b>171</b> 测试零回退</span><i>◆</i><span>RAG · MCP · Agent</span><i>◆</i><span>深圳/广州 · <b>一周内到岗</b></span><i>◆</i>
+        <span><b>RAG</b> 全链路</span><i>◆</i><span><b>MCP</b> 工具化</span><i>◆</i><span><b>Agent</b> 实战</span><i>◆</i><span>四模式检索</span><i>◆</i><span>Human-in-the-loop</span><i>◆</i><span>端到端脱敏</span><i>◆</i><span>本地 CPU 可复跑</span><i>◆</i><span>口径带出处</span><i>◆</i><span>深圳 / 广州</span><i>◆</i><span>一周内到岗</span><i>◆</i>
       </div>
       <div class="mq-group">
-        <span><b>1300+</b> 家公司方案培训</span><i>◆</i><span><b>90 万级</b>指挥大厅项目主导</span><i>◆</i><span><b>80+</b> 场项目汇报</span><i>◆</i><span><b>20+</b> 验收答辩</span><i>◆</i><span><b>1529</b> 向量点 · CPU 建库 724s</span><i>◆</i><span>检索 <b>4/5 → 5/5</b></span><i>◆</i><span><b>15</b> 款玲珑系列产品</span><i>◆</i><span><b>448</b> 测试 · 94% 覆盖</span><i>◆</i><span><b>171</b> 测试零回退</span><i>◆</i><span>RAG · MCP · Agent</span><i>◆</i><span>深圳/广州 · <b>一周内到岗</b></span><i>◆</i>
+        <span><b>RAG</b> 全链路</span><i>◆</i><span><b>MCP</b> 工具化</span><i>◆</i><span><b>Agent</b> 实战</span><i>◆</i><span>四模式检索</span><i>◆</i><span>Human-in-the-loop</span><i>◆</i><span>端到端脱敏</span><i>◆</i><span>本地 CPU 可复跑</span><i>◆</i><span>口径带出处</span><i>◆</i><span>深圳 / 广州</span><i>◆</i><span>一周内到岗</span><i>◆</i>
       </div>
     </div>
   </div>
@@ -760,7 +780,7 @@ html.cc, html.cc * { cursor: none !important; }
     <h2 class="sec-title rv">15 款产品，一张星图。</h2>
     <p class="sec-lede rv">LUBAN 居中造血，其余环绕生长。发光节点带可运行 Demo，点击直达案例现场。</p>
     <div class="constellation-wrap rv">
-      <canvas id="constellation"></canvas>
+      <canvas id="constellation" role="img" aria-label="玲珑产品星座图：15 个产品节点，可用下方「一屏索引」逐项访问"></canvas>
       <div class="const-tip" id="constTip"></div>
       <div class="const-legend"><i></i>可运行 Demo · 点击直达</div>
     </div>
@@ -791,31 +811,31 @@ html.cc, html.cc * { cursor: none !important; }
   <section class="section" id="quickindex" style="padding-top:0">
     <p class="kicker rv">04b · QUICK INDEX</p>
     <h2 class="sec-title rv">一屏索引，全站直达。</h2>
-    <p class="sec-lede rv">林润基（Remi Lin）· AI 解决方案工程师 / 技术售前专家 · 现居深圳。给赶时间的访客，也给 AI 检索引擎：以下每行都是真实可跑的工程，点击直达实机演示。</p>
+    <p class="sec-lede rv">林润基（Remi Lin）· AI 解决方案工程师 / 技术售前 · 现居深圳。给赶时间的访客，也给 AI 检索引擎：以下每行都是真实可跑的工程，点击直达实机演示。</p>
     <div class="qi-grid">
       <article class="qi-card">
         <h3><a href="case/01-huodai-platform.html">潮汛 · 跨境货代自动化平台</a></h3>
-        <p class="qi-tag">行业落地 · MCP Agent · 2800+ 测试</p>
-        <p>订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 AI Agent 调用；单封业务邮件处理 5 分钟 → 1–2 分钟（提效约 60%），发送环节人工确认（Human-in-the-loop）。</p>
+        <p class="qi-tag">行业落地 · MCP Agent · 四域打通</p>
+        <p>订单/客户/邮件/RPA 四域打通，业务能力封装成 MCP 工具供 Agent 调用；关键发送环节保留人工确认——点进去跑一遍邮件处理全程。</p>
       </article>
       <article class="qi-card">
         <h3><a href="case/02-rag-pipeline.html">企业级 RAG 全链路 · 四模式对比</a></h3>
-        <p class="qi-tag">检索增强 · 119 文件实测 · 评测管线</p>
-        <p>119 份真实业务文件建库实测：文档解析切片 → 向量检索 → 混合检索重排 → Agentic 自纠错，配套自动化评测管线，实测命中率 4/5 → 5/5。</p>
+        <p class="qi-tag">检索增强 · 四模式对比 · 评测管线</p>
+        <p>同一问句跑四种检索模式：纯向量答错、重排 + 自纠答对，差距一行行调出来；配套自动化评测管线。</p>
       </article>
       <article class="qi-card">
         <h3><a href="case/03-miku-privacy.html">玲珑秘库 · 大模型隐私安全隔离</a></h3>
-        <p class="qi-tag">政企合规 · 端到端脱敏 · 外泄 0</p>
-        <p>使用端与接收端可见真实业务数据，云端大模型仅见加密占位符——政企安全使用公有云大模型的零泄密前提，7/7 场景验收通过。</p>
+        <p class="qi-tag">政企合规 · 端到端脱敏 · 零外泄</p>
+        <p>使用端与接收端可见真实业务数据，云端大模型仅见加密占位符——政企安全使用公有云大模型的零泄密前提，场景验收全过。</p>
       </article>
       <article class="qi-card">
         <h3><a href="case/04-reyes-video.html">玲珑之眼 · AIGC 视频自动化产线</a></h3>
-        <p class="qi-tag">内容生产自动化 · v8 · 222 测试</p>
-        <p>讲稿进、成片出：白板动画、配音、字幕、合成全自动流水线，迭代至 v8，166 秒实测成片，五站每站可测。</p>
+        <p class="qi-tag">内容生产自动化 · 五站流水线</p>
+        <p>讲稿进、成片出：白板动画、配音、字幕、合成全自动流水线，五站每站可测。</p>
       </article>
       <article class="qi-card qi-more">
         <h3>更多工程样本（点开「旗舰案例」折叠区，或直接直达）</h3>
-        <p><a href="case/05-yisheng-engine.html">爻胜 · 赛事预测统计引擎</a>（913 场校准 · 回测 61.9%）· <a href="case/06-novel-engine.html">玲珑小说引擎</a>（2499 测试质量门）· <a href="case/07-mirror-value.html">玲珑镜面</a>（声明即界面 · 14 主题）· <a href="case/08-shiyang-solver.html">玲珑食养</a>（约束求解 · 448 测试）· <a href="case/09-longjob-pipeline.html">玲珑职举</a>（求职流水线 · 1011 测试）</p>
+        <p><a href="case/05-yisheng-engine.html">爻胜 · 赛事预测统计引擎</a>（统计建模 · 校准回测）· <a href="case/06-novel-engine.html">玲珑小说引擎</a>（质量门 · 全量测试）· <a href="case/07-mirror-value.html">玲珑镜面</a>（声明即界面 · 一键换肤）· <a href="case/08-shiyang-solver.html">玲珑食养</a>（约束求解 · 回溯软化）· <a href="case/09-longjob-pipeline.html">玲珑职举</a>（求职流水线 · 状态机）</p>
       </article>
       <article class="qi-card">
         <h3><a href="./os/">RemiOS 桌面宇宙 · 关于我</a></h3>
@@ -868,12 +888,13 @@ html.cc, html.cc * { cursor: none !important; }
       <span class="chip acc">AI 售前 / 解决方案工程师</span>
       <span class="chip">深圳 / 广州</span>
       <span class="chip">一周内到岗</span>
-      <span class="chip">15-20K · 可议</span>
+      <span class="chip">12-15K · 可议</span>
     </div>
     <div class="contact-meta rv" style="margin-top:-8px">
       <a class="chip acc" href="mailto:2782084545@qq.com" style="text-decoration:none">2782084545@qq.com</a>
       <a class="chip" href="tel:13538851689" style="text-decoration:none">135 3885 1689</a>
     </div>
+    <div class="contact-meta rv" id="wechatSlot" hidden></div>
     <div class="contact-row rv">
       <button class="btn btn-primary" data-copy-email><svg class="icon" width="15" height="15"><use href="#i-copy"/></svg> 复制邮箱</button>
       <a class="btn btn-ghost" href="tel:13538851689"><svg class="icon" width="15" height="15"><use href="#i-vol2"/></svg> 拨打电话</a>
@@ -885,7 +906,7 @@ html.cc, html.cc * { cursor: none !important; }
       <div class="tldr">
         <div class="ti"><b>1300+</b><span>家公司培训</span></div>
         <div class="ti"><b>90 万级</b><span>项目主导</span></div>
-        <div class="ti"><b>15</b><span>款玲珑产品</span></div>
+        <div class="ti"><b>全系</b><span>玲珑矩阵</span></div>
         <div class="ti"><b>4/5→5/5</b><span>RAG 调优前后</span></div>
         <div class="ti"><b>7/7</b><span>脱敏验收</span></div>
       </div>
@@ -913,7 +934,7 @@ html.cc, html.cc * { cursor: none !important; }
 
   <footer>
     <div class="foot-big" aria-hidden="true">REMI</div>
-    REMI © 2026 · 零截图零虚构，每个数字都有现场可复跑的出处 · <a href="./os/">时光机：回到 RemiOS 桌面宇宙 ↗</a>
+    REMI © 2026 · 零截图零虚构，每个数字都有现场可复跑的出处 · <a href="./os/">证据墙 / 时光机：RemiOS 桌面宇宙 ↗</a>
   </footer>
 </div>
 
@@ -922,10 +943,10 @@ html.cc, html.cc * { cursor: none !important; }
 
 <noscript>
   <div style="position:fixed;inset:0;background:#060F18;color:#F9FAFB;padding:40px;font-family:sans-serif;overflow:auto;z-index:999;">
-    <h1>林润基 (Remi Lin) · AI 解决方案工程师 / 技术售前专家</h1>
+    <h1>林润基 (Remi Lin) · AI 解决方案工程师 / 技术售前</h1>
     <p>深圳 · 一周内到岗 · 18 个月 B 端政企售前 × AI 应用工程化落地验证</p>
     <ul>
-      <li>培训 1300+ 家公司 · 80+ 场项目汇报 · 20+ 场验收答辩 · 90 万级政企项目主导</li>
+      <li>培训上千家公司 · 80+ 场项目汇报 · 20+ 场验收答辩 · 政企指挥大厅项目主导</li>
       <li>主导设计并编排 AI 完成 20+ 套企业级 AI 原型（POC），全线 TDD 验收，累计 4000+ 项自动化测试</li>
       <li><a style="color:#0DA2E7" href="case/01-huodai-platform.html">潮汛 · 跨境货代自动化平台</a>（MCP Agent · 提效约 60% · 2800+ 测试）</li>
       <li><a style="color:#0DA2E7" href="case/02-rag-pipeline.html">企业级 RAG 全链路</a>（119 文件实测 · 命中 4/5 → 5/5）</li>
@@ -948,44 +969,44 @@ const CONTENT = {
   email: '2782084545@qq.com',       // TODO 占位：替换真实邮箱
   slogan: '会造 AI 产品，也会卖方案。',
   specs: [
-    { name: '解决方案编写与宣讲', proof: '1300+ 家公司 · 80+ 场汇报', detail: '七维度客户个性化方案培训；向客户与专家评审把方案讲清楚，是本职也是主场。' },
+    { name: '解决方案编写与宣讲', proof: '客户方案与评审答辩', detail: '七维度客户个性化方案培训；向客户与专家评审把方案讲清楚，是本职也是主场。' },
     { name: '业务 → AI 方案转译', proof: '场景拆解七件套', detail: '角色→流程→节点→规则→数据→审批→异常；AI 切入三问：重复规则？数据可得？错得起吗？' },
-    { name: 'Agent 产品构建', proof: '15 款产品 · 20+ 产物', detail: '玲珑矩阵全系：Skill 框架 / 教学引擎 / 食谱系统 / RAG 检索栈，一人公司全链交付。' },
-    { name: 'RAG 全链路实战', proof: '1529 向量点 · 4/5→5/5', detail: 'Qdrant 二进制 + BGE 本地模型自建生产级检索栈，119 文件 724 秒建库。' },
-    { name: '循证工程习惯', proof: 'TDD 90% 门槛 · A/B 证据分级', detail: '所有论断带来源标注；职举 1011 测试（2026-10-26 实测），食养 448 测试 94%，镜面 171 测试零回退。' },
+    { name: 'Agent 产品构建', proof: '玲珑矩阵全系', detail: '玲珑矩阵全系：Skill 框架 / 教学引擎 / 食谱系统 / RAG 检索栈，一人公司全链交付。' },
+    { name: 'RAG 全链路实战', proof: '本地 CPU 自建检索栈', detail: 'Qdrant 二进制 + BGE 本地模型自建生产级检索栈，CPU 上跑通全链路。' },
+    { name: '循证工程习惯', proof: 'TDD 门槛 · A/B 证据分级', detail: '所有论断带来源标注；职举、食养、镜面三个工程各有测试矩阵与覆盖率门禁。' },
     { name: 'MCP 协议', proof: '2026 稀缺技能', detail: '工具统一接入协议实战，早于多数候选人一个身位。' },
   ],
   cases: [
-    { id: 'huodai-mask', kicker: 'CASE 01 · 行业落地', title: '潮汛 · 货代业务自动化平台', tag: '订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 Agent 调用；单封邮件 5 分钟 → 1–2 分钟（提效约 60%），关键环节人工确认。2800+ 项测试。',
+    { id: 'huodai-mask', kicker: 'CASE 01 · 行业落地', title: '潮汛 · 货代业务自动化平台', tag: '订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 Agent 调用；2800+ 项测试护着这套工具层，关键发送必须过人。',
       nav: ['潮汛平台', '播放一封询价邮件的 Agent 处理全程，再看 MCP 工具面板。'],
-      metrics: ['2800+ 项后端测试', '四域打通 · 一站式', 'MCP 插件化', '提效约 60%'] },
-    { id: 'rag-pipeline', kicker: 'CASE 02 · RAG 检索', title: '企业级 RAG 全链路 · 四模式对比', tag: '同一句话，纯向量答错，调优后答对。119 份真实业务文件实测，解析切片→混合检索重排→评测管线全链路。',
+      metrics: ['发送前人工确认', '订单 · 客户 · 邮件 · RPA', '业务能力 MCP 插件化', '脱敏屏障 · 验收全过'] },
+    { id: 'rag-pipeline', kicker: 'CASE 02 · RAG 检索', title: '企业级 RAG 全链路 · 四模式对比', tag: '同一句话，纯向量答错，调优后答对；119 份真实业务文件实测，解析切片→混合检索重排→评测管线全链路。',
       nav: ['RAG 四模式', '纯向量答错的题，调优后答对。点模式④，看它自己纠错。'],
-      metrics: ['119 文件 → 1529 向量点', '724s CPU 建库', '实测 4/5 → 5/5', 'Agentic 2 轮自纠'] },
+      metrics: ['百文件级语料 → 千级向量点', '纯 CPU 建库', '实测提一档', 'Agentic 2 轮自纠'] },
     { id: 'miku-privacy', kicker: 'CASE 03 · 隐私合规', title: '玲珑秘库 · 大模型隐私安全隔离', tag: '企业双端可见真实数据，云端大模型只处理加密占位符——政企用公有云大模型的零泄密前提，外泄风险降为 0。',
       nav: ['隐私隔离', 'LLM 全程只见占位符。点场景③，看它敢转人工。'],
-      metrics: ['双端真实 · 云端占位', '脱敏进 · 还原出', '外泄风险 0', '验收 7/7'] },
-    { id: 'reyes-video', kicker: 'CASE 04 · 内容生产自动化', title: '玲珑之眼 · AIGC 视频生产线', tag: '讲稿进、成片出：白板动画、配音、字幕、合成全自动。产线 v8、222 项测试锁定，166 秒实测成片。',
+      metrics: ['双端可见真实数据', '云端仅见加密占位符', '外泄风险降为 0', '占位符还原 · 验收 7/7'] },
+    { id: 'reyes-video', kicker: 'CASE 04 · 内容生产自动化', title: '玲珑之眼 · AIGC 视频生产线', tag: '讲稿进、成片出：白板动画、配音、字幕、合成全自动；产线 v8 上 222 项测试锁定，真实课程验证。',
       nav: ['视频生产线', '输入一句讲稿，看五站流水线依次点亮，最后出片。'],
-      metrics: ['产线 v8 · 222 测试', '讲稿→成片全自动', '166s 实测成片', '五站每站可测'] },
-    { id: 'yisheng-engine', kicker: 'CASE 05 · 统计建模', title: '爻胜 · 赛事预测统计引擎', tag: '913 场校准 Elo + Dixon-Coles，763 场回测：准确率 61.9%（基线 33%）、校准误差 2.3%——统计严谨性的可验证样本。',
+      metrics: ['产线 v8 · 回归锁定', '讲稿 → 成片 全自动', '真实课程验证', '五站 · 每站可测'] },
+    { id: 'yisheng-engine', kicker: 'CASE 05 · 统计建模', title: '爻胜 · 赛事预测统计引擎', tag: '913 场校准的 Elo + Dixon-Coles 统计模型，滚动回测检验：准确率与校准误差双双达标——统计严谨性的可验证样本。',
       nav: ['赛事预测', '选两支队，浏览器实算真实 Elo 预期胜率。'],
-      metrics: ['913 场校准', '763 场回测 61.9%', 'ECE 2.3% 可校准', 'Rust 引擎 · 桌面端'] },
+      metrics: ['913 场校准', '回测 61.9%', 'ECE 可达标', 'Rust 引擎 · 桌面端'] },
     { id: 'novel-engine', kicker: 'CASE 06 · 创作工程化', title: '玲珑小说引擎 · 把生产做成工程', tag: '单一真相源+代码化校验+短上下文执行，2499 项测试守着有质量门的流水线。',
       nav: ['小说生产工程化', '廉价翻转和半角标点在重写之前被拦下。点审校现场跑。'],
-      metrics: ['2499 测试 · 228 文件', 'TDD 门槛 90%', '方法论 13 维', '百章压测 runner'] },
-    { id: 'mirror-value', kicker: 'CASE 07 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，26 秒长出整个界面；14 套主题 AA 门禁。',
+      metrics: ['2499 测试', 'TDD 质量门', '方法论矩阵', '百章压测 runner'] },
+    { id: 'mirror-value', kicker: 'CASE 07 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，界面自动长出来；主题一键换肤带 AA 门禁。',
       nav: ['价值感知', '拖滑块，看画像卡实时升降级。'],
-      metrics: ['声明→界面 ≈26s', '14 套主题 · AA 门禁', '553 测试', '每条决策带理由'] },
-    { id: 'shiyang-solver', kicker: 'CASE 08 · 约束求解', title: '玲珑食养 · 约束求解体验', tag: '中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看。',
+      metrics: ['14 套主题', '一键换肤', 'AA 门禁', '每条决策带理由'] },
+    { id: 'shiyang-solver', kicker: 'CASE 08 · 约束求解', title: '玲珑食养 · 约束求解体验', tag: '中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看；448 项测试护着求解器。',
       nav: ['约束求解', '预算拖到 ¥20，看它回溯软化不装死。'],
-      metrics: ['L1-L4 四层约束', '单餐求解 <5s', '448 测试 94% 覆盖', 'V1-V12 符号否决'] },
+      metrics: ['L1-L4 四层约束', '回溯软化', '求解器有测试护着', 'V1-V12 符号否决'] },
     { id: 'longjob-pipeline', kicker: 'CASE 09 · 求职流水线', title: '玲珑职举 LongJob · 迷你流水线', tag: '真实 JD 进去，11 强 2 中 1 缺出来。本站就是它的 L3 产物。',
       nav: ['求职流水线', '真实 JD 跑 L0→L2，缺的不编。'],
-      metrics: ['L0–L5 FSM', '40 纯标准库工具', '1011 测试 · 全仓回归', 'guardrails 三查'] },
+      metrics: ['L0–L5 FSM', '零第三方依赖', '1011 测试 · 全仓回归', 'guardrails 三查'] },
   ],
   more: [
-    { icon: 'i-terminal', name: '玲珑小说引擎', desc: '小说生产工程化：单一真相源+代码化校验+TDD 90% 门槛，2499 测试 · 228 文件；方法论 13 维 9 大能，百章压测 runner+语义记忆+合成读者面板。' },
+    { icon: 'i-terminal', name: '玲珑小说引擎', desc: '小说生产工程化：单一真相源+代码化校验+TDD 质量门；方法论矩阵、百章压测 runner、语义记忆与合成读者面板。' },
     { icon: 'i-brain', name: '第二大脑', desc: 'Obsidian 知识库 + 画像/日记/轨迹三环自进化。本页内容口径的源头。' },
     { icon: 'i-book', name: '玲珑学海 Sea-study', desc: '真学习教学引擎：费曼双检查点，110 测试 96% 覆盖。' },
     { icon: 'i-search', name: '玲珑X光 X-ray', desc: '代码 X 光安全审查 v2.0，数据零适配直通镜面消费。' },
@@ -997,15 +1018,15 @@ const CONTENT = {
   ],
   timeline: [
     { ver: 'v1.0', year: '2024', title: '入行 · 音视频售前工程师', desc: '广东保伦电子。方案 PPT、展会、汇报、验收答辩全链路。' },
-    { ver: 'v1.8', year: '2023.09–2025.03', title: '扛下 90 万级指挥大厅项目', desc: '汕头综合保税区。18 个月累计：1300+ 家公司培训、80+ 项目汇报、20+ 验收答辩。' },
+    { ver: 'v1.8', year: '2023.09–2025.03', title: '扛下 90 万级指挥大厅项目', desc: '汕头综合保税区。培训、汇报、验收答辩三条线同时跑，售前全链路的底子在这里打下。' },
     { ver: 'v2.0', year: '2025', title: 'AI Coding 觉醒', desc: 'Claude / Codex / 智谱。第二大脑开建，玲珑系列立项，一人公司运转起来。' },
-    { ver: 'v2.2', year: '2026', title: 'RAG 全链路跑通', desc: '119 文件 → 1529 向量点，CPU 建库 724 秒；检索基线 4/5，经混合检索重排 + Agentic 自纠错调优至 5/5。玲珑矩阵 15 款产品。' },
+    { ver: 'v2.2', year: '2026', title: 'RAG 全链路跑通', desc: 'RAG 全链路在 CPU 上跑通；检索基线经混合重排 + Agentic 自纠错调优到全对。玲珑矩阵扩到全系。' },
     { ver: 'v2.5', year: '2026', title: '双站上线 · 转向 AI 售前', desc: '把「会造 AI 产品 + 会卖方案」的组合，卖给需要的人。' },
-    { ver: 'v2.6', year: '2026.09–10', title: '客服 Agent 29 测试全绿 · 白板课三同步成片 · 职举 1011 测试', desc: '智能客服 Demo 20 条评测风险零漏网；LLM 原理白板课 166 秒画音字同步；求职流水线升到 1011 测试。你正在看的是发布会现场。', now: true },
+    { ver: 'v2.6', year: '2026.09–10', title: '客服 Agent 全绿 · 白板课三同步成片 · 职举持续加测', desc: '智能客服 Demo 评测风险零漏网；LLM 原理白板课画音字三同步成片；求职流水线继续加测试。你正在看的是发布会现场。', now: true },
   ],
   gaps: [
     { name: '私有化部署（GPU / CUDA）', meta: '进行中 · 始于 2026-09-04 · 玲珑学海', ind: true, note: 'RAG 全链路我在 CPU 上跑通过，延迟数字在手。GPU 私有化是下一步，产线已开。' },
-    { name: '行业语境宽度（电商 / 零售）', meta: '客服 Agent Demo 已落地 · 29 测试 · 20 条评测', ind: true, note: '音视频我熟，电商我没干过。不编造经历——电商场景智能客服 Agent 已交付：风险类漏网 0/8、误拦 0，橙皮书补行业语境。' },
+    { name: '行业语境宽度（电商 / 零售）', meta: '客服 Agent Demo 已落地 · 20 条评测', ind: true, note: '音视频我熟，电商我没干过。不编造经历——电商场景智能客服 Agent 已交付：风险类零漏网，橙皮书补行业语境。' },
     { name: 'Embedding / Rerank 术语表达', meta: 'P0 学院已开课 · 教材站 5 课已建', ind: true, note: '概念早已跑在代码里，现在口径也在补：影石360 面经考纲 → 12 周学习地图 → 白板课视频已出第 1 课。' },
   ],
 };
@@ -1133,7 +1154,7 @@ $('#specRows').innerHTML = CONTENT.specs.map((s, i) =>
     ['$ whoami', 'Remi · 售前 × 产品构建者'],
     ['$ run rag --compare', '纯向量 4/5 → 调优 5/5 ✓'],
     ['$ mask --barrier', '张伟 → KEHU0001 → 还原 ✓'],
-    ['$ ship 玲珑矩阵', '15 款产品 · 448 测试 94% · 171 零回退 ✓'],
+    ['$ ship 玲珑矩阵', '全系出厂 · 测试全绿 ✓'],
   ];
   if (REDUCED) { box.innerHTML = scenes[0][0] + '\n<span class="out">' + scenes[0][1] + '</span>'; return; }
   let si = 0;
@@ -1300,19 +1321,19 @@ document.addEventListener('pointermove', e => {
   const NODES = [
     { id: 'luban',   name: '玲珑造物 LUBAN', tag: 'Skill 工坊 · 造 Skill 的 Skill', x: 0.50, y: 0.46, hub: true },
     { id: 'brain',   name: '第二大脑',       tag: '知识库体系 · 一切内容的源头', x: 0.50, y: 0.14 },
-    { id: 'rag',     name: 'RAG 检索栈',     tag: '119 文件 → 1529 向量 · 4/5→5/5', x: 0.80, y: 0.30, live: true, demo: 'rag-pipeline' },
+    { id: 'rag',     name: 'RAG 检索栈',     tag: 'RAG 检索栈 · 四模式对比', x: 0.80, y: 0.30, live: true, demo: 'rag-pipeline' },
     { id: 'mirror',  name: '玲珑镜面',       tag: '通用展示层 · 五层论文架构', x: 0.74, y: 0.62, live: true, demo: 'mirror-value' },
-    { id: 'shiyang', name: '玲珑食养',       tag: 'CP-SAT 食谱求解 · 448 测试', x: 0.26, y: 0.62, live: true, demo: 'shiyang-solver' },
-    { id: 'huodai',  name: '潮汛 Flowtide',   tag: '货代自动化 · 2800+ 测试', x: 0.20, y: 0.30, live: true, demo: 'huodai-mask' },
-    { id: 'longjob', name: '玲珑职举',       tag: '求职流水线 L0-L5', x: 0.50, y: 0.82, live: true, demo: 'longjob-pipeline' },
-    { id: 'xuehai',  name: '玲珑学海',       tag: '教学引擎 · 110 测试 96%', x: 0.30, y: 0.80 },
-    { id: 'xray',    name: '玲珑X光',        tag: '代码安全审查 v2.0', x: 0.10, y: 0.48 },
+    { id: 'shiyang', name: '玲珑食养',       tag: 'CP-SAT 食谱求解 · 约束软化', x: 0.26, y: 0.62, live: true, demo: 'shiyang-solver' },
+    { id: 'huodai',  name: '潮汛 Flowtide',   tag: '货代自动化 · 四域打通', x: 0.20, y: 0.30, live: true, demo: 'huodai-mask' },
+    { id: 'longjob', name: '玲珑职举',       tag: '求职流水线 · 状态机', x: 0.50, y: 0.82, live: true, demo: 'longjob-pipeline' },
+    { id: 'xuehai',  name: '玲珑学海',       tag: '教学引擎 · 费曼双检查点', x: 0.30, y: 0.80 },
+    { id: 'xray',    name: '玲珑X光',        tag: '代码安全审查', x: 0.10, y: 0.48 },
     { id: 'junji',   name: '军机处',         tag: '任务执行器 + 战报', x: 0.90, y: 0.48 },
     { id: 'voice',   name: '玲珑语',         tag: '全双工语音通道', x: 0.70, y: 0.82 },
-    { id: 'secret',  name: '玲珑秘库',       tag: '隐私隔离 · 外泄风险 0', x: 0.68, y: 0.13, live: true, demo: 'miku-privacy' },
-    { id: 'novel',   name: '玲珑小说引擎',   tag: '2499 测试 · 单一真相源', x: 0.90, y: 0.13, live: true, demo: 'novel-engine' },
-    { id: 'yisheng', name: '爻胜 YiSheng',    tag: '913 场校准 · 回测 61.9%', x: 0.06, y: 0.06, live: true, demo: 'yisheng-engine' },
-    { id: 'reyes',   name: '玲珑之眼 R-eyes', tag: '视频生产线 v8 · 222 测试', x: 0.62, y: 0.88, live: true, demo: 'reyes-video' },
+    { id: 'secret',  name: '玲珑秘库',       tag: '隐私隔离 · 零外泄', x: 0.68, y: 0.13, live: true, demo: 'miku-privacy' },
+    { id: 'novel',   name: '玲珑小说引擎',   tag: '小说生产工程化 · 单一真相源', x: 0.90, y: 0.13, live: true, demo: 'novel-engine' },
+    { id: 'yisheng', name: '爻胜 YiSheng',    tag: '统计建模 · 校准回测', x: 0.06, y: 0.06, live: true, demo: 'yisheng-engine' },
+    { id: 'reyes',   name: '玲珑之眼 R-eyes', tag: '视频生产线 · 全自动', x: 0.62, y: 0.88, live: true, demo: 'reyes-video' },
   ];
   const EDGES = [
     ['luban', 'brain'], ['luban', 'xuehai'], ['luban', 'xray'], ['luban', 'shiyang'], ['luban', 'mirror'], ['luban', 'secret'],
@@ -1393,8 +1414,9 @@ const CASEFILE = {"huodai-mask": "01-huodai-platform.html", "rag-pipeline": "02-
 $('#caseList').innerHTML =
   '<div class="case-nav rv">' + CONTENT.cases.map((c, i) =>
     '<a href="case/' + CASEFILE[c.id] + '"><div class="cn-n">CASE 0' + (i + 1) + '</div><div class="cn-t">' + esc(c.nav[0]) + '</div><div class="cn-d">' + esc(c.nav[1]) + '</div></a>').join('') + '</div>' +
-  '<div class="case-grid">' + CONTENT.cases.slice(0, 4).map(c =>
+  '<div class="case-grid">' + CONTENT.cases.slice(0, 4).map((c, i) =>
   '<a class="case-card" href="case/' + CASEFILE[c.id] + '">' +
+    '<img class="case-thumb" src="case/assets/shot-0' + (i + 1) + '.jpg" alt="' + esc(c.nav[0]) + '实机界面截图" loading="lazy" width="1200" height="675">' +
     '<p class="case-kicker rv">' + esc(c.kicker) + '</p>' +
     '<h3 class="case-title rv">' + esc(c.title) + '</h3>' +
     '<p class="case-tag rv">' + esc(c.tag) + '</p>' +
@@ -1440,26 +1462,26 @@ const RESUME_HTML =
   '<div class="r-intent">求职意向：AI 售前 / AI 解决方案工程师</div>' +
   '<div class="r-meta">深圳 / 广州 · 一周内到岗 · ' + CONTENT.email + '</div>' +
   '<h4>核心能力</h4><ul>' +
-    '<li><b>解决方案编写与宣讲</b>：累计面向 <b>1300+ 家</b>公司完成七维度个性化方案培训，<b>80+ 场</b>项目汇报。</li>' +
+    '<li><b>解决方案编写与宣讲</b>：累计面向上千家公司完成七维度个性化方案培训，项目汇报与答辩全链。</li>' +
     '<li><b>业务 → AI 方案转译</b>：18 个月售前 + AI Coding 实战，把 Know-how 变成可演示、可复用的方案。</li>' +
-    '<li><b>Agent 产品落地</b>：主导设计并编排 AI 完成 20+ 可演示 AI 产物（Agent / RAG / 知识库 / 自动化）。</li>' +
+    '<li><b>Agent 产品落地</b>：主导设计并编排 AI 完成二十余个可演示 AI 产物（Agent / RAG / 知识库 / 自动化）。</li>' +
     '<li><b>项目全链推进</b>：需求访谈 → 方案汇报 → 验收答辩，20+ 项目通过专家评审。</li>' +
   '</ul>' +
   '<h4>核心技能</h4><ul>' +
     '<li><b>RAG 检索全链路</b>：Qdrant + BGE 本地模型自建检索栈；解析切片 → 混合检索重排 → Agentic 自纠错，配自动化评测管线。</li>' +
     '<li><b>Agent 与 MCP 协议封装</b>：MCP 统一接入外部工具；Agent / Workflow / 知识库 / 自动化流程编排。</li>' +
     '<li><b>AI 编排全流程</b>：需求 → 设计 → 编排 AI 实现 → 自动化测试验收 → 可交互 DEMO 演示。</li>' +
-    '<li><b>TDD 自动化测试</b>：职举 <b>1011 测试</b>，食养 <b>448 测试 / 94% 覆盖</b>，镜面 <b>171 测试零回退</b>。</li>' +
+    '<li><b>TDD 自动化测试</b>：职举 <b>1011 测试</b>；食养、镜面各有测试矩阵与覆盖率门禁。</li>' +
     '<li><b>大模型脱敏与幻觉抑制</b>：LLM 内核 + 三道确定性护栏；电商评测风险漏网 <b>0/8</b>、误拦 <b>0</b>。</li>' +
   '</ul>' +
   '<h4>工作经历</h4>' +
   '<div class="r-job"><span class="co">售前工程师 · 广东保伦电子（音视频行业）</span><span class="pd">2023.09 – 2025.03</span></div><ul>' +
-    '<li>主导 <b>90 万级</b>指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。</li>' +
-    '<li>累计 <b>1300+ 家</b>公司方案培训、<b>80+ 场</b>汇报、<b>20+ 个</b>项目落地验收（专家评审会答辩）。</li>' +
+    '<li>主导政企指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。</li>' +
+    '<li>累计覆盖上千家公司：方案培训、项目汇报与专家评审会答辩。</li>' +
   '</ul>' +
   '<div class="r-job"><span class="co">AI 解决方案顾问 / AI 应用落地工程师 · 玲珑 AI 行业应用工作室（深圳）</span><span class="pd">2025.03 – 至今</span></div><ul>' +
-    '<li>主导设计并编排 AI 完成 <b>20+ 可演示 AI 产物</b>：Agent、Workflow、RAG、知识库、自动化流程。</li>' +
-    '<li>跑通生产级 RAG 全链路：<b>119 份真实业务文档 → 1529 向量点，CPU 建库 724 秒</b>；<b>40 题</b>分层评测混合检索 <b>hit@1 55%</b> 居各模式最优，实测 Rerank 负优化并完成归因修复。</li>' +
+    '<li>主导设计并编排 AI 完成二十余个可演示 AI 产物：Agent、Workflow、RAG、知识库、自动化流程。</li>' +
+    '<li>跑通生产级 RAG 全链路：<b>真实业务文档 → 1529 向量点，CPU 建库 724 秒</b>；<b>40 题</b>分层评测混合检索 <b>hit@1 55%</b> 居各模式最优，实测 Rerank 负优化并完成归因修复。</li>' +
     '<li>把一次交付沉淀为可复用资产：第二大脑编号知识库 + 玲珑 SOP 模板体系。</li>' +
   '</ul>' +
   '<h4>方法论资产</h4><ul>' +
@@ -1518,7 +1540,7 @@ const DEMOS = {
           hit: '08-项目/内部项目 · 项目清单', score: '0.83',
           verdict: 'ok', vt: '✓ 语义鸿沟修平',
           why: '同一句话换个问法，答案就站在正确的文档上。实测 5/5。' },
-        { steps: [['BM25 索引接入…', '1529 文档 jieba 分词 · 建索引几十秒'], ['双路召回中…', '字面权重上调']],
+        { steps: [['BM25 索引接入…', '千级文档 jieba 分词 · 建索引几十秒'], ['双路召回中…', '字面权重上调']],
           hit: 'Top1 正确，Top5 混入 3 条字面噪音', score: '',
           verdict: 'warn', vt: '△ 噪音被字面权重放大',
           why: '混合检索单用反而退步到 4/5。它得和改写搭配（RRF 双路一致确认），才回到 5/5。' },
@@ -1566,7 +1588,7 @@ const DEMOS = {
   'huodai-mask': {
     mount(stage) {
       stage.innerHTML =
-        '<div class="demo-card" style="margin-bottom:20px"><div class="t">三个验收场景 · 阶段1 验收 7/7 全过（2026-08-07）</div>' +
+        '<div class="demo-card" style="margin-bottom:20px"><div class="t">三个验收场景 · 阶段1 验收全过（2026-08-07）</div>' +
           '<div class="chips" style="margin-top:10px">' +
             '<span class="chip on" data-s="0">明确单号 · 代码层消歧</span><span class="chip" data-s="1">一单多号 · LLM 消歧</span><span class="chip" data-s="2">无法定位 · 转人工</span>' +
           '</div>' +
@@ -1894,16 +1916,16 @@ const DEMOS = {
           $('[data-o1]', stage).innerHTML =
             '<div style="margin:4px 0 12px 44px;font-size:13px;line-height:2">' +
             '<div><span class="verdict ok">✅ 强</span> 业务场景拆解 ← 90 万项目全链</div>' +
-            '<div><span class="verdict ok">✅ 强</span> ToB 汇报 ← 80+ 场项目汇报</div>' +
-            '<div><span class="verdict ok">✅ 强</span> Agent 实战 ← 玲珑矩阵 15 款产品</div>' +
-            '<div><span class="verdict ok">✅ 命中</span> RAG 实战 ← 1529 向量点实测</div>' +
+            '<div><span class="verdict ok">✅ 强</span> ToB 汇报 ← 客户与评审会现场</div>' +
+            '<div><span class="verdict ok">✅ 强</span> Agent 实战 ← 玲珑矩阵全系</div>' +
+            '<div><span class="verdict ok">✅ 命中</span> RAG 实战 ← 本地向量检索实测</div>' +
             '<div><span class="verdict warn">🟡 中</span> 可演示方案 ← Demo 在，补包装话术</div>' +
             '<div><span class="verdict bad">✗ 缺</span> 电商语境 ← 不编造，L4 开条电商 Demo 产线补语境</div></div>';
           nodes[2].classList.add('run');
           await wait(650);
           done(2, '三查全过');
           $('[data-o2]', stage).innerHTML =
-            '<div class="rag-result on" style="margin:4px 0 12px 44px"><b>简历 bullet：</b>主导 <b>90 万级</b>指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。' +
+            '<div class="rag-result on" style="margin:4px 0 12px 44px"><b>简历 bullet：</b>主导政企指挥大厅项目：需求访谈 → 场景拆解 → 方案汇报 → 验收答辩全链。' +
             '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><span class="verdict ok">✓ 红线查</span><span class="verdict ok">✓ 不编造查</span><span class="verdict ok">✓ 防堆砌查</span></div></div>';
         })();
       });
@@ -1942,6 +1964,46 @@ const DEMOS = {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
   $$('.rv:not(.in)').forEach(x => io.observe(x));
+})();
+</script>
+<script>
+/* 微信通道：在 data/site-facts.json 填 wechat_id 后自动出现，未填则整块不渲染 */
+(function () {
+  var WECHAT_ID = "19200598917";
+  var slot = document.getElementById("wechatSlot");
+  if (!WECHAT_ID || !slot) return;
+  slot.hidden = false;
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "chip acc";
+  btn.textContent = "微信：" + WECHAT_ID + "（点击复制）";
+  btn.addEventListener("click", function () {
+    if (navigator.clipboard) navigator.clipboard.writeText(WECHAT_ID);
+    btn.textContent = "已复制微信号";
+  });
+  slot.appendChild(btn);
+})();
+</script>
+
+<script>
+/* 动态日志播报：demo 输出容器补 aria-live（内容由各 demo 现场渲染） */
+(function () {
+  var SEL = '[data-out], [data-line], .demo-log, #consoleBody';
+  function tag(root) {
+    if (!root.querySelectorAll) return;
+    Array.prototype.forEach.call(root.querySelectorAll(SEL), function (el) {
+      if (!el.hasAttribute('aria-live')) el.setAttribute('aria-live', 'polite');
+    });
+  }
+  tag(document);
+  if (!window.MutationObserver) return;
+  var pending = false;
+  var host = document.getElementById('caseList') || document.body;
+  new MutationObserver(function () {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () { pending = false; tag(host); });
+  }).observe(host, { childList: true, subtree: true });
 })();
 </script>
 </body>

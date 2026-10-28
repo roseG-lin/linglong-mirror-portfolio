@@ -5,11 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Remi OS v2.5 — 一台装载大脑分区的复古未来电脑：作品、技能、经历、人格。AI 售前 / 解决方案工程师 Remi 的个人宇宙控制台。">
 <title>Remi OS v2.5 · 个人宇宙控制台</title>
+<link rel="canonical" href="https://www.remifei.cn/os/">
+<meta name="theme-color" content="#060F18">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Remi 作品集">
+<meta property="og:title" content="Remi OS v2.5 · 个人宇宙控制台">
+<meta property="og:description" content="一台装载大脑分区的复古未来电脑：作品、技能、经历、人格。AI 售前 / 解决方案工程师。">
+<meta property="og:url" content="https://www.remifei.cn/os/">
+<meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Remi OS v2.5 · 个人宇宙控制台">
+<meta name="twitter:description" content="一台装载大脑分区的复古未来电脑：作品、技能、经历、人格。">
+<meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -33,7 +41,7 @@
   --glass-fill:        rgba(255,255,255,0.06);
   --glass-top-edge:    rgba(255,255,255,0.12);
   --glass-hover-fill:  rgba(255,255,255,0.12);
-  --scrim:             linear-gradient(180deg, rgba(2,12,26,0.35) 0%, rgba(2,12,26,0) 40%, rgba(2,12,26,0.55) 100%);
+  --scrim:             linear-gradient(180deg, rgba(2,12,26,0.62) 0%, rgba(2,12,26,0.42) 40%, rgba(2,12,26,0.72) 100%);
 
   /* 字体 */
   --font-display: 'Instrument Serif', 'Songti SC', 'SimSun', serif;
@@ -112,8 +120,7 @@ button { background: none; border: none; cursor: pointer; }
 
 /* 液态玻璃（逐字冻结） */
 .liquid-glass {
-  background: rgba(255,255,255,0.01);
-  background-blend-mode: luminosity;
+  background: rgba(2,10,22,0.42);
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
   border: none;
@@ -790,13 +797,30 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none;
   #printArea .resume-foot { display: none; }
 }
 </style>
+<link rel="stylesheet" href="../css/fonts.css">
 </head>
 
 <body>
 
-<video class="bg-video" autoplay loop muted playsinline aria-hidden="true">
-  <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" type="video/mp4">
-</video>
+<video class="bg-video" loop muted playsinline preload="none" poster="../assets/bg-poster.jpg" aria-hidden="true" data-src="assets/bg-loop.mp4"></video>
+<script>
+/* 背景视频按条件加载：小屏 / 省流量 / 减少动效时只留海报，不下载 3.4MB */
+(function () {
+  var v = document.querySelector('.bg-video');
+  if (!v) return;
+  var conn = navigator.connection || {};
+  var small = window.matchMedia('(max-width: 899px)').matches;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (small || reduce || conn.saveData) return;
+  var s = document.createElement('source');
+  s.src = v.dataset.src;
+  s.type = 'video/mp4';
+  v.appendChild(s);
+  v.load();
+  var p = v.play();
+  if (p && p.catch) p.catch(function () {});
+})();
+</script>
 <div class="scrim" aria-hidden="true"></div>
 
 <!-- ============ SVG 图标库（Lucide 血统描边 · 24 网格） ============ -->
@@ -922,7 +946,7 @@ const CONTENT = {
     { n: 1300, suffix: '+', label: '家公司方案培训' },
     { n: 80,   suffix: '+', label: '项目汇报' },
     { n: 20,   suffix: '+', label: '项目验收答辩' },
-    { n: 20,   suffix: '+', label: '玲珑系列产物' },
+    { n: 15, suffix: '+', label: '玲珑系列产品' },
     { n: 1529, suffix: '',  label: 'RAG 向量点 · 724s 建库' },
   ],
   skills: [
@@ -993,9 +1017,9 @@ const CONTENT = {
       tags: ['全双工', '实时交互', '设计中'] },
   ],
   timeline: [
-    { ver: 'v1.0', year: '2024', title: '入行 · 音视频售前工程师', desc: '广东保伦电子。方案 PPT、展会、汇报、验收答辩全链路。' },
-    { ver: 'v1.8', year: '2023.09–2025.03', title: '扛下 90 万级指挥大厅项目', desc: '汕头综合保税区。18 个月累计：1300+ 家公司培训、80+ 项目汇报、20+ 验收答辩。' },
-    { ver: 'v2.0', year: '2025', title: 'AI Coding 觉醒', desc: 'Claude / Codex / 智谱。第二大脑开建，玲珑系列立项——一人公司运转起来。' },
+    { ver: 'v1.0', year: '2024', title: '入行 · 音视频售前工程师', desc: '广东保伦电子。方案、展会、汇报、验收，一岗跑通销售全链。' },
+    { ver: 'v1.8', year: '2023.09–2025.03', title: '指挥大厅项目落地', desc: '汕头保税区：培训、汇报、验收三条线并行，售前底子在这里打下来。' },
+    { ver: 'v2.0', year: '2025', title: '转向 AI Coding', desc: 'Claude / Codex / 智谱 三线并用；第二大脑开建，玲珑系列立项——一人公司运转起来。' },
     { ver: 'v2.2', year: '2026', title: 'RAG 全链路跑通', desc: '119 文件 → 1529 向量点，CPU 建库 724 秒；检索基线 4/5 → 调优后 5/5。玲珑矩阵 15 款产品。' },
     { ver: 'v2.5', year: '2026', title: 'RemiOS 上线 · 转向 AI 售前', desc: '把「会造 AI 产品 + 会卖方案」的组合，卖给需要的人。就是你正在看的这台电脑。', now: true },
   ],
@@ -1016,7 +1040,7 @@ const CONTENT = {
     { claim: '20+ 个独立玲珑工程目录', level: 'a', src: '来源：E:\\AI项目\\ 目录实体 · 可现场打开验货\n盘点：L0 素材盘点 A4（2026-08-25 已确认）。' },
   ],
   learning: [
-    { name: '私有化部署（GPU / CUDA）', meta: '进行中 · 始于 2026-09-04 · 玲珑学海', mode: 'ind', note: 'RAG 全链路 CPU 跑通，延迟数字在手。GPU 私有化是下一步，产线已开。' },
+    { name: '私有化部署（GPU / CUDA）', meta: '进行中 · 始于 2026-09-04 · 玲珑学海', mode: 'ind', note: 'RAG 全链路在 CPU 跑通，延迟数据在手；下一步做 GPU 私有化，产线已开。' },
     { name: '行业语境宽度（电商 / 零售）', meta: '已开 L4 产线 · 电商场景 Demo', mode: 'ind', note: '音视频我熟，电商我没干过。不编造经历，做一条电商场景 Demo 产线补语境。' },
     { name: 'Embedding / Rerank 术语补强', meta: '排队中 · 1 小时级', mode: 'idle', note: '概念早已跑在代码里，补的是面试场上的术语口径。' },
   ],
@@ -1977,7 +2001,7 @@ APPS.about = {
     const page = $('[data-page]', body);
     const pages = [
       () =>
-        '<div class="about-hero"><img class="avatar" src="../assets/avatar.png" alt="Remi 头像"><div>' +
+        '<div class="about-hero"><img class="avatar" src="../assets/avatar-240.jpg" alt="Remi 头像"><div>' +
           '<h2 class="app-h">' + CONTENT.name + ' · ' + CONTENT.realName + '</h2>' +
           '<p class="app-sub" style="margin-bottom:8px">' + CONTENT.slogan + '</p>' +
           '<div class="fm-tags" style="margin:0"><span class="chip acc">' + CONTENT.targetRole + '</span><span class="chip">' + CONTENT.city + '</span><span class="chip">' + CONTENT.availability + '</span></div>' +
@@ -2099,7 +2123,7 @@ APPS.contact = {
   render(body) {
     body.innerHTML =
       '<div class="contact-card liquid-glass" style="border-radius:var(--radius-2xl)">' +
-        '<img class="avatar" src="../assets/avatar.png" alt="Remi 头像">' +
+        '<img class="avatar" src="../assets/avatar-240.jpg" alt="Remi 头像">' +
         '<h2 class="app-h">' + CONTENT.name + '</h2>' +
         '<p class="app-sub" style="margin-bottom:0">' + CONTENT.slogan + '</p>' +
         '<p class="r-meta" style="margin-top:8px">' + CONTENT.city + ' · ' + CONTENT.availability + '</p>' +
@@ -2561,6 +2585,27 @@ if (Achv.unlocked.size >= ACHV_DEF.length || store('remios_hidden') === '1') rev
 bindGlobal();
 startClock();
 boot(false);
+</script>
+
+<script>
+/* 动态日志播报：窗口内 demo 输出补 aria-live */
+(function () {
+  var SEL = '[data-out], [data-line], .demo-log, [data-log]';
+  function tag(root) {
+    if (!root.querySelectorAll) return;
+    Array.prototype.forEach.call(root.querySelectorAll(SEL), function (el) {
+      if (!el.hasAttribute('aria-live')) el.setAttribute('aria-live', 'polite');
+    });
+  }
+  tag(document);
+  if (!window.MutationObserver) return;
+  var pending = false;
+  new MutationObserver(function () {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () { pending = false; tag(document.body); });
+  }).observe(document.body, { childList: true, subtree: true });
+})();
 </script>
 </body>
 </html>

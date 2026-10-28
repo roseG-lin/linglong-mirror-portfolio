@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>页面走丢了 · Remi 作品集</title>
+<style>
+  :root{
+    --bg:#060f18; --surface:#0f1a24; --fg:#f9fafb; --muted:#9aa3ad;
+    --accent:#19ccf0; --line:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh; background:var(--bg); color:var(--fg);
+    font:16px/1.7 "Inter","PingFang SC","Microsoft YaHei",sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:32px 20px;
+  }
+  .wrap{max-width:720px;width:100%}
+  .code{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.22em;color:var(--accent)}
+  h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.15;margin:12px 0 16px;font-weight:500}
+  p{color:var(--muted);max-width:52em}
+  .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  a{color:var(--fg);text-decoration:none;border:0.5px solid var(--line);border-radius:999px;padding:9px 16px;font-size:13px}
+  a:hover{border-color:var(--accent);color:var(--accent)}
+  a.primary{background:var(--accent);color:var(--bg);border-color:transparent;font-weight:600}
+  .cases{margin-top:28px;padding-top:20px;border-top:0.5px solid var(--line);display:flex;flex-wrap:wrap;gap:10px}
+  .cases .t{width:100%;font-size:12px;color:var(--muted);letter-spacing:.12em;margin-bottom:2px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="code">ERROR 404</div>
+    <h1>这个地址没有页面。</h1>
+    <p>链接可能过期了，或者路径拼错了一个字母。作品都还在：九个案例页、桌面版宇宙、纸上手绘版，随便挑一个继续逛。</p>
+    <div class="links">
+      <a class="primary" href="/">← 回首页</a>
+      <a href="/os/">桌面版宇宙</a>
+      <a href="/folio/">纸上手绘版</a>
+    </div>
+    <div class="cases">
+      <span class="t">九个案例直达</span>
+      <a href="/case/01-huodai-platform.html">潮汛</a>
+      <a href="/case/02-rag-pipeline.html">RAG 四模式</a>
+      <a href="/case/03-miku-privacy.html">玲珑秘库</a>
+      <a href="/case/04-reyes-video.html">玲珑之眼</a>
+      <a href="/case/05-yisheng-engine.html">爻胜</a>
+      <a href="/case/06-novel-engine.html">小说引擎</a>
+      <a href="/case/07-mirror-value.html">玲珑镜面</a>
+      <a href="/case/08-shiyang-solver.html">玲珑食养</a>
+      <a href="/case/09-longjob-pipeline.html">玲珑职举</a>
+    </div>
+  </div>
+</body>
+</html>
