@@ -172,7 +172,7 @@ def test_homepage_case_chips_match_case_pages():
     by_id = dict(entries)
     pairs = {
         "huodai-mask": "01-huodai-platform.html",
-        "rag-pipeline": "02-rag-pipeline.html",
+        "xray-audit": "02-xray-security.html",
         "miku-privacy": "03-miku-privacy.html",
         "reyes-video": "04-reyes-video.html",
     }

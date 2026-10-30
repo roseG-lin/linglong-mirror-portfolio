@@ -21,11 +21,7 @@
 <link rel="stylesheet" href="case.css">
 <script src="case.js" defer></script>
 <style>
-/* 本页皮肤：只保留 accent 与主题基因；基础样式见 case.css */
-:root {
-  --accent: 6 88% 59%;            /* 朱砂红 */
-  --skin-name: '朱砂红';
-}
+/* 本页皮肤：收色后无 accent 覆写；基础样式见 case.css */
 .mask-view { padding: var(--space-3) var(--space-4); }
 </style>
 </head>
@@ -54,8 +50,19 @@
       <span class="hint">录像式演示<i class="sep" aria-hidden="true"></i>口径在本页下方</span></div>
     <div class="df-stage" id="stage"></div>
   </div>
+  <section class="ev-sec" aria-labelledby="re-h">
+    <h2 class="sec-title" id="re-h">检索引擎<i class="sep" aria-hidden="true"></i>同一交付面的另一半</h2>
+    <div class="demo-kpis">
+      <div class="demo-kpi"><div class="v">119</div><div class="l">份业务文档实测</div></div>
+      <div class="demo-kpi"><div class="v">1529</div><div class="l">向量点 · 724s CPU 建库</div></div>
+      <div class="demo-kpi"><div class="v">4/5→5/5</div><div class="l">检索命中：基线 → 调优后</div></div>
+      <div class="demo-kpi"><div class="v">4 模式</div><div class="l">纯向量 / 改写 / 混合 / Agentic 自纠</div></div>
+    </div>
+    <p class="demo-note">隔离层与检索引擎共用一套本地管线：119 份文档在本机解析出 1527 块、建好索引，云端只接收占位符。
+    纯向量答错的题，改写 + 混合重排 + 两轮自纠后答对——调优全程在仓库 four_mode_compare.py 可复跑。</p>
+  </section>
   <section class="ev-sec" aria-labelledby="ev-h">
-    <h2 class="kicker" id="ev-h">真机佐证<i class="sep" aria-hidden="true"></i>在跑的系统</h2>
+    <h2 class="sec-title" id="ev-h">真机佐证<i class="sep" aria-hidden="true"></i>在跑的系统</h2>
     <figure class="evidence">
       <a href="assets/evidence/03-miku-01.jpg" target="_blank" rel="noopener">
         <img src="assets/evidence/03-miku-01.jpg" width="1201" height="688" alt="玲珑秘库首页：单向镜面与五舱导航" loading="lazy" decoding="async">
@@ -67,7 +74,7 @@
     </figure>
   </section>
   <div class="pn-nav">
-    <a href="02-rag-pipeline.html"><div class="dir">← 上一篇</div><div class="ttl">RAG 知识库</div></a>
+    <a href="02-xray-security.html"><div class="dir">← 上一篇</div><div class="ttl">玲珑X光</div></a>
     <a class="next" href="04-reyes-video.html"><div class="dir">下一篇 →</div><div class="ttl">视频生产</div></a>
    
   </div>

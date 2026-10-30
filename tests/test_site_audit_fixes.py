@@ -177,7 +177,7 @@ def test_case_pages_have_skip_link():
 def test_facts_ledger_covers_site_numbers():
     facts = Path(r"E:/AI项目/玲珑职举工作台/data/facts.yaml").read_text(encoding="utf-8")
     nums = re.search(r"^numbers:.*?(?=^\w|\Z)", facts, re.S | re.M).group(0)
-    for val in ["1529", "1527", "724", "448", "94%", "171", "2499", "228", "553", "222", "26", "7/7"]:
+    for val in ["1529", "1527", "724", "448", "94%", "171", "2499", "228", "553", "222", "26", "7/7", "250", "1080", "191", "446", "479"]:
         assert val in nums, f"facts.yaml 的 numbers 未收编 {val}"
 
 

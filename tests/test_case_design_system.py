@@ -50,7 +50,9 @@ def test_page_style_is_skin_only():
         blocks = re.findall(r"<style>(.*?)</style>", src, re.S)
         assert len(blocks) == 1, f"{name} 应只有一段皮肤样式，实际 {len(blocks)}"
         block = blocks[0]
-        assert "--accent" in block, f"{name} 皮肤未声明 accent"
+        # 2026-10-30 圆桌裁决：全站收单主色，页面不得再覆写 accent
+        # （旧「9 页 9 色」里 01/03 的 accent 逐字相同，身份机制已自证失效）
+        assert "--accent:" not in block, f"{name} 皮肤不应再覆写 --accent（全站单主色）"
         assert block.count("\n") < 40, f"{name} 皮肤块 {block.count(chr(10))} 行，疑似又把基础样式抄回来了"
 
 

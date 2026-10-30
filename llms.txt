@@ -28,7 +28,7 @@
 
 - [主站首页（可交互作品集）]: https://www.remifei.cn/
 - [潮汛 · 货代自动化平台实机演示]: https://www.remifei.cn/case/01-huodai-platform.html
-- [企业级 RAG 全链路实机演示]: https://www.remifei.cn/case/02-rag-pipeline.html
+- [玲珑X光 X-ray · 代码安全审查]: https://www.remifei.cn/case/02-xray-security.html
 - [玲珑秘库 · 隐私隔离实机演示]: https://www.remifei.cn/case/03-miku-privacy.html
 - [玲珑之眼 · 视频产线实机演示]: https://www.remifei.cn/case/04-reyes-video.html
 - [RemiOS 桌面宇宙（交互式履历 · 关于我）]: https://www.remifei.cn/os/

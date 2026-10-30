@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>玲珑X光 X-ray · Vibe Coding 代码安全审查 · Remi 作品集</title>
+<meta name="description" content="Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。">
+<link rel="canonical" href="https://www.remifei.cn/case/02-xray-security.html">
+<meta name="theme-color" content="#061018">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Remi 作品集">
+<meta property="og:title" content="玲珑X光 X-ray · 代码安全审查">
+<meta property="og:description" content="Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。">
+<meta property="og:url" content="https://www.remifei.cn/case/02-xray-security.html">
+<meta property="og:image" content="https://www.remifei.cn/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="玲珑X光 X-ray · 代码安全审查">
+<meta name="twitter:description" content="Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。">
+<meta name="twitter:image" content="https://www.remifei.cn/assets/og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="stylesheet" href="case.css">
+<script src="case.js" defer></script>
+<style>
+/* 本页皮肤：收色后无覆写；基础样式见 case.css */
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到内容</a><div id="progress"></div>
+<nav class="case-nav-bar">
+  <a href="../">← 目录</a>
+  <span class="cn-mid">CASE 02 / 09<i class="sep" aria-hidden="true"></i>安全审查</span>
+  <a href="03-miku-privacy.html">下一篇 →</a>
+</nav>
+<header class="case-hero">
+  <p class="kicker">CASE 02<i class="sep" aria-hidden="true"></i>安全审查</p>
+  <h1>玲珑X光 X-ray · Vibe Coding 代码安全审查</h1>
+  <p class="tag">Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。</p>
+  <div class="case-metrics"><span class="chip acc">20 条规则<i class="sep" aria-hidden="true"></i>三类覆盖</span><span class="chip acc">L1→L4 四层架构</span><span class="chip acc">250 项测试锁定</span><span class="chip acc">潮汛实测 1080 项发现</span></div>
+</header>
+<main class="case-body" id="main">
+  <div class="demo-frame mt-4">
+    <div class="df-bar"><span class="live-dot"></span> LIVE DEMO<i class="sep" aria-hidden="true"></i>可直接交互
+      <button class="df-reset" id="resetBtn" type="button">↻ 重置</button>
+      <span class="hint">录像式演示<i class="sep" aria-hidden="true"></i>口径在本页下方</span></div>
+    <div class="df-stage" id="stage"></div>
+  </div>
+  <section class="ev-sec" aria-labelledby="ev-h">
+    <h2 class="sec-title" id="ev-h">真机佐证<i class="sep" aria-hidden="true"></i>在跑的系统</h2>
+    <figure class="evidence">
+      <a href="assets/evidence/02-xray-01.jpg" target="_blank" rel="noopener">
+        <img src="assets/evidence/02-xray-01.jpg" width="1280" height="720" alt="玲珑X光对潮汛后端的全链路审查仪表盘" loading="lazy" decoding="async">
+      </a>
+      <figcaption>
+        <b>操作：</b>对潮汛后端跑全链路审查（L1 检测 → L2 红蓝对抗 → L3 攻击链图谱 → L4 仪表盘），打开生成的 HTML 报告
+        <span class="ev-meta">数字出处：报告生成于 2026-08-08，存档于 X 光仓 reports/；本机路径已打码 · 截图 2026-10-31</span>
+      </figcaption>
+    </figure>
+  </section>
+  <div class="pn-nav">
+    <a href="01-huodai-platform.html"><div class="dir">← 上一篇</div><div class="ttl">潮汛平台</div></a>
+    <a class="next" href="03-miku-privacy.html"><div class="dir">下一篇 →</div><div class="ttl">玲珑秘库</div></a>
+  </div>
+</main>
+  <p class="demo-note mt-6">实测口径：2026-10-30 现场复跑 · 数字可在玲珑X光仓库复跑（python -m pytest tests/ 与 scripts/detect.py）</p>
+<script>
+'use strict';
+const $  = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+const DEMOS = {
+  'xray-audit': {
+    mount(stage) {
+      stage.innerHTML =
+        '<div class="demo-card" style="margin-bottom:12px"><div class="t">全链路审查 · 潮汛后端（生产级工程）</div>' +
+          '<p class="muted" style="font-size:var(--text-sm);line-height:1.7">点【开始审查】，走一遍四层管线。每一步的读数都来自真实运行，不是示意图。</p>' +
+          '<button type="button" class="action mt-2" data-run><span>▶ 开始审查：sandbox → L1 → 分诊 → L2 → 图谱</span><span class="action-go" aria-hidden="true">运行</span></button>' +
+          '<div class="demo-log" id="log-0" data-line aria-live="polite"></div>' +
+        '</div>' +
+        '<div class="demo-kpis">' +
+          '<div class="demo-kpi"><div class="v">446</div><div class="l">扫描的 .py 文件</div></div>' +
+          '<div class="demo-kpi"><div class="v">479</div><div class="l">L1 发现（2026-10-30 复跑）</div></div>' +
+          '<div class="demo-kpi"><div class="v">5.0s</div><div class="l">L1 静态侦察耗时</div></div>' +
+          '<div class="demo-kpi"><div class="v">81</div><div class="l">严重级（08-08 全链路报告）</div></div>' +
+        '</div>' +
+        '<div class="demo-card mt-4"><div class="t">修什么 · 报告替你排好的优先级</div>' +
+          '<div class="bars">' +
+            '<div class="bar-row"><div class="bl">P0 立即修复：硬编码密钥 / SQL 注入（低难度可直接改）</div><div class="bar-track"><div class="bar-fill w100" style="background:hsl(var(--danger) / 0.65)"></div></div></div>' +
+            '<div class="bar-row"><div class="bl">P1 尽快修复：XSS / CORS / 弱加密（需 review 改动）</div><div class="bar-track"><div class="bar-fill w30" style="background:hsl(var(--warn) / 0.65)"></div></div></div>' +
+            '<div class="bar-row"><div class="bl">P2 计划修复：示例残留（脚本批量清理）</div><div class="bar-track base"><div class="bar-fill"></div></div></div>' +
+          '</div>' +
+          '<div class="demo-note">四层架构：L1 静态侦察（规则+RAG 双引擎）→ L2 Multi-Agent 红蓝对抗（沙箱内执行，乐观假定 → 真验证）→ L3 自进化（攻击知识图谱 + 遗忘机制）→ L4 可视化仪表盘（严重度 × 置信度矩阵 + 修复看板）</div>' +
+        '</div>';
+
+      const STEPS = [
+        ['1 沙箱镜像', '源码只读复制进沙箱，标记 .xray-sandbox——L2 红队只在镜像里动手，永不碰源码'],
+        ['2 L1 静态侦察', '三类规则逐个过：Vibe Coding 特有 / OWASP 经典 / LLM·Agentic；446 个 .py 文件 5.0 秒扫完'],
+        ['3 分诊', '479 项发现按规则归堆：sqli 37 · hardcoded-secret 3 · tool-abuse 1 · example-residue 438'],
+        ['4 L2 红蓝对抗', '红队按攻击知识图谱生成 payload 在沙箱执行，蓝队给上下文感知修复，裁判判定——误报当场筛掉'],
+        ['5 L3 → L4', '攻击链图谱自动串发现 → 影响扩散；仪表盘按严重度 × 置信度出修复优先级，落 HTML 报告'],
+      ];
+      const runBtn = $('[data-run]', stage);
+      const RUN_LABEL = runBtn.textContent;
+      runBtn.addEventListener('click', () => {
+        const line = $('[data-line]', stage);
+        line.innerHTML = '';
+        let i = 0;
+        runBtn.disabled = true;
+        runBtn.setAttribute('aria-busy', 'true');
+        runBtn.textContent = '审查中…';
+        (function tick() {
+          if (i >= STEPS.length) {
+            line.innerHTML += '<div class="ok-text">✓ 报告已生成：81 严重 / 6 高危，99% 可修复（2026-08-08 全链路报告）</div>';
+            runBtn.disabled = false;
+            runBtn.removeAttribute('aria-busy');
+            runBtn.textContent = RUN_LABEL;
+            return;
+          }
+          line.innerHTML += '<div><span class="accent">[' + STEPS[i][0] + ']</span> ' + STEPS[i][1] + '</div>';
+          i++;
+          setTimeout(tick, REDUCED ? 0 : 460);
+        })();
+      });
+    },
+  },
+};
+const stage = document.getElementById('stage');
+const run = () => { stage.innerHTML = ''; try { DEMOS['xray-audit'].mount(stage); } catch (e) { stage.innerHTML = '<p class="muted mono">Demo 未响应，请刷新重试。</p>'; } };
+document.getElementById('resetBtn').addEventListener('click', run);
+run();
+addEventListener('scroll', () => {
+  const p = document.getElementById('progress');
+  const d = document.documentElement;
+  p.style.width = (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
+}, { passive: true });
+</script>
+</body>
+</html>

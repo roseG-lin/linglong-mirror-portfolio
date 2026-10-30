@@ -717,7 +717,7 @@ html.cc, html.cc * { cursor: none !important; }
         </div>
         <div class="hero-cases mobile-only" aria-label="四个可点开的案例">
           <a href="case/01-huodai-platform.html"><b>01</b><span>潮汛 · 货代自动化</span><i>→</i></a>
-          <a href="case/02-rag-pipeline.html"><b>02</b><span>企业级 RAG</span><i>→</i></a>
+          <a href="case/02-xray-security.html"><b>02</b><span>玲珑X光 · 安全审查</span><i>→</i></a>
           <a href="case/03-miku-privacy.html"><b>03</b><span>玲珑秘库</span><i>→</i></a>
           <a href="case/04-reyes-video.html"><b>04</b><span>玲珑之眼</span><i>→</i></a>
         </div>
@@ -730,7 +730,7 @@ html.cc, html.cc * { cursor: none !important; }
         <div id="consoleBody"></div>
         <div class="hero-cases">
           <a href="case/01-huodai-platform.html"><b>01</b><span>潮汛 · 货代自动化</span><i>→</i></a>
-          <a href="case/02-rag-pipeline.html"><b>02</b><span>企业级 RAG</span><i>→</i></a>
+          <a href="case/02-xray-security.html"><b>02</b><span>玲珑X光 · 安全审查</span><i>→</i></a>
           <a href="case/03-miku-privacy.html"><b>03</b><span>玲珑秘库</span><i>→</i></a>
           <a href="case/04-reyes-video.html"><b>04</b><span>玲珑之眼</span><i>→</i></a>
         </div>
@@ -819,9 +819,9 @@ html.cc, html.cc * { cursor: none !important; }
         <p>订单/客户/邮件/RPA 四域打通，业务能力封装成 MCP 工具供 Agent 调用；关键发送环节保留人工确认——点进去跑一遍邮件处理全程。</p>
       </article>
       <article class="qi-card">
-        <h3><a href="case/02-rag-pipeline.html">企业级 RAG 全链路 · 四模式对比</a></h3>
-        <p class="qi-tag">检索增强 · 四模式对比 · 评测管线</p>
-        <p>同一问句跑四种检索模式：纯向量答错、重排 + 自纠答对，差距一行行调出来；配套自动化评测管线。</p>
+        <h3><a href="case/02-xray-security.html">玲珑X光 X-ray · 代码安全审查</a></h3>
+        <p class="qi-tag">安全审查 · 红蓝对抗 · 修复优先级</p>
+        <p>Vibe Coding 产物上线前的安全审查：静态侦察 → 沙箱红蓝对抗 → 攻击链图谱 → 修复看板，潮汛全链路实测千项级发现。</p>
       </article>
       <article class="qi-card">
         <h3><a href="case/03-miku-privacy.html">玲珑秘库 · 大模型隐私安全隔离</a></h3>
@@ -949,7 +949,7 @@ html.cc, html.cc * { cursor: none !important; }
       <li>培训上千家公司 · 80+ 场项目汇报 · 20+ 场验收答辩 · 政企指挥大厅项目主导</li>
       <li>主导设计并编排 AI 完成 20+ 套企业级 AI 原型（POC），全线 TDD 验收，累计 4000+ 项自动化测试</li>
       <li><a style="color:#0DA2E7" href="case/01-huodai-platform.html">潮汛 · 跨境货代自动化平台</a>（MCP Agent · 提效约 60% · 2800+ 测试）</li>
-      <li><a style="color:#0DA2E7" href="case/02-rag-pipeline.html">企业级 RAG 全链路</a>（119 文件实测 · 命中 4/5 → 5/5）</li>
+      <li><a style="color:#0DA2E7" href="case/02-xray-security.html">玲珑X光 · 代码安全审查</a>（三类规则 · 红蓝对抗 · 250 测试）</li>
       <li><a style="color:#0DA2E7" href="case/03-miku-privacy.html">玲珑秘库 · 大模型隐私安全隔离</a>（外泄风险 0 · 验收 7/7）</li>
       <li><a style="color:#0DA2E7" href="case/04-reyes-video.html">玲珑之眼 · AIGC 视频产线</a>（v8 · 222 测试 · 166s 成片）</li>
       <li>联系：13538851689 · 2782084545@qq.com</li>
@@ -980,9 +980,9 @@ const CONTENT = {
     { id: 'huodai-mask', kicker: 'CASE 01 · 行业落地', title: '潮汛 · 货代业务自动化平台', tag: '订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 Agent 调用；2800+ 项测试护着这套工具层，关键发送必须过人。',
       nav: ['潮汛平台', '播放一封询价邮件的 Agent 处理全程，再看 MCP 工具面板。'],
       metrics: ['发送前人工确认', '订单 · 客户 · 邮件 · RPA', '业务能力 MCP 插件化', '脱敏屏障 · 验收全过'] },
-    { id: 'rag-pipeline', kicker: 'CASE 02 · RAG 检索', title: '企业级 RAG 全链路 · 四模式对比', tag: '同一句话，纯向量答错，调优后答对；119 份真实业务文件实测，解析切片→混合检索重排→评测管线全链路。',
-      nav: ['RAG 四模式', '纯向量答错的题，调优后答对。点模式④，看它自己纠错。'],
-      metrics: ['百文件级语料 → 千级向量点', '纯 CPU 建库', '实测提一档', 'Agentic 2 轮自纠'] },
+    { id: 'xray-audit', kicker: 'CASE 02 · 安全审查', title: '玲珑X光 X-ray · Vibe Coding 代码安全审查', tag: 'Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。',
+      nav: ['代码安全审查', '真实项目扫出 1080 项发现，红蓝对抗筛误报，修复优先级排好。'],
+      metrics: ['20 条规则 · 三类覆盖', 'L1→L4 四层架构', '250 项测试锁定', '潮汛实测 1080 项发现'] },
     { id: 'miku-privacy', kicker: 'CASE 03 · 隐私合规', title: '玲珑秘库 · 大模型隐私安全隔离', tag: '企业双端可见真实数据，云端大模型只处理加密占位符——政企用公有云大模型的零泄密前提，外泄风险降为 0。',
       nav: ['隐私隔离', 'LLM 全程只见占位符。点场景③，看它敢转人工。'],
       metrics: ['双端可见真实数据', '云端仅见加密占位符', '外泄风险降为 0', '占位符还原 · 验收 7/7'] },
@@ -1012,7 +1012,7 @@ const CONTENT = {
     { icon: 'i-search', name: '玲珑X光 X-ray', desc: '代码 X 光安全审查 v2.0，数据零适配直通镜面消费。' },
     { icon: 'i-terminal', name: '玲珑军机处', desc: '多 Agent 任务执行器 + 战报系统，行动留痕周报复盘。' },
     { icon: 'i-vol2', name: '玲珑语 Voice-core', desc: '全双工语音通道设计：可插话、可打断、流式回显。' },
-    { icon: 'i-file', name: '玲珑秘库', desc: '企业 LLM 隐私隔离层：私有化检索 + 权限分级（设计中）。' },
+    { icon: 'i-file', name: '玲珑秘库', desc: '企业 LLM 隐私隔离：本地检索引擎 + 占位符隔离，7/7 验收。' },
     { icon: 'i-zap', name: '智能客服 Agent', desc: 'LLM 内核 + 三道确定性 harness：29 项测试全绿，20 条电商评测风险漏网 0/8、误拦 0。' },
     { icon: 'i-book', name: 'P0 LLM 学院', desc: '原理教材站 + 白板课视频（画音字三同步）——把大模型原理讲成客户听得懂的话。' },
   ],
@@ -1321,13 +1321,13 @@ document.addEventListener('pointermove', e => {
   const NODES = [
     { id: 'luban',   name: '玲珑造物 LUBAN', tag: 'Skill 工坊 · 造 Skill 的 Skill', x: 0.50, y: 0.46, hub: true },
     { id: 'brain',   name: '第二大脑',       tag: '知识库体系 · 一切内容的源头', x: 0.50, y: 0.14 },
-    { id: 'rag',     name: 'RAG 检索栈',     tag: 'RAG 检索栈 · 四模式对比', x: 0.80, y: 0.30, live: true, demo: 'rag-pipeline' },
+    { id: 'rag',     name: 'RAG 检索栈',     tag: '检索引擎 · 归入秘库检索侧', x: 0.80, y: 0.30 },
     { id: 'mirror',  name: '玲珑镜面',       tag: '通用展示层 · 五层论文架构', x: 0.74, y: 0.62, live: true, demo: 'mirror-value' },
     { id: 'shiyang', name: '玲珑食养',       tag: 'CP-SAT 食谱求解 · 约束软化', x: 0.26, y: 0.62, live: true, demo: 'shiyang-solver' },
     { id: 'huodai',  name: '潮汛 Flowtide',   tag: '货代自动化 · 四域打通', x: 0.20, y: 0.30, live: true, demo: 'huodai-mask' },
     { id: 'longjob', name: '玲珑职举',       tag: '求职流水线 · 状态机', x: 0.50, y: 0.82, live: true, demo: 'longjob-pipeline' },
     { id: 'xuehai',  name: '玲珑学海',       tag: '教学引擎 · 费曼双检查点', x: 0.30, y: 0.80 },
-    { id: 'xray',    name: '玲珑X光',        tag: '代码安全审查', x: 0.10, y: 0.48 },
+    { id: 'xray',    name: '玲珑X光',        tag: '代码安全审查 · 三类规则', x: 0.10, y: 0.48, live: true, demo: 'xray-audit' },
     { id: 'junji',   name: '军机处',         tag: '任务执行器 + 战报', x: 0.90, y: 0.48 },
     { id: 'voice',   name: '玲珑语',         tag: '全双工语音通道', x: 0.70, y: 0.82 },
     { id: 'secret',  name: '玲珑秘库',       tag: '隐私隔离 · 零外泄', x: 0.68, y: 0.13, live: true, demo: 'miku-privacy' },
@@ -1406,7 +1406,7 @@ document.addEventListener('pointermove', e => {
   window.addEventListener('resize', () => { size(); draw(); });
 })();
 
-const CASEFILE = {"huodai-mask": "01-huodai-platform.html", "rag-pipeline": "02-rag-pipeline.html", "miku-privacy": "03-miku-privacy.html", "reyes-video": "04-reyes-video.html", "yisheng-engine": "05-yisheng-engine.html", "novel-engine": "06-novel-engine.html", "mirror-value": "07-mirror-value.html", "shiyang-solver": "08-shiyang-solver.html", "longjob-pipeline": "09-longjob-pipeline.html"};
+const CASEFILE = {"huodai-mask": "01-huodai-platform.html", "xray-audit": "02-xray-security.html", "miku-privacy": "03-miku-privacy.html", "reyes-video": "04-reyes-video.html", "yisheng-engine": "05-yisheng-engine.html", "novel-engine": "06-novel-engine.html", "mirror-value": "07-mirror-value.html", "shiyang-solver": "08-shiyang-solver.html", "longjob-pipeline": "09-longjob-pipeline.html"};
 
 /* ============================================================
    S3 案例章节骨架（卡片化 · 跳转独立案例页）
