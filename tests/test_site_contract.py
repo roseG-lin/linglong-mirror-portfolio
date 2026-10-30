@@ -180,3 +180,38 @@ def test_every_entry_page_declares_one_h1():
         if n != 1:
             bad.append(f"{rel}:{n}")
     assert not bad, "h1 数量不为 1 → " + ", ".join(bad)
+
+
+EVIDENCE_FIG = re.compile(r'<figure class="evidence">(.*?)</figure>', re.S)
+
+
+def test_evidence_figures_keep_caption_discipline():
+    """证据图三要素：操作、数字出处、截图日期。缺一项就是把图当装饰，不是证据。
+
+    另锁：alt 不能空（读屏要知道这是什么）；src 必须真实存在（死链另有一条，这里是更早的门）。
+    """
+    figures, bad = 0, []
+    for page in sorted((ROOT / "case").glob("0*.html")):
+        for fig in EVIDENCE_FIG.findall(page.read_text(encoding="utf-8")):
+            figures += 1
+            name = page.name
+            cap = re.search(r"<figcaption>(.*?)</figcaption>", fig, re.S)
+            alt = re.search(r'<img[^>]*\balt="([^"]*)"', fig)
+            src = re.search(r'<img[^>]*\bsrc="([^"]+)"', fig)
+            if not cap:
+                bad.append(f"{name}: 缺 figcaption")
+                continue
+            text = re.sub(r"<[^>]+>", "", cap.group(1))
+            for need in ("操作：", "数字出处：", "截图 20"):
+                if need not in text:
+                    bad.append(f"{name}: 图注缺「{need}」")
+            if not re.search(r"截图 20\d\d-\d\d-\d\d", text):
+                bad.append(f"{name}: 截图日期不是 20YY-MM-DD")
+            if not (alt and alt.group(1).strip()):
+                bad.append(f"{name}: alt 为空")
+            if not src:
+                bad.append(f"{name}: 找不到 img src")
+            elif not (page.parent / src.group(1)).exists():
+                bad.append(f"{name}: 图不存在 {src.group(1)}")
+    assert not bad, "\n".join(bad)
+    assert figures >= 3, f"证据图只剩 {figures} 张，案例页的真机佐证被删了？"

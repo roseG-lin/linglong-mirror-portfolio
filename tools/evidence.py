@@ -163,7 +163,7 @@ def main() -> int:
     print(f"打码 {len(args.redact)} 处" + ("（含「已脱敏」角标）" if (args.mark or args.confidential) else ""))
     if kb > 300:
         print("  注意：单张 >300KB 偏大，考虑裁掉无关区域或降 --quality")
-    print("\n把下面这段贴进 case/" + args.slug + ".html 的正文合适位置：\n")
+    print("\n把下面这段贴进对应案例页（case/）的正文合适位置：\n")
     print(html_block(rel, im.width, im.height, args.alt or f"{args.slug} 实机操作截图", args.op, args.num, args.date))
     return 0
 
