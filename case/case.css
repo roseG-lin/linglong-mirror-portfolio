@@ -539,6 +539,29 @@ input[type="range"]::-moz-range-thumb {
 .btn:hover { transform: scale(1.02); }
 .btn-primary { background: hsl(var(--accent)); color: hsl(var(--background)); }
 
+/* ---------- 6.5 证据图：真实项目截图 ---------- */
+/* 每张图 = 一次可复述的操作 + 可回查的数字出处，缺一项就不该上线（口径见 _design/cover-brief.md）。
+   用 <a> 包图，点击看原图；不引 JS 灯箱，键盘与移动端都天然可用。 */
+.evidence { margin: var(--space-6) 0; }
+.evidence a {
+  display: block; overflow: hidden;
+  border: var(--hairline) solid hsl(var(--border) / 0.9);
+  border-radius: var(--radius-lg); background: hsl(var(--surface-2));
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.evidence a:hover { border-color: hsl(var(--accent) / 0.55); }
+.evidence img { display: block; width: 100%; height: auto; }
+.evidence figcaption {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm); line-height: 1.65; color: hsl(var(--muted-foreground));
+}
+.evidence figcaption b { color: hsl(var(--foreground)); font-weight: 600; }
+.evidence .ev-meta {
+  display: block; margin-top: var(--space-1);
+  font-family: var(--font-mono); font-size: var(--text-xs);
+  color: hsl(var(--muted-foreground) / 0.9); letter-spacing: 0.02em;
+}
+
 /* ---------- 7. 响应式 ---------- */
 @media (max-width: 900px) {
   .demo-grid { grid-template-columns: 1fr; }

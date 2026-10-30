@@ -89,7 +89,8 @@ def test_p1_07_fonts_self_hosted():
     assert sum(f.stat().st_size for f in files) < 600_000
 
 
-def test_p1_08_home_has_real_case_shots():
+def test_p1_08_home_has_four_case_thumbs():
+    """首页四张卡片缩略图（现为概念封面，真截图在案例页里做证据图）。"""
     idx = read("index.html")
     assert "case-thumb" in idx
     for n in (1, 2, 3, 4):
