@@ -161,3 +161,21 @@ def test_p1_10_video_local_and_budget():
     assert re.search(r'poster="\.\./assets/bg-poster\.jpg(\?v=\d+)?"', os_html), "poster 未设置"
     v = ROOT / "os" / "assets" / "bg-loop.mp4"
     assert v.exists() and v.stat().st_size < 6_000_000, v.stat().st_size if v.exists() else "missing"
+
+
+def test_every_entry_page_declares_one_h1():
+    """入口页恰好一个 h1（noscript 兜底标题不计）：读屏与 SEO 才有唯一主标题。
+
+    folio 与 os 的首屏字标是 SVG/div 组字，视觉充当标题，因此补了 .sr-only 的 h1。
+    """
+    pages = ["index.html", "404.html", "folio/index.html", "os/index.html"]
+    pages += [f"case/{p.name}" for p in sorted((ROOT / "case").glob("*.html"))]
+    bad = []
+    for rel in pages:
+        src = read(rel)
+        src = re.sub(r"<noscript>.*?</noscript>", "", src, flags=re.S | re.I)
+        src = re.sub(r"<template.*?</template>", "", src, flags=re.S | re.I)
+        n = len(re.findall(r"<h1\b", src, flags=re.I))
+        if n != 1:
+            bad.append(f"{rel}:{n}")
+    assert not bad, "h1 数量不为 1 → " + ", ".join(bad)

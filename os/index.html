@@ -799,11 +799,14 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none;
   #printArea h4 { color: #666; border-color: #ccc; }
   #printArea .resume-foot { display: none; }
 }
+/* 桌面是应用式布局，视觉字标不是 h1；给读屏与搜索引擎补一个真实标题 */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 </style>
 <link rel="stylesheet" href="../css/fonts.css">
 </head>
 
 <body>
+<h1 class="sr-only">RemiOS · 林润基个人宇宙控制台</h1>
 
 <!-- 壁纸素材裁到 1650×1080：去掉右下角第三方工具水印，保留画面自带的「AI 生成」标识 -->
 <video class="bg-video" loop muted playsinline preload="none" poster="../assets/bg-poster.jpg?v=20261030" aria-hidden="true" data-src="assets/bg-loop.mp4?v=20261030"></video>
