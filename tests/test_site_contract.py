@@ -158,6 +158,6 @@ def test_p1_10_video_local_and_budget():
     os_html = read("os/index.html")
     assert "cloudfront.net" not in os_html, "仍有外链视频"
     assert 'preload="none"' in os_html
-    assert 'poster="../assets/bg-poster.jpg"' in os_html
+    assert re.search(r'poster="\.\./assets/bg-poster\.jpg(\?v=\d+)?"', os_html), "poster 未设置"
     v = ROOT / "os" / "assets" / "bg-loop.mp4"
     assert v.exists() and v.stat().st_size < 6_000_000, v.stat().st_size if v.exists() else "missing"

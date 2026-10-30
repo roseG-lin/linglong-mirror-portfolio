@@ -172,9 +172,12 @@ button { background: none; border: none; cursor: pointer; }
 #desktop.ready { visibility: visible; }
 
 .desk-icons {
-  position: absolute; top: var(--space-8); left: var(--space-8);
+  /* 96px 起：让出壁纸左上角的「AI 生成」标识，避免被第一格图标压住 */
+  position: absolute; top: 96px; left: var(--space-8);
   display: grid; grid-template-columns: repeat(2, 96px); gap: var(--space-6) var(--space-4);
 }
+/* 矮窗口：壁纸标识已被 cover 裁掉，图标回到顶部，避免和 Dock 叠 */
+@media (max-height: 800px) { .desk-icons { top: var(--space-8); } }
 .desk-icon {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
   padding: var(--space-2) 4px; border-radius: var(--radius-xl);
@@ -802,9 +805,10 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none;
 
 <body>
 
-<video class="bg-video" loop muted playsinline preload="none" poster="../assets/bg-poster.jpg" aria-hidden="true" data-src="assets/bg-loop.mp4"></video>
+<!-- 壁纸素材裁到 1650×1080：去掉右下角第三方工具水印，保留画面自带的「AI 生成」标识 -->
+<video class="bg-video" loop muted playsinline preload="none" poster="../assets/bg-poster.jpg?v=20261030" aria-hidden="true" data-src="assets/bg-loop.mp4?v=20261030"></video>
 <script>
-/* 背景视频按条件加载：小屏 / 省流量 / 减少动效时只留海报，不下载 3.4MB */
+/* 背景视频按条件加载：小屏 / 省流量 / 减少动效时只留海报，不下载 2.6MB */
 (function () {
   var v = document.querySelector('.bg-video');
   if (!v) return;
