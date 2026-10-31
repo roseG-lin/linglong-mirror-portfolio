@@ -78,7 +78,7 @@ def _ratio(a, b):
 
 
 def test_case07_demo_themes_pass_aa():
-    src = (ROOT / "case" / "07-mirror-value.html").read_text(encoding="utf-8")
+    src = (ROOT / "case" / "04-mirror-value.html").read_text(encoding="utf-8")
     block = re.search(r"const THEMES = \{(.*?)\n      \};", src, re.S).group(1)
     rows = re.findall(r"(\w+):\s*\{[^}]*bg:'([^']+)'[^}]*surf:'([^']+)'[^}]*acc:'([^']+)'", block)
     assert len(rows) == 4, f"解析到 {len(rows)} 套主题"

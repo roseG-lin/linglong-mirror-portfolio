@@ -174,7 +174,7 @@ def test_homepage_case_chips_match_case_pages():
         "huodai-mask": "01-huodai-platform.html",
         "xray-audit": "02-xray-security.html",
         "miku-privacy": "03-miku-privacy.html",
-        "reyes-video": "04-reyes-video.html",
+        "mirror-value": "04-mirror-value.html",
     }
     for cid, page in pairs.items():
         raw = by_id[cid]
