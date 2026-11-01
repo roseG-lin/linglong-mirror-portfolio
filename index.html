@@ -934,7 +934,7 @@ html.cc, html.cc * { cursor: none !important; }
 
   <footer>
     <div class="foot-big" aria-hidden="true">REMI</div>
-    REMI © 2026 · 零虚构：每个数字都能现场复跑；卡片是概念封面，点进去的交互 DEMO、真机截图与口径才是证据 · <a href="./os/">证据墙 / 时光机：RemiOS 桌面宇宙 ↗</a>
+    REMI © 2026 · 零虚构：每个数字都能现场复跑；卡片是封面（镜面与 X 光为界面实拍，余为概念图），点进去的交互 DEMO、真机截图与口径才是证据 · <a href="./os/">证据墙 / 时光机：RemiOS 桌面宇宙 ↗</a>
   </footer>
 </div>
 
@@ -980,24 +980,24 @@ const CONTENT = {
     { id: 'huodai-mask', kicker: 'CASE 01 · 行业落地', title: '潮汛 · 货代业务自动化平台', tag: '订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 Agent 调用；2800+ 项测试护着这套工具层，关键发送必须过人。',
       nav: ['潮汛平台', '播放一封询价邮件的 Agent 处理全程，再看 MCP 工具面板。'],
       metrics: ['发送前人工确认', '订单 · 客户 · 邮件 · RPA', '业务能力 MCP 插件化', '脱敏屏障 · 验收全过'] },
-    { id: 'xray-audit', kicker: 'CASE 02 · 安全审查', title: '玲珑X光 X-ray · Vibe Coding 代码安全审查', tag: 'Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。',
+    { id: 'xray-audit', coverAlt: '玲珑X光潮汛审查报告实拍', kicker: 'CASE 02 · 安全审查', title: '玲珑X光 X-ray · Vibe Coding 代码安全审查', tag: 'Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。',
       nav: ['代码安全审查', '真实项目扫出 1080 项发现，红蓝对抗筛误报，修复优先级排好。'],
       metrics: ['20 条规则 · 三类覆盖', 'L1→L4 四层架构', '250 项测试锁定', '潮汛实测 1080 项发现'] },
     { id: 'miku-privacy', kicker: 'CASE 03 · 隐私合规', title: '玲珑秘库 · 大模型隐私安全隔离', tag: '企业双端可见真实数据，云端大模型只处理加密占位符——政企用公有云大模型的零泄密前提，外泄风险降为 0。',
       nav: ['隐私隔离', 'LLM 全程只见占位符。点场景③，看它敢转人工。'],
       metrics: ['双端可见真实数据', '云端仅见加密占位符', '外泄风险降为 0', '占位符还原 · 验收 7/7'] },
-    { id: 'reyes-video', kicker: 'CASE 07 · 内容生产自动化', title: '玲珑之眼 · AIGC 视频生产线', tag: '讲稿进、成片出：白板动画、配音、字幕、合成全自动；产线 v8 上 222 项测试锁定，真实课程验证。',
-      nav: ['视频生产线', '输入一句讲稿，看五站流水线依次点亮，最后出片。'],
-      metrics: ['产线 v8 · 回归锁定', '讲稿 → 成片 全自动', '真实课程验证', '五站 · 每站可测'] },
+    { id: 'mirror-value', coverAlt: '玲珑镜面工作台实拍（主题画廊）', kicker: 'CASE 04 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，界面自动长出来；主题一键换肤带 AA 门禁。',
+      nav: ['价值感知', '拖滑块，看画像卡实时升降级。'],
+      metrics: ['声明进 → 界面出', '一键换肤 · AA 门禁', '五道门禁全过', '每条决策带理由'] },
     { id: 'yisheng-engine', kicker: 'CASE 05 · 统计建模', title: '爻胜 · 赛事预测统计引擎', tag: '913 场校准的 Elo + Dixon-Coles 统计模型，滚动回测检验：准确率与校准误差双双达标——统计严谨性的可验证样本。',
       nav: ['赛事预测', '选两支队，浏览器实算真实 Elo 预期胜率。'],
       metrics: ['913 场校准', '回测 61.9%', 'ECE 可达标', 'Rust 引擎 · 桌面端'] },
     { id: 'novel-engine', kicker: 'CASE 06 · 创作工程化', title: '玲珑小说引擎 · 把生产做成工程', tag: '单一真相源+代码化校验+短上下文执行，2499 项测试守着有质量门的流水线。',
       nav: ['小说生产工程化', '廉价翻转和半角标点在重写之前被拦下。点审校现场跑。'],
       metrics: ['2499 测试', 'TDD 质量门', '方法论矩阵', '百章压测 runner'] },
-    { id: 'mirror-value', kicker: 'CASE 04 · 自适应界面引擎', title: '玲珑镜面 Mirror · 声明即界面', tag: '写一段功能意图声明，界面自动长出来；主题一键换肤带 AA 门禁。',
-      nav: ['价值感知', '拖滑块，看画像卡实时升降级。'],
-      metrics: ['声明进 → 界面出', '一键换肤 · AA 门禁', '五道门禁全过', '每条决策带理由'] },
+    { id: 'reyes-video', kicker: 'CASE 07 · 内容生产自动化', title: '玲珑之眼 · AIGC 视频生产线', tag: '讲稿进、成片出：白板动画、配音、字幕、合成全自动；产线 v8 上 222 项测试锁定，真实课程验证。',
+      nav: ['视频生产线', '输入一句讲稿，看五站流水线依次点亮，最后出片。'],
+      metrics: ['产线 v8 · 回归锁定', '讲稿 → 成片 全自动', '真实课程验证', '五站 · 每站可测'] },
     { id: 'shiyang-solver', kicker: 'CASE 08 · 约束求解', title: '玲珑食养 · 约束求解体验', tag: '中医食疗 × 营养学 × CP-SAT。预算砍到不可行，它回溯软化给你看；448 项测试护着求解器。',
       nav: ['约束求解', '预算拖到 ¥20，看它回溯软化不装死。'],
       metrics: ['L1-L4 四层约束', '回溯软化', '求解器有测试护着', 'V1-V12 符号否决'] },
@@ -1416,7 +1416,7 @@ $('#caseList').innerHTML =
     '<a href="case/' + CASEFILE[c.id] + '"><div class="cn-n">CASE 0' + (i + 1) + '</div><div class="cn-t">' + esc(c.nav[0]) + '</div><div class="cn-d">' + esc(c.nav[1]) + '</div></a>').join('') + '</div>' +
   '<div class="case-grid">' + CONTENT.cases.slice(0, 4).map((c, i) =>
   '<a class="case-card" href="case/' + CASEFILE[c.id] + '">' +
-    '<img class="case-thumb" src="case/assets/shot-0' + (i + 1) + '.jpg?v=20261030b" alt="' + esc(c.nav[0]) + '概念封面" loading="lazy" width="912" height="608">' +
+    '<img class="case-thumb" src="case/assets/shot-0' + (i + 1) + '.jpg?v=20261031" alt="' + esc(c.coverAlt || (c.nav[0] + '概念封面')) + '" loading="lazy" width="912" height="608">' +
     '<p class="case-kicker rv">' + esc(c.kicker) + '</p>' +
     '<h3 class="case-title rv">' + esc(c.title) + '</h3>' +
     '<p class="case-tag rv">' + esc(c.tag) + '</p>' +
