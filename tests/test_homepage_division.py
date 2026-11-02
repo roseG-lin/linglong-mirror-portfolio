@@ -138,22 +138,6 @@ def test_star_map_tags_have_no_digits():
     assert not bad, f"星图 tag 仍带数字：{bad}"
 
 
-def test_quickindex_case_rows_have_no_digits():
-    section = re.search(r'<section class="section" id="quickindex".*?</section>', INDEX, re.S).group(0)
-    rows = re.findall(r'<article class="qi-card[^"]*">(.*?)</article>', section, re.S)
-    assert len(rows) >= 5, "一屏索引行数异常"
-    bad = []
-    for i, row in enumerate(rows):
-        text = re.sub(r'<a [^>]*class="[^"]*"[^>]*>', " ", row)  # 链接文字保留、属性去掉
-        text = re.sub(r'href="[^"]*"', " ", text)
-        text = re.sub(r"<[^>]+>", " ", text)
-        text = H.unescape(text)
-        if "联系" in text:  # OS 入口那行留着联系方式，不参与
-            continue
-        if re.search(r"\d", text):
-            bad.append((i, re.findall(r".{0,12}\d.{0,12}", text)[:2]))
-    assert not bad, f"一屏索引仍有数字：{bad}"
-
 
 def _chips(case_html: str):
     metrics = re.search(r'<div class="case-metrics">(.*?)</div>', case_html, re.S).group(1)

@@ -332,16 +332,6 @@ input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none;
 .tl-title { font-family: var(--font-display); font-size: 1.4rem; margin: 4px 0; }
 .tl-desc { font-size: var(--text-sm); color: hsl(var(--muted-foreground)); }
 
-/* ============ S7 缺口 ============ */
-.gap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
-.gap-card { border-radius: var(--radius-xl); border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); padding: var(--space-5); }
-.gap-card .nm { font-weight: 500; }
-.gap-card .mt { font-family: var(--font-mono); font-size: var(--text-2xs); color: hsl(var(--muted-foreground)); margin: 6px 0 var(--space-3); }
-.learn-bar { height: 6px; border-radius: var(--radius-full); background: rgba(255,255,255,0.08); overflow: hidden; }
-.learn-bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: hsl(var(--accent)); }
-.learn-bar.ind i { width: 40%; background: linear-gradient(90deg, transparent, hsl(var(--accent)), transparent); animation: ind 1.6s ease-in-out infinite; }
-@keyframes ind { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }
-
 /* ============ S8 联系 + 简历快照 ============ */
 #contact .big { font-size: clamp(3rem, 7vw, 5.4rem); line-height: 1.04; letter-spacing: -2px; }
 #contact .big em { font-style: italic; color: hsl(var(--accent)); }
@@ -499,10 +489,8 @@ html.cc, html.cc * { cursor: none !important; }
 /* T7 线拉成轴：宣言 → story 时间轴 */
 .xf-axis { width: 1.5px; height: calc(18px + var(--p) * 118px); background: hsl(var(--border)); position: relative; }
 .xf-axis::after { content: ''; position: absolute; bottom: -4px; left: 50%; width: 9px; height: 9px; transform: translateX(-50%) scale(var(--p)); border-radius: 50%; background: hsl(var(--accent)); box-shadow: 0 0 calc(var(--p) * 14px) hsl(var(--accent)); }
-/* T8 轴端结果：时间线节点 → gaps 进度条 */
-.xf-bar { width: min(320px, 62%); height: 6px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
-.xf-bar i { display: block; height: 100%; width: calc(var(--p) * 72%); border-radius: inherit; background: linear-gradient(90deg, hsl(var(--accent) / 0.4), hsl(var(--accent))); }
-/* T9 拉满成线：gaps 进度 → contact 大标题下划线 */
+/* T8 轴端结果：时间线节点 → 联系区过渡 */
+/* T9 拉满成线：时间线 → contact 大标题下划线 */
 .xf-line { width: calc(36px + var(--p) * 280px); height: 2px; background: hsl(var(--accent)); box-shadow: 0 0 14px hsl(var(--accent) / 0.55); opacity: calc(0.3 + 0.7 * var(--p)); }
 
 /* ============ 五案索引条 + 下一个案例链 ============ */
@@ -595,7 +583,7 @@ html.cc, html.cc * { cursor: none !important; }
   .hero-h1 .line > span { animation: none; transform: none; }
   .hero-h1 .ch { animation: none; opacity: 1; transform: none; }
   .marquee-track { animation: none; }
-  .cue-line, .live-dot, .learn-bar.ind i { animation: none; }
+  .cue-line, .live-dot { animation: none; }
   * { transition-duration: 80ms !important; }
 }
 
@@ -632,17 +620,6 @@ html.cc, html.cc * { cursor: none !important; }
 .case-fold .case-card .case-title { font-size: 1.05rem; }
 
 /* ============ 极速索引（静态语义层） ============ */
-.qi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.qi-card { border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 18px 20px 14px; background: hsl(var(--surface) / .45); }
-.qi-card h3 { font-size: 1.05rem; }
-.qi-card h3 a { color: hsl(var(--foreground)); border-bottom: 1px solid hsl(var(--accent) / .4); }
-.qi-card h3 a:hover { color: hsl(var(--accent)); }
-.qi-card p { font-size: 13px; line-height: 1.75; color: hsl(var(--muted-foreground)); margin-top: 6px; }
-.qi-card p a { color: hsl(var(--foreground) / .85); border-bottom: 1px dotted hsl(var(--border)); }
-.qi-card p a:hover { color: hsl(var(--accent)); }
-.qi-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: hsl(var(--accent) / .85); text-transform: uppercase; }
-.qi-card.qi-more { grid-column: 1 / -1; }
-@media (max-width: 720px) { .qi-grid { grid-template-columns: 1fr; } }
 .hero-cases{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
 .hero-cases a{display:flex;align-items:center;gap:6px;padding:7px 8px;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:rgba(255,255,255,.03);font-size:11.5px;color:hsl(var(--muted-foreground));text-decoration:none;transition:border-color .15s,color .15s,background .15s}
 .hero-cases a:hover{border-color:hsl(var(--accent)/.45);color:hsl(var(--accent));background:hsl(var(--accent)/.06)}
@@ -805,44 +782,6 @@ html.cc, html.cc * { cursor: none !important; }
     <div class="more-grid" id="moreGrid"></div>
   </section>
 
-  <!-- ============ S4b 极速索引（静态语义层 · 供 AI 检索引擎与无 JS 访客直达全站） ============ -->
-  <section class="section" id="quickindex" style="padding-top:0">
-    <p class="kicker rv">04b · QUICK INDEX</p>
-    <h2 class="sec-title rv">一屏索引，全站直达。</h2>
-    <p class="sec-lede rv">林润基（Remi Lin）· AI 解决方案工程师 / 技术售前 · 现居深圳。给赶时间的访客，也给 AI 检索引擎：以下每行都是真实可跑的工程，点击直达实机演示。</p>
-    <div class="qi-grid">
-      <article class="qi-card">
-        <h3><a href="case/01-huodai-platform.html">潮汛 · 跨境货代自动化平台</a></h3>
-        <p class="qi-tag">行业落地 · MCP Agent · 四域打通</p>
-        <p>订单/客户/邮件/RPA 四域打通，业务能力封装成 MCP 工具供 Agent 调用；关键发送环节保留人工确认——点进去跑一遍邮件处理全程。</p>
-      </article>
-      <article class="qi-card">
-        <h3><a href="case/02-xray-security.html">玲珑X光 X-ray · 代码安全审查</a></h3>
-        <p class="qi-tag">安全审查 · 红蓝对抗 · 修复优先级</p>
-        <p>Vibe Coding 产物上线前的安全审查：静态侦察 → 沙箱红蓝对抗 → 攻击链图谱 → 修复看板，潮汛全链路实测千项级发现。</p>
-      </article>
-      <article class="qi-card">
-        <h3><a href="case/03-miku-privacy.html">玲珑秘库 · 大模型隐私安全隔离</a></h3>
-        <p class="qi-tag">政企合规 · 端到端脱敏 · 零外泄</p>
-        <p>使用端与接收端可见真实业务数据，云端大模型仅见加密占位符——政企安全使用公有云大模型的零泄密前提，场景验收全过。</p>
-      </article>
-      <article class="qi-card">
-        <h3><a href="case/04-mirror-value.html">玲珑镜面 Mirror · 声明即界面</a></h3>
-        <p class="qi-tag">自适应界面引擎 · 一键换肤 · AA 门禁</p>
-        <p>写一段功能意图声明，界面自动长出来，每条决策带理由；全套主题一键换肤带对比度门禁。</p>
-      </article>
-      <article class="qi-card qi-more">
-        <h3>更多工程样本（点开「旗舰案例」折叠区，或直接直达）</h3>
-        <p><a href="case/05-yisheng-engine.html">爻胜 · 赛事预测统计引擎</a>（统计建模 · 校准回测）· <a href="case/06-novel-engine.html">玲珑小说引擎</a>（质量门 · 全量测试）· <a href="case/07-reyes-video.html">玲珑之眼</a>（视频产线 · 全自动）· <a href="case/08-shiyang-solver.html">玲珑食养</a>（约束求解 · 回溯软化）· <a href="case/09-longjob-pipeline.html">玲珑职举</a>（求职流水线 · 状态机）</p>
-      </article>
-      <article class="qi-card">
-        <h3><a href="./os/">RemiOS 桌面宇宙 · 关于我</a></h3>
-        <p class="qi-tag">交互式履历 · 真实生活相册 · 频道</p>
-        <p>可拖窗口、可敲命令的桌面级交互履历：简介、工作经历、频道与真实生活相册。联系方式：135 3885 1689 · 2782084545@qq.com。</p>
-      </article>
-    </div>
-  </section>
-
   <!-- T5 转场 · 散字成句（卡片关键词 → 宣言） -->
   <div class="xf xf-words" aria-hidden="true"><span style="--wx:-130px;--wy:54px;--wr:-14deg">真</span><span style="--wx:0px;--wy:92px;--wr:9deg">跑</span><span style="--wx:140px;--wy:44px;--wr:13deg"><em>出处</em></span></div>
 
@@ -864,23 +803,12 @@ html.cc, html.cc * { cursor: none !important; }
     <div class="tl" id="tlList"></div>
   </section>
 
-  <!-- T8 转场 · 轴端结果（时间线节点 → 缺口进度条） -->
-  <div class="xf" aria-hidden="true"><div class="xf-bar"><i></i></div></div>
-
-  <!-- ============ S7 诚实缺口 ============ -->
-  <section class="section" id="gaps" style="padding-top:0">
-    <p class="kicker rv">06 · 正在编译</p>
-    <h2 class="sec-title rv">短板也摊开来。</h2>
-    <p class="sec-lede rv">不装全能。三条已识别差距，三条修复产线。缺口说出口的时候，补法已经在跑。</p>
-    <div class="gap-grid" id="gapGrid"></div>
-  </section>
-
   <!-- T9 转场 · 拉满成线（缺口进度 → contact 下划线） -->
   <div class="xf" aria-hidden="true"><div class="xf-line"></div></div>
 
   <!-- ============ S8 联系 + 简历快照 ============ -->
   <section class="section" id="contact">
-    <p class="kicker rv">07 · CONTACT</p>
+    <p class="kicker rv">06 · CONTACT</p>
     <h2 class="big rv">让我们<em>谈谈</em>。</h2>
     <div class="contact-meta rv">
       <span class="chip acc">AI 售前 / 解决方案工程师</span>
@@ -914,7 +842,7 @@ html.cc, html.cc * { cursor: none !important; }
 
   <!-- ============ S9 双站导览 ============ -->
   <section class="section" id="twin" style="padding-top:0">
-    <p class="kicker rv">08 · 双站导览</p>
+    <p class="kicker rv">07 · 双站导览</p>
     <div class="twin-grid rv">
       <div class="twin-card">
         <div class="tw-tag">你在这里 · 发布会版</div>
@@ -1073,11 +1001,6 @@ const CONTENT = {
     { ver: 'v2.2', year: '2026', title: 'RAG 全链路跑通', desc: 'RAG 全链路在 CPU 上跑通；检索基线经混合重排 + Agentic 自纠错调优到全对。玲珑矩阵扩到全系。' },
     { ver: 'v2.5', year: '2026', title: '双站上线 · 转向 AI 售前', desc: '把「会造 AI 产品 + 会卖方案」的组合，卖给需要的人。' },
     { ver: 'v2.6', year: '2026.09–10', title: '客服 Agent 全绿 · 白板课三同步成片 · 职举持续加测', desc: '智能客服 Demo 评测风险零漏网；LLM 原理白板课画音字三同步成片；求职流水线继续加测试。你正在看的是发布会现场。', now: true },
-  ],
-  gaps: [
-    { name: '私有化部署（GPU / CUDA）', meta: '进行中 · 始于 2026-09-04 · 玲珑学海', ind: true, note: 'RAG 全链路我在 CPU 上跑通过，延迟数字在手。GPU 私有化是下一步，产线已开。' },
-    { name: '行业语境宽度（电商 / 零售）', meta: '客服 Agent Demo 已落地 · 20 条评测', ind: true, note: '音视频我熟，电商我没干过。不编造经历——电商场景智能客服 Agent 已交付：风险类零漏网，橙皮书补行业语境。' },
-    { name: 'Embedding / Rerank 术语表达', meta: 'P0 学院已开课 · 教材站 5 课已建', ind: true, note: '概念早已跑在代码里，现在口径也在补：影石360 面经考纲 → 12 周学习地图 → 白板课视频已出第 1 课。' },
   ],
 };
 
@@ -1352,7 +1275,7 @@ document.addEventListener('pointermove', e => {
 
 /* 章节水印巨号 */
 (function watermarks() {
-  const WM = { cap: '01', matrix: '02', cases: '03', more: '04', story: '05', gaps: '06', contact: '07' };
+  const WM = { cap: '01', matrix: '02', cases: '03', more: '04', story: '05', contact: '06' };
   Object.entries(WM).forEach(([id, n]) => {
     const s = document.getElementById(id);
     if (!s) return;
@@ -1484,7 +1407,7 @@ $('#caseList').innerHTML =
   '</a>').join('') + '</div></details>';
 
 /* ============================================================
-   S4 其余在研 / S5 时间线 / S6 缺口
+   S4 其余在研 / S5 时间线
    ============================================================ */
 $('#moreGrid').innerHTML = CONTENT.more.map(m =>
   '<div class="more-card rv">' + svgUse(m.icon, 22) + '<div class="nm">' + esc(m.name) + '</div><div class="ds">' + esc(m.desc) + '</div></div>').join('');
@@ -1494,14 +1417,6 @@ $('#tlList').innerHTML = CONTENT.timeline.map(t =>
     '<div class="tl-ver">' + t.ver + ' · ' + t.year + '</div>' +
     '<div class="tl-title">' + esc(t.title) + '</div>' +
     '<div class="tl-desc">' + esc(t.desc) + '</div>' +
-  '</div>').join('');
-
-$('#gapGrid').innerHTML = CONTENT.gaps.map(g =>
-  '<div class="gap-card rv">' +
-    '<div class="nm">' + esc(g.name) + '</div>' +
-    '<div class="mt">' + esc(g.meta) + '</div>' +
-    '<p class="muted" style="font-size:12px;line-height:1.7">' + esc(g.note) + '</p>' +
-    '<div class="learn-bar' + (g.ind ? ' ind' : '') + '" style="margin-top:12px"><i></i></div>' +
   '</div>').join('');
 
 /* ============================================================
