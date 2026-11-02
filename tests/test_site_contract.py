@@ -228,6 +228,8 @@ def test_return_to_home_keeps_browse_position():
     assert "remi:homeScroll" in idx, "首页未记录离开时的滚动位置"
     assert 'a[href^="case/"]' in idx, "首页未在点击案例链接时记位置"
     assert "indexOf('/case/')" in idx, "恢复必须以 referrer 来自案例页为条件，刷新首页不许跳位置"
+    assert "__rememberHomeScroll" in idx, "星图是 JS location.href 跳转，必须复用同一个记位置函数"
+    assert "window.__rememberHomeScroll()" in idx, "星图节点跳转前未记位置"
     assert "sessionStorage.removeItem" in idx, "位置应一次性消费，避免下次直接打开首页时误跳"
 
     # 无 JS 时仍是普通跳转：目录链接本身不许改成 javascript: 或空锚

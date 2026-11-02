@@ -965,11 +965,16 @@ html.cc, html.cc * { cursor: none !important; }
   'use strict';
   var KEY = 'remi:homeScroll';
 
+  function remember() {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ y: window.scrollY, t: Date.now() })); } catch (_) {}
+  }
+  window.__rememberHomeScroll = remember;
+
   document.addEventListener('click', function (e) {
     var t = e.target;
     var a = t && t.closest ? t.closest('a[href^="case/"]') : null;
     if (!a) return;
-    try { sessionStorage.setItem(KEY, JSON.stringify({ y: window.scrollY, t: Date.now() })); } catch (_) {}
+    remember();
   }, true);
 
   function restore() {
@@ -1437,7 +1442,7 @@ document.addEventListener('pointermove', e => {
   cv.addEventListener('pointerleave', () => { hover = null; tip.style.display = 'none'; if (REDUCED) draw(); });
   cv.addEventListener('click', () => {
     if (!hover) return;
-    if (hover.demo && CASEFILE[hover.demo]) location.href = 'case/' + CASEFILE[hover.demo];
+    if (hover.demo && CASEFILE[hover.demo]) { window.__rememberHomeScroll && window.__rememberHomeScroll(); location.href = 'case/' + CASEFILE[hover.demo]; }
   });
 
   const io = new IntersectionObserver(en => {
