@@ -7,21 +7,10 @@ cd "$(dirname "$0")/.."
 
 KEY="$(tr -d '[:space:]' < indexnow-key.txt)"
 HOST="www.remifei.cn"
-URLS=(
-  "https://www.remifei.cn/"
-  "https://www.remifei.cn/llms.txt"
-  "https://www.remifei.cn/llms-full.txt"
-  "https://www.remifei.cn/os/"
-  "https://www.remifei.cn/case/01-huodai-platform.html"
-  "https://www.remifei.cn/case/02-rag-pipeline.html"
-  "https://www.remifei.cn/case/03-miku-privacy.html"
-  "https://www.remifei.cn/case/04-reyes-video.html"
-  "https://www.remifei.cn/case/05-yisheng-engine.html"
-  "https://www.remifei.cn/case/06-novel-engine.html"
-  "https://www.remifei.cn/case/07-mirror-value.html"
-  "https://www.remifei.cn/case/08-shiyang-solver.html"
-  "https://www.remifei.cn/case/09-longjob-pipeline.html"
-)
+# URL 清单直接读 sitemap.xml（单一事实源）——阵容换了不用记得改这里，
+# 也避免把已下线的页面推给搜索引擎（2026-11-02 修：旧清单还在推 RAG/旧编号页）
+URLS=()
+while IFS= read -r _u; do URLS+=("$_u"); done < <(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g')
 
 URL_JSON="$(printf '"%s",' "${URLS[@]}" | sed 's/,$//')"
 printf '{"host":"%s","key":"%s","keyLocation":"https://%s/%s.txt","urlList":[%s]}' \
