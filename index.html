@@ -934,7 +934,7 @@ html.cc, html.cc * { cursor: none !important; }
 
   <footer>
     <div class="foot-big" aria-hidden="true">REMI</div>
-    REMI © 2026 · 零虚构：每个数字都能现场复跑；卡片是封面（镜面与 X 光为界面实拍，余为概念图），点进去的交互 DEMO、真机截图与口径才是证据 · <a href="./os/">证据墙 / 时光机：RemiOS 桌面宇宙 ↗</a>
+    REMI © 2026 · 零虚构：每个数字都能现场复跑；卡片是封面（镜面为工作台实拍，余为概念图），点进去的交互 DEMO、真机截图与口径才是证据 · <a href="./os/">证据墙 / 时光机：RemiOS 桌面宇宙 ↗</a>
   </footer>
 </div>
 
@@ -980,7 +980,7 @@ const CONTENT = {
     { id: 'huodai-mask', kicker: 'CASE 01 · 行业落地', title: '潮汛 · 货代业务自动化平台', tag: '订单/客户/邮件/RPA 四域打通，业务能力封装为 MCP 工具供 Agent 调用；2800+ 项测试护着这套工具层，关键发送必须过人。',
       nav: ['潮汛平台', '播放一封询价邮件的 Agent 处理全程，再看 MCP 工具面板。'],
       metrics: ['发送前人工确认', '订单 · 客户 · 邮件 · RPA', '业务能力 MCP 插件化', '脱敏屏障 · 验收全过'] },
-    { id: 'xray-audit', coverAlt: '玲珑X光潮汛审查报告实拍', kicker: 'CASE 02 · 安全审查', title: '玲珑X光 X-ray · Vibe Coding 代码安全审查', tag: 'Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。',
+    { id: 'xray-audit', kicker: 'CASE 02 · 安全审查', title: '玲珑X光 X-ray · Vibe Coding 代码安全审查', tag: 'Vibe Coding 产物上线前的安全审查引擎：20 条规则三类覆盖，静态侦察 → 红蓝对抗 → 自进化；潮汛全链路实测 1080 项发现、191 个文件秒级扫完，修什么它替你排好优先级。',
       nav: ['代码安全审查', '真实项目扫出 1080 项发现，红蓝对抗筛误报，修复优先级排好。'],
       metrics: ['20 条规则 · 三类覆盖', 'L1→L4 四层架构', '250 项测试锁定', '潮汛实测 1080 项发现'] },
     { id: 'miku-privacy', kicker: 'CASE 03 · 隐私合规', title: '玲珑秘库 · 大模型隐私安全隔离', tag: '企业双端可见真实数据，云端大模型只处理加密占位符——政企用公有云大模型的零泄密前提，外泄风险降为 0。',
@@ -1416,7 +1416,7 @@ $('#caseList').innerHTML =
     '<a href="case/' + CASEFILE[c.id] + '"><div class="cn-n">CASE 0' + (i + 1) + '</div><div class="cn-t">' + esc(c.nav[0]) + '</div><div class="cn-d">' + esc(c.nav[1]) + '</div></a>').join('') + '</div>' +
   '<div class="case-grid">' + CONTENT.cases.slice(0, 4).map((c, i) =>
   '<a class="case-card" href="case/' + CASEFILE[c.id] + '">' +
-    '<img class="case-thumb" src="case/assets/shot-0' + (i + 1) + '.jpg?v=20261031" alt="' + esc(c.coverAlt || (c.nav[0] + '概念封面')) + '" loading="lazy" width="912" height="608">' +
+    '<img class="case-thumb" src="case/assets/shot-0' + (i + 1) + '.jpg?v=20261102" alt="' + esc(c.coverAlt || (c.nav[0] + '概念封面')) + '" loading="lazy" width="912" height="608">' +
     '<p class="case-kicker rv">' + esc(c.kicker) + '</p>' +
     '<h3 class="case-title rv">' + esc(c.title) + '</h3>' +
     '<p class="case-tag rv">' + esc(c.tag) + '</p>' +
