@@ -128,3 +128,23 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+
+
+/* 返回目录：优先浏览器后退——用户从首页点进来时，后退能原样回到刚才的滚动位置；
+   直接打开案例页（referrer 非本站）或历史为空时，退回普通跳转 ../ 不变。 */
+(function wireBackToHome() {
+  'use strict';
+  var back = document.querySelector('.case-nav-bar a[href="../"]');
+  if (!back) return;
+  back.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (history.length < 2) return;
+    var same = false;
+    try {
+      same = !!document.referrer && new URL(document.referrer).origin === location.origin;
+    } catch (_) {}
+    if (!same) return;
+    e.preventDefault();
+    history.back();
+  });
+})();

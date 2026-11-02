@@ -957,6 +957,53 @@ html.cc, html.cc * { cursor: none !important; }
 </noscript>
 
 <script>
+/* 返回目录保住浏览进度（2026-11-02）：
+   离开首页去案例页前，把当前滚动位置存进 sessionStorage；
+   从案例页回到首页时（浏览器后退缓存冷启动、或「目录」按钮走后退的场景），
+   原地恢复。referrer 不是 /case/ 的访问（直接打开、刷新首页）绝不跳位置。 */
+(function () {
+  'use strict';
+  var KEY = 'remi:homeScroll';
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var a = t && t.closest ? t.closest('a[href^="case/"]') : null;
+    if (!a) return;
+    try { sessionStorage.setItem(KEY, JSON.stringify({ y: window.scrollY, t: Date.now() })); } catch (_) {}
+  }, true);
+
+  function restore() {
+    var raw;
+    try { raw = sessionStorage.getItem(KEY); } catch (_) { return; }
+    if (!raw) return;
+    var v;
+    try { v = JSON.parse(raw); } catch (_) { return; }
+    try { sessionStorage.removeItem(KEY); } catch (_) {}
+    if (!v || typeof v.y !== 'number' || Date.now() - (v.t || 0) > 30 * 60 * 1000) return;
+    var fromCase = false;
+    try {
+      fromCase = !!document.referrer && new URL(document.referrer).pathname.indexOf('/case/') !== -1;
+    } catch (_) {}
+    if (!fromCase) return;
+    var target = v.y, tries = 0;
+    (function tick() {
+      var ready = document.documentElement.scrollHeight - window.innerHeight >= target;
+      if (ready || tries > 60) {
+        try { window.scrollTo({ top: target, behavior: 'instant' }); }
+        catch (_) { window.scrollTo(0, target); }
+        return;
+      }
+      tries += 1;
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') restore();
+  else document.addEventListener('DOMContentLoaded', restore);
+  window.__restoreHomeScroll = restore;
+})();
+</script>
+<script>
 'use strict';
 /* ============================================================
    CONTENT · 与 RemiOS 同源事实口径（J0/J1/L0 已确认数据）

@@ -215,3 +215,22 @@ def test_evidence_figures_keep_caption_discipline():
                 bad.append(f"{name}: 图不存在 {src.group(1)}")
     assert not bad, "\n".join(bad)
     assert figures >= 3, f"证据图只剩 {figures} 张，案例页的真机佐证被删了？"
+
+def test_return_to_home_keeps_browse_position():
+    """案例页「目录」必须保住首页浏览进度：优先 history.back()（浏览器还原滚动位置），
+    首页侧再从 sessionStorage 兜底恢复；且 referrer 不是 /case/ 时不许跳位置。"""
+    js = read("case/case.js")
+    assert ".case-nav-bar a[href=\"../\"]" in js, "case.js 未接管目录按钮"
+    assert "history.back()" in js, "目录按钮应优先走浏览器后退"
+    assert "history.length < 2" in js, "空历史要有保护（直接打开案例页时不后退）"
+
+    idx = read("index.html")
+    assert "remi:homeScroll" in idx, "首页未记录离开时的滚动位置"
+    assert 'a[href^="case/"]' in idx, "首页未在点击案例链接时记位置"
+    assert "indexOf('/case/')" in idx, "恢复必须以 referrer 来自案例页为条件，刷新首页不许跳位置"
+    assert "sessionStorage.removeItem" in idx, "位置应一次性消费，避免下次直接打开首页时误跳"
+
+    # 无 JS 时仍是普通跳转：目录链接本身不许改成 javascript: 或空锚
+    for p in sorted((ROOT / "case").glob("0*.html")):
+        src = p.read_text(encoding="utf-8")
+        assert '<a href="../">← 目录</a>' in src, f"{p.name} 目录链接被改动，丢了无 JS 兜底"
