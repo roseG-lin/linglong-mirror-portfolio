@@ -2,207 +2,352 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="google" content="notranslate">
+<meta name="description" content="集成验证工作台：粘贴接口清单，自动生成 3D 系统集成拓扑、验证用例矩阵、环境与责任矩阵、准入准出与人天 ROI。离线规则引擎，数据不出本机。">
 <title>集成验证工作台 · Integration Verification Workbench</title>
 <style>
-/* 集成验证工作台 · 亮色主题（清晰专业向）
-   纪律：层级靠留白与浅灰阶；微交互 100-150ms；数字一律 tabular-nums；3D 拓扑区独立 */
+/* 集成验证工作台 · 视觉系统 v2
+   方向：工程蓝图 · 技术白皮书（暖纸底 + 蓝图网格 + 衬线大标题 + 等宽标注）
+   纪律：层级靠留白与网格线；微交互 100-150ms；数字一律 tabular-nums；3D 拓扑区独立成"视口" */
 :root{
-  --bg:#f4f7fb; --s1:#ffffff; --s2:#f7f9fc; --s3:#eef2f8;
-  --line:#e2e8f2; --ink:#1b2433; --sub:#5b6575; --faint:#8a94a6;
-  --accent:#1a5fb4; --accent2:#0e4a94; --ok:#178a4c; --warn:#b3541e;
+  --paper:#f5f2ea; --s1:#fffdf9; --s2:#f8f5ee; --s3:#efeade;
+  --line:#e0dacc; --line2:#d3cbb9;
+  --ink:#16202e; --sub:#4c5768; --faint:#8a8578;
+  --accent:#1a5fb4; --accent2:#0e4a94; --accent-soft:#e7effb;
+  --ok:#178a4c; --warn:#b3541e; --ok-soft:#e6f2ea;
+  --mono:"Cascadia Mono","Consolas",ui-monospace,"SFMono-Regular",monospace;
+  --serif:"Source Han Serif SC","Noto Serif CJK SC","Songti SC","STSong","SimSun",Georgia,serif;
+  --sans:"Segoe UI","Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
   --spring:cubic-bezier(0.34,1.56,0.64,1);
   color-scheme:light;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
-  font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+  font-family:var(--sans);
   background:
-    radial-gradient(1000px 340px at 15% -10%, rgba(26,95,180,.07), transparent 60%),
-    radial-gradient(800px 300px at 92% -8%, rgba(23,138,76,.05), transparent 55%),
-    var(--bg);
-  color:var(--ink);font-size:14px;line-height:1.65;
+    linear-gradient(rgba(26,95,180,.055) 1px, transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg, rgba(26,95,180,.055) 1px, transparent 1px) 0 0/28px 28px,
+    radial-gradient(900px 420px at 12% -12%, rgba(26,95,180,.10), transparent 62%),
+    radial-gradient(700px 320px at 95% -6%, rgba(179,84,30,.07), transparent 58%),
+    var(--paper);
+  color:var(--ink);font-size:14px;line-height:1.7;
   font-variant-numeric:tabular-nums;
+  overflow-x:hidden;
 }
-header{padding:30px 36px 20px;max-width:1400px;margin:0 auto}
-header h1{font-size:22px;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
-header h1 .logo{width:10px;height:10px;background:var(--accent);border-radius:2px;box-shadow:0 2px 8px rgba(26,95,180,.45)}
-header h1 .en{font-weight:400;font-size:13px;color:var(--sub)}
-.hook{margin-top:8px;color:#3d4a5e;font-size:13.5px;max-width:960px}
-.hook b{color:var(--ink)}
-.honest{margin-top:8px;font-size:12px;color:var(--faint)}
-.wrap{display:grid;grid-template-columns:410px 1fr;gap:16px;padding:0 36px 40px;max-width:1400px;margin:0 auto;align-items:start}
-@media (max-width:940px){.wrap{grid-template-columns:1fr;padding:0 16px 32px}header{padding:22px 16px 14px}}
-.card{background:var(--s1);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(27,36,51,.05)}
-.card h2{font-size:14.5px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:8px;height:8px;background:var(--accent);border-radius:2px;flex:none}
+
+/* ================= HERO ================= */
+.hero{max-width:1400px;margin:0 auto;padding:34px 36px 8px;position:relative}
+.hero::before{ /* 顶部蓝图刻度尺 */
+  content:"";position:absolute;left:36px;right:36px;top:0;height:3px;
+  background:repeating-linear-gradient(90deg,var(--accent) 0 46px, transparent 46px 92px);
+  opacity:.35;
+}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:19px;font-weight:700;letter-spacing:.02em}
+.brand .mark{width:11px;height:11px;background:var(--accent);border-radius:2px;box-shadow:0 2px 8px rgba(26,95,180,.5);align-self:center;flex:none}
+.brand .en{font-family:var(--mono);font-weight:400;font-size:11.5px;color:var(--sub);letter-spacing:.14em;text-transform:uppercase}
+.hero-tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.hero-tags .tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--accent2);
+  border:1px solid var(--line2);border-radius:999px;padding:3px 10px;background:rgba(255,253,249,.7);
+}
+.hero-tags .ver{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:4px}
+
+.hero-statement{
+  font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,40px);line-height:1.3;
+  letter-spacing:.01em;margin:20px 0 0;max-width:24em;color:var(--ink);
+}
+.hero-statement b{font-weight:400;color:var(--accent2);background:linear-gradient(transparent 62%, rgba(26,95,180,.16) 62%)}
+.hook{margin-top:16px;color:#3b4757;font-size:13.5px;max-width:1000px;line-height:1.85}
+.hook b{color:var(--ink);font-weight:600}
+
+.flow{list-style:none;display:flex;gap:0;flex-wrap:wrap;margin:22px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.flow li{flex:1 1 190px;display:flex;align-items:center;gap:10px;padding:13px 16px 13px 0;position:relative}
+.flow li+li{padding-left:16px;border-left:1px dashed var(--line2)}
+.flow em{font-family:var(--mono);font-style:normal;font-size:12px;color:var(--accent);letter-spacing:.08em}
+.flow span{font-size:13px;font-weight:600;color:var(--ink)}
+.honest{margin-top:16px;font-size:11.5px;color:var(--faint);max-width:1000px;line-height:1.85}
+
+/* ================= 布局 ================= */
+.wrap{display:grid;grid-template-columns:minmax(340px,390px) minmax(0,1fr);gap:18px;padding:22px 36px 44px;max-width:1400px;margin:0 auto;align-items:start}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:0 1px 2px rgba(22,32,46,.05),0 8px 24px -18px rgba(22,32,46,.35);min-width:0}
+.card h2{font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:9px;letter-spacing:.02em}
+.card h2::before{content:"";width:3px;height:15px;background:var(--accent);border-radius:1px;flex:none}
+#in{position:sticky;top:18px}
+#out{min-height:430px;min-width:0}
+
 textarea{
-  width:100%;height:240px;border:1px solid var(--line);border-radius:9px;padding:10px;
-  font-size:13px;font-family:ui-monospace,Consolas,monospace;line-height:1.55;resize:vertical;
-  background:var(--s2);color:var(--ink);transition:border-color .12s ease;
+  width:100%;height:230px;border:1px solid var(--line2);border-radius:10px;padding:11px 12px;
+  font-size:12.5px;font-family:var(--mono);line-height:1.7;resize:vertical;
+  background:var(--s2);color:var(--ink);transition:border-color .12s ease, box-shadow .12s ease;
 }
 textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,95,180,.14)}
-.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.exrow{margin-top:8px}
 button{
   border:1px solid var(--accent);background:linear-gradient(180deg,#2a6fc4,#1a5fb4);
-  color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit;
-  box-shadow:0 1px 2px rgba(26,95,180,.25);
-  transition:transform .12s var(--spring), filter .12s ease;
+  color:#fff;border-radius:9px;padding:9px 15px;font-size:13px;cursor:pointer;font-family:inherit;
+  box-shadow:0 1px 2px rgba(26,95,180,.28);
+  transition:transform .12s var(--spring), filter .12s ease, box-shadow .12s ease;
 }
-button:hover{filter:brightness(1.07);transform:translateY(-1px)}
-button:active{transform:translateY(0) scale(.98)}
-button.ghost{background:var(--s1);color:var(--accent);border-color:var(--line);box-shadow:none}
-button.ghost:hover{border-color:var(--accent);filter:none;background:#f0f6ff}
+button:hover{filter:brightness(1.07);transform:translateY(-1px);box-shadow:0 4px 12px -4px rgba(26,95,180,.5)}
+button:active{transform:translateY(0) scale(.985)}
+button.ghost{background:var(--s1);color:var(--accent2);border-color:var(--line2);box-shadow:none}
+button.ghost:hover{border-color:var(--accent);filter:none;background:var(--accent-soft)}
 button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.hint{margin-top:10px;font-size:12.5px;color:var(--sub)}
-.chip{display:inline-block;border-radius:999px;padding:1px 9px;font-size:11.5px;font-weight:600;margin-right:6px;vertical-align:1px}
-.chip.ok{background:#e6f5ec;color:var(--ok);border:1px solid #bfe3cd}
+.hint{margin-top:12px;font-size:12px;color:var(--sub);line-height:1.8}
+.hint b{color:var(--ink)}
+.chip{display:inline-block;border-radius:999px;padding:1px 10px;font-size:11px;font-weight:700;margin-right:6px;vertical-align:1px;font-family:var(--mono)}
+.chip.ok{background:var(--ok-soft);color:var(--ok);border:1px solid #bfe3cd}
 .chip.warn{background:#fbf0e4;color:var(--warn);border:1px solid #efd4b8}
-.chip.faint{background:var(--s3);color:var(--sub);border:1px solid var(--line)}
-.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.tabs button{border-radius:999px;padding:6px 14px;background:transparent;color:var(--sub);border-color:transparent;box-shadow:none}
+.chip.faint{background:var(--s3);color:var(--sub);border:1px solid var(--line2)}
+
+/* ================= 页签 ================= */
+.tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border-radius:999px;padding:7px 15px;background:transparent;color:var(--sub);border-color:transparent;box-shadow:none;white-space:nowrap;flex:none;font-size:12.5px}
 .tabs button:hover{color:var(--ink);background:var(--s3);transform:none}
-.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-#out{min-height:420px}
-.ifhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 6px;font-size:13px;font-weight:700}
-.ifhead .protochip{border-radius:999px;padding:1px 9px;font-size:11.5px;background:#eaf1fb;color:var(--accent2);border:1px solid #c9dcf3}
-.pchip{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700}
+.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 10px -4px rgba(26,95,180,.7)}
+
+/* ================= 表格与内容块 ================= */
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:10px;max-width:100%}
+.tablewrap table{border:none}
+table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--s1)}
+th,td{border-bottom:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600;white-space:nowrap;font-size:11.5px;background:var(--s2);font-family:var(--mono);letter-spacing:.03em}
+tbody tr{transition:background .1s ease}
+tbody tr:hover{background:#f6f9fd}
+tfoot td{background:var(--s2);color:var(--sub);font-size:11.5px;border-bottom:none}
+.ifhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 7px;font-size:13px;font-weight:700}
+.ifhead .protochip{border-radius:999px;padding:1px 9px;font-size:11px;background:var(--accent-soft);color:var(--accent2);border:1px solid #c9dcf3;font-family:var(--mono)}
+.protochip{display:inline-block;border-radius:999px;padding:1px 9px;font-size:11px;background:var(--accent-soft);color:var(--accent2);border:1px solid #c9dcf3;font-family:var(--mono)}
+.pchip{display:inline-block;border-radius:4px;padding:0 6px;font-size:10.5px;font-weight:700;font-family:var(--mono)}
 .p-P0{background:#fdecea;color:#c0392b;border:1px solid #f5c6bd}
 .p-P1{background:#fbf0e4;color:var(--warn);border:1px solid #efd4b8}
-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--s1)}
-th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-th{color:var(--sub);font-weight:600;white-space:nowrap;font-size:12px;background:var(--s2)}
-tbody tr{transition:background .1s ease}
-tbody tr:hover{background:#f4f8fe}
-td.num{text-align:right}
-td input,td select{
-  width:100%;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12.5px;
-  font-family:inherit;background:var(--s1);color:var(--ink);text-align:right;transition:border-color .12s ease;
-}
-td select{text-align:left}
-td input:focus,td select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px rgba(26,95,180,.12)}
-tfoot td{background:var(--s2);color:var(--sub);font-size:12px;border-bottom:none}
-.gate{background:var(--s2);border-radius:9px;padding:9px 13px;margin-bottom:8px;font-size:12.5px;border-left:3px solid var(--ok);animation:cardIn .16s var(--spring) both;color:#33404f}
+
+.gate{background:var(--s2);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:12.5px;border-left:3px solid var(--ok);animation:cardIn .16s var(--spring) both;color:#2b3746}
 .gate.entry{border-left-color:var(--accent)}
-.roi{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
-.roi .box{background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.roi .box h3{font-size:13px;color:var(--sub);margin-bottom:8px}
-.roi .big{font-size:26px;font-weight:700;color:var(--accent2)}
+.roi{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.roi .box{background:var(--s2);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+.roi .box h3{font-size:12.5px;color:var(--sub);margin-bottom:9px;font-weight:600}
+.roi .big{font-size:27px;font-weight:700;color:var(--accent2);letter-spacing:-.01em}
 .roi .big.after{color:var(--ok)}
-.roi .sub{font-size:12px;color:var(--faint);margin-top:4px}
-.hbar{height:14px;border-radius:7px;background:var(--s3);overflow:hidden;margin-top:6px}
+.roi .sub{font-size:11.5px;color:var(--faint);margin-top:5px}
+.hbar{height:14px;border-radius:7px;background:var(--s3);overflow:hidden;margin-top:7px}
 .hbar i{display:block;height:100%;background:linear-gradient(90deg,#2a6fc4,#5b9be0)}
 .hbar.after i{background:linear-gradient(90deg,#178a4c,#4cb87e)}
-.envsel{min-width:90px}
-.calc{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0}
-.calc label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}
-.calc input{width:100%;border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:13px;background:var(--s1);color:var(--ink)}
-.calc input:focus{border-color:var(--accent);outline:none}
-.result{background:linear-gradient(180deg,#eaf1fb,#f2f7fd);border:1px solid #c9dcf3;border-radius:9px;padding:11px 14px;font-size:14.5px;font-weight:600;color:var(--accent2)}
-.empty{color:var(--faint);text-align:center;padding:56px 0;font-size:13px}
+.envsel{min-width:96px}
+.calc{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px 0}
+.calc label{font-size:11.5px;color:var(--sub);display:block;margin-bottom:5px}
+.calc input{width:100%;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:13px;background:var(--s1);color:var(--ink);font-family:var(--mono)}
+.calc input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(26,95,180,.13)}
+.result{background:linear-gradient(180deg,#e7effb,#f3f7fd);border:1px solid #c9dcf3;border-radius:9px;padding:12px 15px;font-size:14px;font-weight:600;color:var(--accent2)}
+.empty{color:var(--faint);text-align:center;padding:60px 10px;font-size:13px}
+
 #toast{
   position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);
-  background:#1b2433;color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;
-  opacity:0;pointer-events:none;
+  background:var(--ink);color:#fff;border-radius:9px;padding:10px 17px;font-size:13px;
+  opacity:0;pointer-events:none;max-width:86vw;text-align:center;
   transition:opacity .14s ease, transform .14s var(--spring);z-index:9;
 }
 #toast.show{opacity:1;transform:translateX(-50%)}
-footer{padding:18px 36px 30px;color:var(--faint);font-size:12px;max-width:1400px;margin:0 auto}
-@media (max-width:940px){footer{padding:14px 16px 26px}}
 
-/* ===== 运行舞台（亮色） ===== */
-.stage{background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.stage-head{font-size:12.5px;color:var(--sub);margin-bottom:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.stage-note{color:var(--faint)}
+footer{padding:22px 36px 40px;max-width:1400px;margin:0 auto;border-top:1px solid var(--line);color:var(--faint);font-size:11.5px}
+.foot-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.foot-grid b{color:var(--ink);font-size:13px}
+.foot-sub{display:block;margin-top:3px}
+.foot-right{text-align:right;line-height:1.9}
+footer a{color:var(--accent2)}
+
+/* ================= 运行舞台 ================= */
+.stage{background:var(--s2);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+.stage-head{font-size:12px;color:var(--sub);margin-bottom:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stage-note{color:var(--faint);font-family:var(--mono)}
 .step{display:flex;align-items:center;gap:10px;padding:7px 0;color:var(--faint);font-size:13px}
-.step .dot{width:9px;height:9px;border-radius:50%;background:var(--s3);border:1px solid var(--line);flex:none;transition:background .12s ease}
-.step b{min-width:120px;color:var(--sub);font-weight:600}
+.step .dot{width:9px;height:9px;border-radius:50%;background:var(--s3);border:1px solid var(--line2);flex:none;transition:background .12s ease}
+.step b{min-width:130px;color:var(--sub);font-weight:600}
 .step .d{color:var(--ink);font-size:12.5px}
 .step.running{color:var(--ink)}
-.step.running .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(26,95,180,.18);animation:pulse .8s ease infinite}
+.step.running .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(26,95,180,.16);animation:pulse .8s ease infinite}
 .step.running b{color:var(--ink)}
 .step.done{color:var(--ink)}
 .step.done .dot{background:var(--ok);border-color:var(--ok)}
 .step.done .d{color:var(--sub)}
 @keyframes pulse{50%{opacity:.45}}
-.chips{display:flex;gap:6px;flex-wrap:wrap;flex:1}
-.chipd{display:inline-block;border-radius:999px;padding:1px 10px;font-size:11.5px;color:var(--faint);border:1px dashed var(--line);transition:all .12s var(--spring)}
-.chipd.lit{color:#fff;background:var(--dc);border:1px solid var(--dc);box-shadow:0 1px 6px color-mix(in srgb, var(--dc) 35%, transparent)}
 
-/* ===== 卡片入场 ===== */
+/* ================= 卡片入场 ================= */
 @keyframes cardIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.mcard{background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid var(--accent);animation:cardIn .16s var(--spring) both;transition:transform .12s var(--spring)}
-.mcard:hover{transform:translateY(-2px)}
+.mcard{background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--accent);animation:cardIn .16s var(--spring) both;transition:transform .12s var(--spring), box-shadow .12s ease}
+.mcard:hover{transform:translateY(-2px);box-shadow:0 6px 16px -12px rgba(22,32,46,.6)}
 .mcard .def{color:var(--sub);font-size:12.5px;margin-top:3px}
 
-/* ===== 3D 集成拓扑 ===== */
-.topo-wrap{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#fdfeff,#edf3fb)}
-#topo3d{display:block;width:100%;height:520px;cursor:grab}
-#topo3d:active{cursor:grabbing}
-.topo-legend{
-  position:absolute;left:12px;top:12px;display:flex;gap:8px;flex-wrap:wrap;max-width:72%;
-  background:rgba(255,255,255,.88);border:1px solid var(--line);
-  border-radius:9px;padding:6px 10px;font-size:11.5px;color:#33404f;
+/* ================= 3D 视口 ================= */
+.topo-wrap{
+  position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:100%;
+  background:var(--s1);
 }
-.topo-legend .lg{display:inline-flex;align-items:center;gap:4px}
+.topo-stage{position:relative;background:radial-gradient(120% 90% at 50% 0%, #fdfefe, #e8eef7 70%, #dfe7f3)}
+#topo3d{display:block;width:100%;max-width:100%;height:520px;cursor:grab;touch-action:none;overscroll-behavior:contain}
+#topo3d:active{cursor:grabbing}
+.topo-corner{position:absolute;width:16px;height:16px;border:2px solid rgba(26,95,180,.35);pointer-events:none}
+.topo-corner.tl{left:10px;top:10px;border-right:none;border-bottom:none;border-radius:4px 0 0 0}
+.topo-corner.tr{right:10px;top:10px;border-left:none;border-bottom:none;border-radius:0 4px 0 0}
+.topo-corner.bl{left:10px;bottom:10px;border-right:none;border-top:none;border-radius:0 0 0 4px}
+.topo-corner.br{right:10px;bottom:10px;border-left:none;border-top:none;border-radius:0 0 4px 0}
+.topo-legend{
+  display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;
+  background:var(--s1);border-top:1px solid var(--line);
+  padding:9px 14px;font-size:11.5px;color:#2b3746;
+}
+.topo-legend .lg{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .topo-legend .dot{width:9px;height:9px;border-radius:50%;flex:none}
 .topo-tip{
-  position:absolute;right:12px;bottom:12px;font-size:11.5px;color:var(--sub);
-  background:rgba(255,255,255,.88);border:1px solid var(--line);
-  border-radius:9px;padding:4px 10px;
+  position:absolute;right:14px;bottom:14px;font-size:11px;color:var(--sub);font-family:var(--mono);
+  background:rgba(255,253,249,.92);border:1px solid var(--line2);
+  border-radius:9px;padding:5px 10px;
 }
+.topo-reset{
+  position:absolute;right:14px;top:14px;padding:6px 11px;font-size:11.5px;border-radius:8px;
+  background:rgba(255,253,249,.92);color:var(--accent2);border:1px solid var(--line2);box-shadow:none;
+}
+.topo-reset:hover{background:#fff;border-color:var(--accent);filter:none;transform:none}
 .topo-fallback{padding:60px 20px;text-align:center;color:var(--sub);font-size:13px}
+
+/* ================= 响应式 ================= */
+@media (max-width:1100px){
+  .wrap{grid-template-columns:minmax(0,1fr);padding:18px 20px 36px}
+  #in{position:static}
+  .hero{padding:26px 20px 6px}
+  .hero::before{left:20px;right:20px}
+  footer{padding:18px 20px 32px}
+  .foot-right{text-align:left}
+}
+@media (max-width:640px){
+  body{font-size:13.5px}
+  .hero{padding:22px 15px 4px}
+  .hero::before{left:15px;right:15px}
+  .hero-top{gap:10px}
+  .brand{font-size:17px;gap:9px}
+  .brand .en{font-size:10px;letter-spacing:.1em}
+  .hero-statement{font-size:26px;line-height:1.34;margin-top:18px}
+  .hook{font-size:12.5px;line-height:1.85;margin-top:13px}
+  .flow{margin-top:18px}
+  .flow li{flex:1 1 46%;padding:11px 8px 11px 0}
+  .flow li+li{padding-left:12px}
+  .flow span{font-size:12.5px}
+  .honest{font-size:11px;margin-top:13px}
+  .wrap{padding:14px 12px 30px;gap:12px}
+  .card{padding:14px 13px;border-radius:12px}
+  textarea{height:190px;font-size:12px}
+  button{padding:11px 15px;font-size:13px;min-height:44px}
+  .tabs button{padding:9px 14px;min-height:40px;font-size:12.5px}
+  .roi{grid-template-columns:1fr}
+  .calc{grid-template-columns:1fr}
+  .step{flex-wrap:wrap;gap:8px}
+  .step b{min-width:0;flex:1 1 100%;order:2}
+  .step .d{order:3;flex:1 1 100%}
+  #topo3d{height:390px}
+  .topo-legend{position:static;max-width:none;max-height:none;border:none;border-top:1px solid var(--line);border-radius:0;background:var(--s1);padding:9px 12px}
+  .topo-tip{position:static;display:block;border-top:1px solid var(--line);border-left:none;border-right:none;border-radius:0;background:var(--s1);padding:8px 12px}
+  .topo-reset{top:10px;right:10px;padding:7px 11px;min-height:0}
+  .topo-corner{display:none}
+  .mcard .def{font-size:12px}
+  footer{padding:16px 13px 30px}
+}
+@media (max-width:400px){
+  #topo3d{height:340px}
+  .hero-statement{font-size:23px}
+  .flow li{flex:1 1 100%}
+  .flow li+li{border-left:none;border-top:1px dashed var(--line2);padding-left:0}
+}
 
 @media print{
   body{background:#fff}
   header .honest{color:#555}
   .wrap{grid-template-columns:1fr;padding:0}
-  #in,.tabs,#toast,.topo-tip,footer .no-print{display:none}
-  .card{border:none;box-shadow:none;background:#fff}
+  #in,.tabs,#toast,.topo-tip,.topo-reset,.topo-legend,footer{background:#fff}
+  #in,.tabs,#toast,.topo-tip,.topo-reset{display:none}
+  .card{border:none;box-shadow:none;background:#fff;padding:0}
   .gate,.roi .box{background:#fafbfc}
   table{background:#fff}th{background:#f3f6fa}
   .topo-wrap{display:none}
+  .tablewrap{border:none;overflow:visible}
 }
 
 </style>
 </head>
 <body>
-<header>
-  <h1><span class="logo"></span>集成验证工作台 <span class="en">Integration Verification Workbench</span></h1>
-  <p class="hook">垂直于行业解决方案项目的「<b>系统集成实施与测试验证 · 集成验证设计</b>」环节：粘贴一份<b>接口清单</b> → 自动生成<b>3D 系统集成拓扑</b>（系统=节点、接口=协议着色链路、数据包流动，可拖拽巡航）+ <b>验证用例矩阵（联通 / 功能 / 一致性 / 异常 / 性能五类基础，医保/公网/对外接口自动追加安全合规）+ 环境矩阵 + 责任矩阵（RACI）+ 准入准出 + 人天 ROI 对比</b>。内置电力规约（IEC 104 / DL·T 645 / Modbus / MQTT）与医疗集成（HL7 / DICOM / FHIR / 医保安全）要点。</p>
-  <p class="honest">诚实口径：用例为通用规程模板初稿，签约前需与客户及平台厂商侧对齐；词库未覆盖的协议走自定义路径并明示；验收结论由客户下，本工具只给判据与证据框架。离线规则引擎 · 数据不出本机 · 可按项目口径定制并接入大模型辅助抽取</p>
+<header class="hero">
+  <div class="hero-top">
+    <h1 class="brand">
+      <span class="mark"></span>
+      <span class="wordmark">集成验证工作台</span>
+      <span class="en">Integration Verification Workbench</span>
+    </h1>
+    <div class="hero-tags">
+      <span class="tag">离线规则引擎</span>
+      <span class="tag">单文件 · 零外呼</span>
+      <span class="tag">数据不出本机</span>
+      <span class="ver">v1.2 · 2026-11-15</span>
+    </div>
+  </div>
+
+  <p class="hero-statement">一份接口清单，<br>换一份<b>可交付的集成验证方案</b>。</p>
+
+  <p class="hook">粘贴一份<b>接口清单</b> → 自动生成 <b>3D 系统集成拓扑</b>（系统＝节点、接口按协议着色、数据包沿链路流动，可拖拽巡航）＋ <b>验证用例矩阵</b>（联通 / 功能 / 一致性 / 异常 / 性能五类基础，医保·公网·对外接口自动追加安全合规）＋ 环境矩阵 ＋ 三方责任矩阵（RACI）＋ 准入准出 ＋ <b>人天 ROI 对比</b>。内置电力规约（IEC 104 / DL·T 645 / Modbus / MQTT）与医疗集成（HL7 / DICOM / FHIR）规程要点。</p>
+
+  <ol class="flow">
+    <li><em>01</em><span>贴接口清单</span></li>
+    <li><em>02</em><span>3D 集成拓扑</span></li>
+    <li><em>03</em><span>验证用例矩阵</span></li>
+    <li><em>04</em><span>准入准出 · 人天 ROI</span></li>
+  </ol>
+
+  <p class="honest">诚实口径：用例为通用规程模板初稿，签约前需与客户及平台厂商侧对齐；词库未覆盖的协议走自定义路径并明示；未命中行业词库时按通用口径生成，词库可按贵司清单扩展；验收结论由客户下，本工具只给判据与证据框架。</p>
 </header>
 
 <div class="wrap">
   <div class="card" id="in">
     <h2>输入接口清单</h2>
-    <textarea id="src" spellcheck="false" placeholder="每行一个接口，字段用 | 分隔：&#10;接口编号|接口名称|源系统|目标系统|协议|频率|数据量级"></textarea>
+    <textarea id="src" spellcheck="false" placeholder="每行一个接口，字段用 | 分隔：&#10;接口编号|接口名称|源系统|目标系统|协议|频率|数据量级&#10;（从 Excel 复制用制表符或逗号分隔也行）"></textarea>
     <div class="row">
       <button id="btnGen">生成集成验证方案</button>
-      <button class="ghost" id="btnEx1">示例：能源（电力集采）</button>
-      <button class="ghost" id="btnEx2">示例：医疗（智慧医院）</button>
+    </div>
+    <div class="row exrow">
+      <button class="ghost" id="btnEx1">示例①能源（电力集采）</button>
+      <button class="ghost" id="btnEx2">示例②医疗（智慧医院）</button>
+      <button class="ghost" id="btnEx3">示例③轨交（未预置行业·验证通用路径）</button>
       <button class="ghost" id="btnClear">清空</button>
     </div>
     <div class="hint" id="capHint"></div>
   </div>
 
   <div class="card" id="out">
-    <div class="tabs">
-      <button data-tab="topo">① 3D 集成拓扑</button>
-      <button data-tab="list">② 接口清单</button>
-      <button data-tab="matrix">③ 验证用例矩阵</button>
-      <button data-tab="env">④ 环境·责任矩阵</button>
-      <button data-tab="gates">⑤ 准入准出·ROI</button>
-      <button data-tab="exp">⑥ 导出</button>
+    <div class="tabs" role="tablist">
+      <button data-tab="topo" role="tab">① 3D 集成拓扑</button>
+      <button data-tab="list" role="tab">② 接口清单</button>
+      <button data-tab="matrix" role="tab">③ 验证用例矩阵</button>
+      <button data-tab="env" role="tab">④ 环境·责任矩阵</button>
+      <button data-tab="gates" role="tab">⑤ 准入准出·ROI</button>
+      <button data-tab="exp" role="tab">⑥ 导出</button>
     </div>
     <div id="pane"></div>
   </div>
 </div>
 
 <footer>
-  设计：林润基（售前解决方案工程师）· 对应岗位职责「系统集成实施与测试验证 / 部署方案设计（集成验证设计）」· 对标华为 GTS「AskO3」售前方案作业 AI 化思路（行业对标）· 13538851689 · 2782084545@qq.com
+  <div class="foot-grid">
+    <div>
+      <b>林润基</b> · 售前解决方案工程师
+      <span class="foot-sub">通信工程（专升本）· 18 个月政企售前 ＋ 19 个月 AI 应用研发 · 连续 38 个月 ICT 行业</span>
+    </div>
+    <div class="foot-right">
+      对应岗位职责「系统集成实施与测试验证 / 部署方案设计（集成验证设计）」<br>
+      13538851689 · 2782084545@qq.com · <a href="https://www.remifei.cn/" target="_blank" rel="noopener">remifei.cn</a>
+    </div>
+  </div>
 </footer>
 <div id="toast"></div>
 
@@ -228,6 +373,22 @@ IF-006|图模拓扑同步|PMS|GIS平台|中间库|周批量|10 万条
 IF-007|碳排核算数据汇聚|双碳平台|数据中台|MQTT|实时 5s|300 点
 IF-008|调度指令下发|虚拟电厂平台|储能EMS|IEC 104|实时|100 点`;
 
+// 第三个样例：轨道交通——行业词库未预置、协议未预置（含自定义协议 + OPC UA + 自环）
+// 用于验证「换一份没做过的数据，工具是否还能生成」
+const EX_RAIL = `接口编号|接口名称|源系统|目标系统|协议|频率|数据量级
+IF-001|进站客流计数|闸机系统|客流分析平台|REST|实时|30 站
+IF-002|列车运行位置|信号系统|调度指挥平台|自定义协议|实时 2s|200 列
+IF-003|AFC 交易流水|AFC系统|清分系统|中间库|日批量|80 万条
+IF-004|车载状态量上传|车载设备|车载网关|OPC UA|实时 1s|3000 点
+IF-005|PIS 播控指令|调度指挥平台|PIS系统|WebService|实时|120 屏
+IF-006|站台视频回传|NVR|行车调度中心|文件 FTP|实时|200 路
+IF-007|道岔状态|信号系统|综合监控平台|中间库|实时|600 点
+IF-008|检修工单|设备管理系统|综合监控平台|REST|周批量|800 条
+IF-009|乘客投诉工单|客服系统|运营中心|MQTT|实时|300 条/日
+IF-010|行车日志归档|信号系统|运维平台|文件 FTP|日批量|120 份
+IF-011|供电监控数据|供电系统|综合监控平台|REST|实时 5s|900 点
+IF-012|调度数据内部回写|调度指挥平台|调度指挥平台|WebService|周批量|400 条`;
+
 const EX_MED = `接口编号|接口名称|源系统|目标系统|协议|频率|数据量级
 IF-001|门诊医嘱互传|HIS|EMR|HL7 v2|实时|3 万条/日
 IF-002|检验申请与回报|HIS|LIS|中间库|实时|8000 条/日
@@ -252,12 +413,15 @@ const PROTOS = {
   hl7: { label: "HL7（集成平台）", link: "MLLP 建链 + ACK 返回", data: "消息结构、必填域、EMPI 主索引一致性", abn: "NACK 处理、重发机制、消息积压" },
   dicom: { label: "DICOM（影像）", link: "C-ECHO 回显成功", data: "C-STORE/C-FIND 影像完整性与调阅时延", abn: "设备离线、传输语法不匹配" },
   fhir: { label: "FHIR", link: "CapabilityStatement 可达", data: "Resource 字段映射与引用完整性", abn: "4xx/5xx、并发写入冲突" },
+  opcua: { label: "OPC UA", link: "Endpoint 可达 + 订阅/读写服务返回正常", data: "命名空间与数据类型、订阅更新周期、节点路径", abn: "订阅断链、会话超时、证书校验失败" },
+  iec61850: { label: "IEC 61850（变电站）", link: "MMS 会话建立 + 数据模型可读", data: "逻辑节点/数据对象、采样值时标与品质位", abn: "报告中断、GOOSE 链路异常、时间同步偏差" },
   custom: { label: "自定义协议", link: "按接口文档约定的握手与心跳验证", data: "按接口文档逐字段核对", abn: "超时、非法报文、版本不匹配" },
 };
 const LEX_PROTO = [
   ["rest", /REST|HTTP|API/i], ["webservice", /Web ?Service|SOAP/i], ["mqtt", /MQTT/i],
   ["mq", /消息队列|Kafka|Rabbit|\bMQ\b/i],
   ["modbus", /Modbus/i], ["hl7", /HL7/i], ["dicom", /DICOM/i], ["fhir", /FHIR/i],
+  ["opcua", /OPC[\s\-_/]*UA/i], ["iec61850", /61850/i],
   ["iec104", /104/i], ["dlt645", /645|698/i],
   ["db", /中间库|库表|数据库|DB/i], ["file", /文件|FTP|SFTP/i],
 ];
@@ -269,23 +433,50 @@ function matchProto(s) {
 }
 
 // ===== 行业识别（影响用例口味与样例） =====
+// 加权词库：每条正则最多计一次分（避免「调度」这类高频词被重复计数拉高）；
+// 行业判定门槛 INDUSTRY_MIN：达不到 → 通用（未预置行业），工具仍照常出方案。
 const INDUSTRY_LEX = [
-  ["energy", /用采|营销系统|EMS|配网|储能|PCS|BMS|电表|虚拟电厂|调度|GIS|PMS|双碳|104|645|Modbus|遥测|遥信/],
-  ["medical", /HIS|EMR|LIS|PACS|医保|HL7|DICOM|FHIR|集成平台|互联网医院|公卫|区域平台|EMPI|居民健康/],
+  ["energy", [
+    [/用采|营销系统|配网|虚拟电厂|双碳|电表|变电站|电力集采/, 3],
+    [/储能|PCS|BMS|PMS|EMS/i, 2],
+    [/IEC[ _\-]?104|104规约/i, 3],
+    [/DL[\/ ]?T[ _\-]?645|645规约/i, 3],
+    [/Modbus/i, 1],
+    [/调度|遥测|遥信/, 1],
+  ]],
+  ["medical", [
+    [/HIS|EMR|LIS|PACS|EMPI|医保|互联网医院|公卫|居民健康|全民健康/, 3],
+    [/HL7|DICOM|FHIR/i, 3],
+    [/集成平台|电子病历|审方|影像调阅/, 1],
+  ]],
 ];
+const INDUSTRY_MIN = 3;
 function industryOf(text) {
-  const scores = INDUSTRY_LEX.map(([k, re]) => [k, (text.match(new RegExp(re.source, "g")) || []).length]);
-  scores.sort((a, b) => b[1] - a[1]);
-  return scores[0][1] > 0 ? scores[0][0] : "general";
+  const t = text || "";
+  let best = "general", bw = INDUSTRY_MIN - 1;
+  for (const [k, pats] of INDUSTRY_LEX) {
+    let w = 0;
+    for (const [re, weight] of pats) if (re.test(t)) w += weight;
+    if (w > bw) { bw = w; best = k; }
+  }
+  return bw >= INDUSTRY_MIN ? best : "general";
 }
 
 // ===== 接口清单解析 =====
+// 分隔符自适应：优先竖线 → 制表符 → 逗号 → 2 个以上空格（用户从 Excel/表格直接粘贴也能认）
+function splitCells(line) {
+  if (line.includes("|") || line.includes("｜")) return line.split(/[|｜]/);
+  if (line.includes("\t")) return line.split(/\t/);
+  if (line.includes(",")) return line.split(",");
+  if (line.includes("，")) return line.split("，");
+  return line.split(/\s{2,}/);
+}
 function parseInterfaces(text) {
   const lines = (text || "").split(/\n+/).map((l) => l.trim()).filter((l) => l && !l.includes("――") && !/^[-＝=_]{3,}$/.test(l));
   const out = [];
   let auto = 0;
   for (const line of lines) {
-    const cells = line.split(/[|\t｜]| {2,}/).map((c) => c.trim()).filter((c) => c !== "");
+    const cells = splitCells(line).map((c) => c.trim()).filter((c) => c !== "");
     if (!cells.length) continue;
     if (cells.some((c) => /接口编号|接口名称|源系统/.test(c))) continue; // 表头
     if (cells.length < 3) continue;
@@ -378,6 +569,7 @@ const PROTO_COLORS = {
   rest: "#2563eb", webservice: "#64748b", mq: "#0891b2", db: "#7c3aed", file: "#92400e",
   iec104: "#ea580c", dlt645: "#d97706", modbus: "#0d9488", mqtt: "#06b6d4",
   hl7: "#16a34a", dicom: "#0ea5e9", fhir: "#14b8a6", custom: "#6b7280",
+  opcua: "#4f46e5", iec61850: "#be123c",
 };
 function buildGraph(list) {
   const nameOf = (s) => (s && s !== "—" ? s.trim() : "外部系统");
@@ -390,16 +582,21 @@ function buildGraph(list) {
     }
   const edges = list.map((itf) => {
     const a = idx.get(nameOf(itf.src)), b = idx.get(nameOf(itf.dst));
-    return { id: itf.id, name: itf.name, a, b, protoKey: itf.protoKey, proto: itf.proto, freq: itf.freq, vol: itf.vol };
+    return { id: itf.id, name: itf.name, a, b, selfLoop: a === b, protoKey: itf.protoKey, proto: itf.proto, freq: itf.freq, vol: itf.vol };
   });
   const protocols = {};
   for (const e of edges) protocols[e.protoKey] = (protocols[e.protoKey] || 0) + 1;
   return { nodes, edges, protocols };
 }
+// 节点多于 10 个时把星系半径撑开，避免新数据一大就挤成一坨（未预置数据的兜底）
+function layoutRadius(n) {
+  const k = Math.max(0, (n || 0) - 10);
+  return +(6.2 + k * 0.22).toFixed(2);
+}
 
-const IV = { EX_ENERGY, EX_MED, PROTOS, LEX_PROTO, matchProto, industryOf, parseInterfaces,
+const IV = { EX_ENERGY, EX_MED, EX_RAIL, PROTOS, LEX_PROTO, matchProto, industryOf, parseInterfaces,
              genCaseMatrix, genEnvMatrix, genRACI, genGates, roi, CLASSES,
-             PROTO_COLORS, buildGraph };
+             PROTO_COLORS, buildGraph, layoutRadius, splitCells, INDUSTRY_MIN };
 if (typeof module !== "undefined" && module.exports) module.exports = IV;
 if (typeof window !== "undefined") window.IV = IV;
 
@@ -439,6 +636,12 @@ if (typeof window !== "undefined") window.IV = IV;
     const my = ++runId;
     const t0 = performance.now();
     const list = IV.parseInterfaces(text);
+    if (!list.length) {
+      $("#capHint").innerHTML = `<span class="chip warn">未解析出接口行</span> 文本够长但没识别出接口行。请确认每行一个接口、字段用 <b>|</b>、<b>制表符</b> 或 <b>逗号</b> 分隔，且至少 3 个字段（接口名 / 源系统 / 目标系统 / 协议 / 频率 / 量级）。`;
+      $("#pane").innerHTML = `<div class="topo-fallback">没解析出任何接口行——换一份数据也请先确认分隔格式。可点下方示例对照格式。</div>`;
+      CUR = null;
+      return;
+    }
     const industry = IV.industryOf(text);
     const matrix = IV.genCaseMatrix(list, industry);
     const env = IV.genEnvMatrix(list);
@@ -449,8 +652,11 @@ if (typeof window !== "undefined") window.IV = IV;
     const roi = IV.roi({ interfaces: list.length, perIf });
     CUR = { list, industry, matrix, env, raci, gates, perIf, computeMs, roi };
 
-    const indLabel = { energy: "能源/电力", medical: "医疗/大健康", general: "通用" }[industry];
-    $("#capHint").innerHTML = `<span class="chip ok">${indLabel}</span> ${list.length} 个接口 → 验证用例矩阵 ${matrix.length} 条（每接口 ${perIf} 类）、环境矩阵 ${env.length} 行、RACI 5 阶段、准入 ${gates.entry.length} 条/准出 ${gates.exit.length} 条。用例为通用规程模板初稿，签约前需与客户及平台厂商侧对齐。`;
+    const indLabel = { energy: "能源/电力", medical: "医疗/大健康", general: "通用（未预置行业）" }[industry];
+    const indNote = industry === "general"
+      ? `未命中内置行业词库（能源/医疗），已按<b>通用集成验证口径</b>生成；词库可按贵司清单扩展。`
+      : `已命中${indLabel}行业词库，用例已注入该行业规程要点。`;
+    $("#capHint").innerHTML = `<span class="chip ${industry === "general" ? "faint" : "ok"}">${indLabel}</span> ${list.length} 个接口 → 验证用例矩阵 ${matrix.length} 条（每接口 ${perIf} 类）、环境矩阵 ${env.length} 行、RACI 5 阶段、准入 ${gates.entry.length} 条/准出 ${gates.exit.length} 条。${indNote}用例为通用规程模板初稿，签约前需与客户及平台厂商侧对齐。`;
 
     $("#pane").innerHTML = stageShell(list.length, computeMs.toFixed(1));
     const steps = $$("#pane .step");
@@ -472,7 +678,12 @@ if (typeof window !== "undefined") window.IV = IV;
       await sleep(300, my); mark(4, `准入 ${gates.entry.length} / 准出 ${gates.exit.length}`);
       await sleep(240, my);
       if (my === runId) setTab("topo");
-    } catch (e) { if (e && e.message !== "cancelled") console.error("[IV pipeline]", e); }
+    } catch (e) {
+      if (e && e.message !== "cancelled") {
+        console.error("[IV pipeline]", e);
+        $("#pane").innerHTML = `<div class="topo-fallback"><b>生成过程出错</b><br>${esc(String((e && e.message) || e))}<br><span style="color:var(--faint)">数据未丢失，请检查清单格式后重试。</span></div>`;
+      }
+    }
   }
 
   function gen(text) {
@@ -481,21 +692,33 @@ if (typeof window !== "undefined") window.IV = IV;
     runPipeline(t);
   }
 
-  const PC = { rest: "REST", webservice: "WS", mq: "MQ", db: "中间库", file: "文件", iec104: "IEC104", dlt645: "645", modbus: "Modbus", mqtt: "MQTT", hl7: "HL7", dicom: "DICOM", fhir: "FHIR", custom: "自定义" };
+  const PC = { rest: "REST", webservice: "WS", mq: "MQ", db: "中间库", file: "文件", iec104: "IEC104", dlt645: "645", modbus: "Modbus", mqtt: "MQTT", hl7: "HL7", dicom: "DICOM", fhir: "FHIR", opcua: "OPC UA", iec61850: "61850", custom: "自定义" };
 
   // ===== ③ 3D 集成拓扑 =====
+  let TOPO_CLEANUP = null; // 切换页签时释放上一套 three 资源与全局监听
   function renderTopo() {
+    if (TOPO_CLEANUP) { TOPO_CLEANUP.dispose(); TOPO_CLEANUP = null; }
     const g = IV.buildGraph(CUR.list);
+    if (!g.nodes.length) {
+      $("#pane").innerHTML = `<div class="topo-fallback">没解析出任何接口行——请检查清单格式（每行一个接口，字段用 | 、制表符或逗号分隔）。</div>`;
+      return;
+    }
     const legend = Object.entries(g.protocols)
       .map(([k, n]) => `<span class="lg"><span class="dot" style="background:${IV.PROTO_COLORS[k]}"></span>${(IV.PROTOS[k] || {}).label || k} · ${n}</span>`)
       .join("");
     $("#pane").innerHTML = `
       <div class="topo-wrap">
-        <canvas id="topo3d"></canvas>
+        <div class="topo-stage">
+          <canvas id="topo3d"></canvas>
+          <div class="topo-corner tl"></div><div class="topo-corner tr"></div>
+          <div class="topo-corner bl"></div><div class="topo-corner br"></div>
+          <button class="topo-reset" id="btnResetView" type="button">重置视角</button>
+          <div class="topo-tip">${matchMedia("(pointer:coarse)").matches ? "单指拖动旋转 · 双指缩放" : "拖拽旋转 · 滚轮缩放 · 自动巡航"} · ${g.nodes.length} 系统 / ${g.edges.length} 接口</div>
+        </div>
         <div class="topo-legend">${legend}<span class="lg" style="color:var(--faint)">｜节点大小 = 接口数</span></div>
-        <div class="topo-tip">拖拽旋转 · 自动巡航 · ${g.nodes.length} 系统 / ${g.edges.length} 接口</div>
       </div>`;
-    try { initThree(g); } catch (e) {
+    $("#btnResetView").addEventListener("click", () => TOPO_CLEANUP && TOPO_CLEANUP.reset && TOPO_CLEANUP.reset());
+    try { TOPO_CLEANUP = initThree(g); } catch (e) {
       console.error("[topo]", e);
       $("#pane").innerHTML = `<div class="topo-fallback">当前浏览器不支持 WebGL，3D 拓扑已降级（其余页签不受影响）。图例：${legend}</div>`;
     }
@@ -503,85 +726,190 @@ if (typeof window !== "undefined") window.IV = IV;
 
   function initThree(g) {
     const canvas = document.getElementById("topo3d");
+    const narrow = () => canvas.clientWidth < 640;
+    const sizeOf = () => ({
+      w: Math.max(260, canvas.clientWidth || 900),
+      h: Math.max(200, canvas.clientHeight || 520),
+    });
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    const W = () => canvas.clientWidth || 900;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(W(), 520, false);
+    let { w, h } = sizeOf();
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, narrow() ? 1.6 : 2));
+    renderer.setSize(w, h, false);
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, W() / 520, 0.1, 100);
-    camera.position.set(0, 5, 15); camera.lookAt(0, 0, 0);
+    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 300);
+    const DEF = { rx: 0.18, ry: 0, z: narrow() ? 20 : 17 };
+    const cam = { rx: DEF.rx, ry: DEF.ry, z: DEF.z };
+    camera.position.set(0, 5, cam.z); camera.lookAt(0, 0, 0);
     scene.add(new THREE.AmbientLight(0xffffff, 0.85));
     const dl = new THREE.DirectionalLight(0xffffff, 0.6); dl.position.set(6, 10, 8); scene.add(dl);
 
     const group = new THREE.Group(); scene.add(group);
-    const N = g.nodes.length, R = 6.2;
+    const N = g.nodes.length, R = IV.layoutRadius(N);
+    const narrowLayout = narrow(); // 竖屏：星系改成竖向椭圆，贴合手机画幅，标签少叠、画布不空
     const pos = [];
     for (let i = 0; i < N; i++) {
       const y = 1 - (i / Math.max(1, N - 1)) * 2, rad = Math.sqrt(Math.max(0, 1 - y * y)), th = i * 2.39996;
-      pos.push(new THREE.Vector3(Math.cos(th) * rad * R, y * R * 0.72, Math.sin(th) * rad * R));
+      const px = Math.cos(th) * rad * R * (narrowLayout ? 0.92 : 1);
+      const py = y * R * 0.72 * (narrowLayout ? 1.5 : 1);
+      const pz = Math.sin(th) * rad * R * (narrowLayout ? 0.85 : 1);
+      pos.push(new THREE.Vector3(px, py, pz));
     }
     // 节点：球 + 文本标签
+    // 标签用 sizeAttenuation:false → 屏幕尺寸恒定（不再出现"近处标签巨大糊脸"），并按画布高度取比例
+    const small = narrow();
+    const kLabel = (small ? 0.048 : 0.072) * 2 * Math.tan((camera.fov * Math.PI) / 360);
     g.nodes.forEach((n, i) => {
-      const r = Math.min(1.05, 0.42 + n.degree * 0.13);
-      const mesh = new THREE.Mesh(new THREE.SphereGeometry(r, 26, 20), new THREE.MeshPhongMaterial({ color: 0x1a5fb4, shininess: 70 }));
+      const r = Math.min(0.92, 0.34 + n.degree * 0.11);
+      const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(r, small ? 18 : 26, small ? 14 : 20),
+        new THREE.MeshPhongMaterial({ color: 0x1a5fb4, shininess: 70 })
+      );
       mesh.position.copy(pos[i]); group.add(mesh);
-      const cv = document.createElement("canvas"); cv.width = 256; cv.height = 72;
+      const cv = document.createElement("canvas");
       const cx = cv.getContext("2d");
-      cx.font = "600 30px 'Microsoft YaHei',sans-serif"; cx.textAlign = "center";
-      cx.fillStyle = "rgba(255,255,255,.92)"; (cx.roundRect || function () {}).call ? null : null;
-      cx.fillRect(8, 8, 240, 56); cx.strokeStyle = "#c9dcf3"; cx.strokeRect(8, 8, 240, 56);
-      cx.fillStyle = "#0e4a94"; cx.fillText(n.name.length > 9 ? n.name.slice(0, 9) : n.name, 128, 46);
-      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(cv), transparent: true }));
-      sp.scale.set(3.4, 0.96, 1); sp.position.copy(pos[i]).add(new THREE.Vector3(0, r + 0.72, 0)); group.add(sp);
+      const font = `600 ${small ? 17 : 24}px 'Microsoft YaHei',sans-serif`;
+      cx.font = font;
+      const maxCh = small ? 5 : 8;
+      const text = n.name.length > maxCh ? n.name.slice(0, maxCh) : n.name;
+      cv.width = Math.ceil(cx.measureText(text).width) + 16; // 按文字实宽裁布：标签不再拖大空框
+      cv.height = small ? 34 : 48;
+      cx.font = font; cx.textAlign = "center";
+      cx.fillStyle = "rgba(255,255,255,.92)";
+      cx.fillRect(3, 3, cv.width - 6, cv.height - 6);
+      cx.strokeStyle = "#c9dcf3"; cx.strokeRect(3, 3, cv.width - 6, cv.height - 6);
+      cx.fillStyle = "#0e4a94";
+      cx.fillText(text, cv.width / 2, cv.height / 2 + 8);
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: new THREE.CanvasTexture(cv), transparent: true, sizeAttenuation: false,
+      }));
+      sp.scale.set(kLabel * (cv.width / cv.height), kLabel, 1);
+      sp.center.set(0.5, 0); // 锚在底边 → 标签永远贴在节点正上方，不压球
+      sp.position.copy(pos[i]).add(new THREE.Vector3(0, r + 0.12, 0));
+      group.add(sp);
     });
     // 边：贝塞尔曲线（颜色=协议）+ 流动数据包（速度=频率）
     const packets = [];
     g.edges.forEach((e) => {
       const a = pos[e.a], b = pos[e.b];
-      const mid = a.clone().add(b).multiplyScalar(0.5).normalize().multiplyScalar(R * 0.55 + 2.4);
-      const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
+      let mid;
+      if (e.selfLoop) {
+        // 自环（源=目标）：向外挑一个控制点，画成一个小回环而不是塌到原点
+        mid = a.clone().add(new THREE.Vector3(1.9, 1.5, 0.6));
+      } else {
+        mid = a.clone().add(b).multiplyScalar(0.5).normalize().multiplyScalar(R * 0.55 + 2.4);
+      }
+      const curve = new THREE.QuadraticBezierCurve3(a.clone(), mid, b.clone());
       const col = new THREE.Color(IV.PROTO_COLORS[e.protoKey] || "#6b7280");
       const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(40));
       group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.55 })));
       const speed = /实时|秒/.test(e.freq) ? 0.3 : /日/.test(e.freq) ? 0.1 : 0.18;
-      const cnt = Math.min(2, 1 + (e.vol.length > 6 ? 1 : 0));
+      const cnt = small ? 1 : Math.min(2, 1 + (e.vol.length > 6 ? 1 : 0));
       for (let k = 0; k < cnt; k++) {
         const p = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 8), new THREE.MeshBasicMaterial({ color: col }));
         group.add(p);
         packets.push({ mesh: p, curve, t: k / cnt, speed });
       }
     });
-    // 拖拽 + 自动巡航
-    let dragging = false, px = 0, py = 0, rx = 0.18, ry = 0;
+    // 拖拽 + 缩放 + 自动巡航
+    let dragging = false, px = 0, py = 0, pinch = null, userZoomed = false;
     const down = (x, y) => { dragging = true; px = x; py = y; };
-    const move = (x, y) => { if (!dragging) return; ry += (x - px) * 0.006; rx = Math.max(-1.2, Math.min(1.2, rx + (y - py) * 0.004)); px = x; py = y; };
+    const move = (x, y) => {
+      if (!dragging) return;
+      cam.ry += (x - px) * 0.006;
+      cam.rx = Math.max(-1.2, Math.min(1.2, cam.rx + (y - py) * 0.004));
+      px = x; py = y;
+    };
+    // 自适应取景：按节点包围球退相机（标签宽度一并留边）——换多少数据、屏幕多宽多窄都不出画
+    const fitCam = () => {
+      const vTan = Math.tan((camera.fov * Math.PI) / 360);
+      let rr = 0;
+      for (const p of pos) rr = Math.max(rr, p.length());
+      cam.z = Math.max(9, Math.min(60, (rr + 3.2) / vTan));
+    };
+    const setZoom = (z) => { userZoomed = true; cam.z = Math.max(5, Math.min(60, z)); };
+    canvas.style.touchAction = "none"; // 让浏览器把单指手势交给页面（不再滚动主页面）
     canvas.addEventListener("mousedown", (ev) => down(ev.clientX, ev.clientY));
-    window.addEventListener("mousemove", (ev) => move(ev.clientX, ev.clientY));
-    window.addEventListener("mouseup", () => (dragging = false));
-    canvas.addEventListener("touchstart", (ev) => down(ev.touches[0].clientX, ev.touches[0].clientY), { passive: true });
-    canvas.addEventListener("touchmove", (ev) => move(ev.touches[0].clientX, ev.touches[0].clientY), { passive: true });
-    canvas.addEventListener("touchend", () => (dragging = false));
+    const onMove = (ev) => move(ev.clientX, ev.clientY);
+    const onUp = () => (dragging = false);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    canvas.addEventListener("wheel", (ev) => { ev.preventDefault(); setZoom(cam.z + ev.deltaY * 0.02); }, { passive: false });
+    canvas.addEventListener("touchstart", (ev) => {
+      if (ev.touches.length === 2) {
+        const dx = ev.touches[0].clientX - ev.touches[1].clientX, dy = ev.touches[0].clientY - ev.touches[1].clientY;
+        pinch = { d0: Math.max(1, Math.hypot(dx, dy)), z0: cam.z };
+        dragging = false;
+        return;
+      }
+      down(ev.touches[0].clientX, ev.touches[0].clientY);
+    }, { passive: true });
+    canvas.addEventListener("touchmove", (ev) => {
+      if (ev.cancelable) ev.preventDefault(); // 关键：拖 3D 时不让主页面跟着滚
+      if (pinch && ev.touches.length === 2) {
+        const dx = ev.touches[0].clientX - ev.touches[1].clientX, dy = ev.touches[0].clientY - ev.touches[1].clientY;
+        setZoom(pinch.z0 * (pinch.d0 / Math.max(1, Math.hypot(dx, dy))));
+        return;
+      }
+      move(ev.touches[0].clientX, ev.touches[0].clientY);
+    }, { passive: false });
+    const endTouch = () => { dragging = false; pinch = null; };
+    canvas.addEventListener("touchend", endTouch);
+    canvas.addEventListener("touchcancel", endTouch);
+
     const clock = new THREE.Clock();
+    const applyCam = () => {
+      group.rotation.y = cam.ry; group.rotation.x = cam.rx;
+      camera.position.set(0, 5, cam.z); camera.lookAt(0, 0, 0);
+    };
+    fitCam(); applyCam();
     renderer.render(scene, camera); // 首帧静态渲染：即使 rAF 被浏览器节流（失焦标签），打开也是完整画面
-    (function animate() {
+    let raf = 0;
+    const animate = () => {
       if (!canvas.isConnected) { renderer.dispose(); return; } // 离开页签即回收
-      requestAnimationFrame(animate);
-      const dt = clock.getDelta(), t = clock.elapsedTime;
-      if (!dragging) ry += dt * 0.16;
-      group.rotation.y = ry; group.rotation.x = rx;
+      raf = requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      if (!dragging && !pinch) cam.ry += dt * 0.16;
+      applyCam();
       for (const p of packets) { p.t = (p.t + p.speed * dt) % 1; p.mesh.position.copy(p.curve.getPoint(p.t)); }
       renderer.render(scene, camera);
-    })();
-    window.addEventListener("resize", () => canvas.isConnected && renderer.setSize(W(), 520, false));
+    };
+    animate();
+
+    const applySize = () => {
+      const s = sizeOf();
+      if (s.w === w && s.h === h) return;
+      w = s.w; h = s.h;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.updateProjectionMatrix();
+      if (!userZoomed) fitCam();
+    };
+    let ro = null;
+    if (window.ResizeObserver) { ro = new ResizeObserver(applySize); ro.observe(canvas); }
+    window.addEventListener("resize", applySize);
+    window.addEventListener("orientationchange", onOrient);
+    function onOrient() { setTimeout(applySize, 150); }
+
+    return {
+      reset() { cam.rx = DEF.rx; cam.ry = DEF.ry; userZoomed = false; fitCam(); applyCam(); },
+      dispose() {
+        cancelAnimationFrame(raf);
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("mouseup", onUp);
+        window.removeEventListener("resize", applySize);
+        window.removeEventListener("orientationchange", onOrient);
+        if (ro) ro.disconnect();
+        renderer.dispose();
+      },
+    };
   }
 
   function renderList() {
-    $("#pane").innerHTML = `<table>
+    $("#pane").innerHTML = `<div class="tablewrap"><table>
       <thead><tr><th>编号</th><th>接口名称</th><th>源系统</th><th>目标系统</th><th>协议</th><th>频率</th><th>量级</th></tr></thead>
       <tbody>${CUR.list.map((x) => `<tr><td><b>${esc(x.id)}</b></td><td>${esc(x.name)}</td><td>${esc(x.src)}</td><td>${esc(x.dst)}</td>
         <td><span class="protochip">${PC[x.protoKey] || esc(x.proto)}</span></td><td>${esc(x.freq)}</td><td>${esc(x.vol)}</td></tr>`).join("")}</tbody>
       <tfoot><tr><td colspan="7">共 ${CUR.list.length} 个接口 · 行业=${CUR.industry} · 预计用例 ${CUR.matrix.length} 条 · 解析自粘贴文本（可增删行后重新生成）</td></tr></tfoot>
-    </table>`;
+    </table></div>`;
   }
 
   function renderMatrix() {
@@ -606,13 +934,13 @@ if (typeof window !== "undefined") window.IV = IV;
   function renderEnv() {
     $("#pane").innerHTML = `
       <p class="hint" style="margin-bottom:8px">环境就绪状态可下拉修改（SIT→UAT→预生产逐级准入）。</p>
-      <table><thead><tr><th>接口</th>${["SIT","UAT","预生产"].map(e=>`<th>${e}</th>`).join("")}</tr></thead>
+      <div class="tablewrap"><table><thead><tr><th>接口</th>${["SIT","UAT","预生产"].map(e=>`<th>${e}</th>`).join("")}</tr></thead>
       <tbody>${CUR.env.map((r) => `<tr><td><b>${esc(r.ifId)}</b> ${esc(r.ifName)}</td>
         ${r.readiness.map((x) => `<td><select class="envsel"><option>待确认</option><option>就绪</option><option>不适用</option></select></td>`).join("")}</tr>`).join("")}</tbody>
-      <tfoot><tr><td colspan="4">就绪判定为准入条件之一：SIT 全就绪方可进入联调。</td></tr></tfoot></table>
-      <div class="ifhead" style="margin-top:14px">责任矩阵（RACI · 5 阶段 · 厂商-伙伴-客户三方，适配华为生态或独立集成商）</div>
-      <table><thead><tr><th>阶段</th><th>厂商/平台侧</th><th>交付/伙伴侧</th><th>客户侧</th></tr></thead>
-      <tbody>${CUR.raci.map((r) => `<tr><td><b>${r.stage}</b></td><td>${r.vendor}</td><td>${r.partner}</td><td>${r.client}</td></tr>`).join("")}</tbody></table>`;
+      <tfoot><tr><td colspan="4">就绪判定为准入条件之一：SIT 全就绪方可进入联调。</td></tr></tfoot></table></div>
+      <div class="ifhead" style="margin-top:16px">责任矩阵（RACI · 5 阶段 · 厂商-伙伴-客户三方，适配华为生态或独立集成商）</div>
+      <div class="tablewrap"><table><thead><tr><th>阶段</th><th>厂商/平台侧</th><th>交付/伙伴侧</th><th>客户侧</th></tr></thead>
+      <tbody>${CUR.raci.map((r) => `<tr><td><b>${esc(r.stage)}</b></td><td>${esc(r.vendor)}</td><td>${esc(r.partner)}</td><td>${esc(r.client)}</td></tr>`).join("")}</tbody></table></div>`;
   }
 
   function renderGates() {
@@ -665,7 +993,12 @@ if (typeof window !== "undefined") window.IV = IV;
   const PANES = { topo: renderTopo, list: renderList, matrix: renderMatrix, env: renderEnv, gates: renderGates, exp: renderExport };
   function setTab(k) {
     $$(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === k));
-    PANES[k]();
+    if (k !== "topo" && TOPO_CLEANUP) { TOPO_CLEANUP.dispose(); TOPO_CLEANUP = null; } // 离开 3D 页签即释放 GPU 与全局监听
+    try { PANES[k](); }
+    catch (e) {
+      console.error("[tab]", e);
+      $("#pane").innerHTML = `<div class="topo-fallback"><b>该页签渲染出错</b><br>${esc(String((e && e.message) || e))}</div>`;
+    }
   }
 
   $$(".tabs button").forEach((b) => b.addEventListener("click", () => {
@@ -677,8 +1010,10 @@ if (typeof window !== "undefined") window.IV = IV;
   $("#btnGen").addEventListener("click", () => gen($("#src").value));
   $("#btnEx1").addEventListener("click", () => { $("#src").value = IV.EX_ENERGY; gen(IV.EX_ENERGY); });
   $("#btnEx2").addEventListener("click", () => { $("#src").value = IV.EX_MED; gen(IV.EX_MED); });
+  $("#btnEx3").addEventListener("click", () => { $("#src").value = IV.EX_RAIL; gen(IV.EX_RAIL); });
   $("#btnClear").addEventListener("click", () => {
     runId++; $("#src").value = ""; CUR = null;
+    if (TOPO_CLEANUP) { TOPO_CLEANUP.dispose(); TOPO_CLEANUP = null; }
     $("#capHint").textContent = "已清空。点示例可再看一遍完整形态。";
     $("#pane").innerHTML = `<div class="empty">空状态即示例——点「示例」，0 成本看集成验证方案长什么样。</div>`;
   });
